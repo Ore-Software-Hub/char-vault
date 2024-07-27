@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "char_vault (debug)",
+        "request": "launch",
+        "type": "dart",
+        "toolArgs": ["--dart-define-from-file", "env/debug.json"]
+      },
+      {
+        "name": "char_vault (prod)",
+        "request": "launch",
+        "type": "dart",
+        "toolArgs": ["--dart-define-from-file", "env/prod.json"]
+      }
+    ]
+  }

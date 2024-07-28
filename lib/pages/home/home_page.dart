@@ -1,3 +1,5 @@
+import 'package:character_vault/pages/home/components/features_component.dart';
+import 'package:character_vault/pages/home/components/skills_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -34,13 +36,13 @@ class _HomePageState extends State<HomePage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: Text(
+        title: const Text(
           "João Pedro",
           style: TextStyle(color: Colors.white),
         ),
         actions: [
           IconButton(
-            icon: PhosphorIcon(
+            icon: const PhosphorIcon(
               PhosphorIconsRegular.gear,
               size: 30,
               color: Colors.white,
@@ -242,6 +244,90 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Características",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: const Text("Teste de Resistência"))
+                    ],
+                  ),
+                  const Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 4.0, // Espaçamento horizontal entre os widgets
+                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
+                    children: [
+                      FeaturesComponent(
+                          title: "Força", value: "8", modifier: "-1"),
+                      FeaturesComponent(
+                          title: "Destreza", value: "12", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Constituição", value: "10", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Inteligência", value: "14", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Sabedoria", value: "13", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Carisma", value: "15", modifier: "+1"),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: const EdgeInsets.only(top: 24, left: 16, right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Habilidades",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 4.0, // Espaçamento horizontal entre os widgets
+                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
+                    children: [
+                      SkillsComponent(title: "Acrobacia", value: "+2"),
+                      SkillsComponent(title: "Arcanismo", value: "+2"),
+                      SkillsComponent(title: "Atletismo", value: "-1"),
+                      SkillsComponent(title: "Atuação", value: "+2"),
+                      SkillsComponent(title: "Enganação", value: "+3"),
+                      SkillsComponent(title: "Furtividade", value: "0"),
+                      SkillsComponent(title: "História", value: "+2"),
+                      SkillsComponent(title: "Intimidação", value: "0"),
+                      SkillsComponent(title: "Intuição", value: "0"),
+                      SkillsComponent(title: "Investigação", value: "+2"),
+                      SkillsComponent(title: "Lidar com Animais", value: "0"),
+                      SkillsComponent(title: "Medicina", value: "-1"),
+                      SkillsComponent(title: "Natureza", value: "+2"),
+                      SkillsComponent(title: "Percepção", value: "0"),
+                      SkillsComponent(title: "Persuação", value: "+2"),
+                      SkillsComponent(title: "Prestidigitação", value: "0"),
+                      SkillsComponent(title: "Religião", value: "0"),
+                      SkillsComponent(title: "Sobrevivência", value: "-1"),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            )
           ],
         ),
       ),

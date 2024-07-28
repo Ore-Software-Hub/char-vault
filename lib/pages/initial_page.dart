@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:character_vault/pages/home_page.dart';
+import 'package:character_vault/pages/home/home_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

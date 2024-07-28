@@ -33,41 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        title: const Text(
-          "João Pedro",
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            icon: const PhosphorIcon(
-              PhosphorIconsRegular.gear,
-              size: 30,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // Abrir configurações
-            },
-          ),
-        ],
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(100.0), // Adjust the radius as needed
-                child: Image.asset('assets/img/eu.jpg'),
-              ),
-              onPressed: () {
-                Scaffold.of(context)
-                    .openDrawer(); // Abrir o Drawer ao clicar no ícone de menu
-              },
-            );
-          },
-        ),
-      ),
+      extendBody: true,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 // Gradiente de fundo
                 Container(
-                  height: (MediaQuery.of(context).size.height / 2) + 50,
+                  height: (MediaQuery.of(context).size.height / 2),
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     gradient: RadialGradient(
@@ -232,16 +198,43 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                // Imagem posicionada ao lado
-
                 Positioned(
-                  right: 0,
-                  child: Image.asset(
-                    "assets/img/char.png",
-                    height: 450,
-                    width: 350,
+                    right: 0,
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      height: 400,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.asset(
+                        "assets/img/char.png",
+                      ),
+                    )),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust the radius as needed
+                          child: Image.asset(
+                            'assets/img/eu.jpg',
+                            width: 50,
+                          ),
+                        ),
+                        onPressed: () {
+                          Scaffold.of(context)
+                              .openDrawer(); // Abrir o Drawer ao clicar no ícone de menu
+                        },
+                      ),
+                      const Text(
+                        "João Pedro",
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                    ],
                   ),
                 ),
+                // Imagem posicionada ao lado
               ],
             ),
             Padding(

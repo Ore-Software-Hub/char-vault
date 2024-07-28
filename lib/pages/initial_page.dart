@@ -1,6 +1,10 @@
 import 'dart:math';
 
+import 'package:character_vault/pages/backpack/backpack_page.dart';
+import 'package:character_vault/pages/components/roll_component.dart';
+import 'package:character_vault/pages/fight/fight_page.dart';
 import 'package:character_vault/pages/home/home_page.dart';
+import 'package:character_vault/pages/profile/profile_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -16,7 +20,12 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 0;
 
-  List<Widget> tabs = [const HomePage()];
+  List<Widget> tabs = [
+    const HomePage(),
+    const BackPackPage(),
+    const FightPage(),
+    const ProfilePage()
+  ];
   List<String> tabsNames = ["Início", "Inventário", "Combate", "Perfil"];
 
   @override
@@ -57,7 +66,7 @@ class _InitialPageState extends State<InitialPage> {
         animationDuration: const Duration(milliseconds: 200),
         backgroundColor: Colors.white,
         color: cores.gray,
-        // onTap: _onItemTapped,
+        onTap: _onItemTapped,
         items: const [
           PhosphorIcon(
             PhosphorIconsBold.house,
@@ -177,167 +186,48 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
                   spacing: 8.0, // Espaçamento horizontal entre os widgets
                   runSpacing: 4.0, // Espaçamento vertical entre as linhas
                   children: [
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(2);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceTwo,
-                        ),
-                        label: const Text("D2")),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                        icon: PhosphorIconsBold.diceTwo,
+                        label: "D2"),
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(4);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceFour,
-                        ),
-                        label: const Text("D4")),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                        icon: PhosphorIconsBold.diceFour,
+                        label: "D4"),
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(6);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceSix,
-                        ),
-                        label: const Text("D6")),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                        icon: PhosphorIconsBold.diceSix,
+                        label: "D6"),
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(10);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceTwo,
-                        ),
-                        label: const Text("D10")),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                        icon: PhosphorIconsBold.diceOne,
+                        label: "D10"),
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(12);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceTwo,
-                        ),
-                        label: const Text("D12")),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                        icon: PhosphorIconsBold.diceOne,
+                        label: "D12"),
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(20);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceTwo,
-                        ),
-                        label: const Text("D20")),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
+                        icon: PhosphorIconsBold.diceOne,
+                        label: "D20"),
+                    ButtonRollComponent(
+                        pressed: () {
                           addDice(100);
                         },
-                        icon: const PhosphorIcon(
-                          PhosphorIconsBold.diceTwo,
-                        ),
-                        label: const Text("D100")),
+                        icon: PhosphorIconsBold.diceOne,
+                        label: "D100"),
                     ElevatedButton(
                         style: ButtonStyle(
                             overlayColor:
@@ -387,28 +277,12 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
                     ],
                   ),
                 ),
-                ElevatedButton.icon(
-                    style: ButtonStyle(
-                        overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                          (Set<WidgetState> states) {
-                            if (states.contains(WidgetState.pressed)) {
-                              return cores
-                                  .secondaryColor; // Altere para a cor desejada
-                            }
-                            return null; // Use o valor padrão para outros estados
-                          },
-                        ),
-                        foregroundColor:
-                            const WidgetStatePropertyAll(Colors.white),
-                        backgroundColor:
-                            const WidgetStatePropertyAll(cores.primaryColor)),
-                    onPressed: () {
+                ButtonRollComponent(
+                    pressed: () {
                       calculate();
                     },
-                    icon: const PhosphorIcon(
-                      PhosphorIconsBold.arrowClockwise,
-                    ),
-                    label: const Text("Rolar"))
+                    icon: PhosphorIconsBold.arrowClockwise,
+                    label: "Rolar")
               ],
             ),
           ),

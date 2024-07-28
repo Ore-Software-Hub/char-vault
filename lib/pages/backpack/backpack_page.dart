@@ -1,9 +1,7 @@
 import 'package:character_vault/pages/backpack/components/iconb_component.dart';
 import 'package:character_vault/pages/backpack/components/item_component.dart';
-import 'package:character_vault/pages/profile/components/details_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class BackPackPage extends StatefulWidget {
   const BackPackPage({super.key});

@@ -14,7 +14,7 @@ class _BackPackPageState extends State<BackPackPage> {
   String name = "Garry Floyd",
       classe = "Bardo",
       level = "1",
-      curLife = "15",
+      curLife = "15/",
       maxLife = "17",
       pg = "15",
       pp = "15",
@@ -70,10 +70,13 @@ class _BackPackPageState extends State<BackPackPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
                               Text(
                                 name,
                                 style: const TextStyle(
-                                  fontSize: 32,
+                                  fontSize: 28,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w900,
                                 ),
@@ -81,7 +84,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               Text(
                                 classe,
                                 style: const TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w100,
                                 ),
@@ -97,7 +100,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                       Text(
                                         curLife,
                                         style: const TextStyle(
-                                          fontSize: 24,
+                                          fontSize: 20,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -105,7 +108,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                       Text(
                                         maxLife,
                                         style: const TextStyle(
-                                          fontSize: 24,
+                                          fontSize: 20,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w100,
                                         ),
@@ -128,7 +131,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                             Text(
                                               pg,
                                               style: const TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 20,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w300,
                                               ),
@@ -147,7 +150,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                             Text(
                                               pp,
                                               style: const TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 20,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w300,
                                               ),
@@ -167,7 +170,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                             Text(
                                               pb,
                                               style: const TextStyle(
-                                                fontSize: 24,
+                                                fontSize: 20,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w300,
                                               ),
@@ -185,16 +188,17 @@ class _BackPackPageState extends State<BackPackPage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 8, bottom: 8),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  width: 60,
-                                  height: 80,
+                                  width: 35,
+                                  height: 50,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color:
                                         Colors.transparent, // Sem preenchimento
                                     borderRadius: BorderRadius.circular(
-                                        15.0), // Raio da borda
+                                        8.0), // Raio da borda
                                     border: Border.all(
                                       color: Colors.amber, // Cor da borda
                                       width: 2.0, // Largura da borda
@@ -203,7 +207,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                   child: Text(
                                     level,
                                     style: const TextStyle(
-                                      fontSize: 45,
+                                      fontSize: 30,
                                       color: Colors.amber,
                                       fontWeight: FontWeight.w900,
                                     ),
@@ -212,7 +216,7 @@ class _BackPackPageState extends State<BackPackPage> {
                                 const Text(
                                   "Nível",
                                   style: TextStyle(
-                                    fontSize: 22,
+                                    fontSize: 18,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w100,
                                   ),
@@ -236,7 +240,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               10.0), // Adjust the radius as needed
                           child: Image.asset(
                             'assets/img/eu.jpg',
-                            width: 50,
+                            width: 35,
                           ),
                         ),
                         onPressed: () {
@@ -246,7 +250,7 @@ class _BackPackPageState extends State<BackPackPage> {
                       ),
                       const Text(
                         "João Pedro",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ],
                   ),
@@ -266,7 +270,7 @@ class _BackPackPageState extends State<BackPackPage> {
                       const Text(
                         "Equipamentos",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

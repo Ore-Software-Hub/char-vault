@@ -39,28 +39,31 @@ class _ItemComponentState extends State<ItemComponent> {
             size: 30,
           ),
         ),
-        const SizedBox(width: 12), // Espaçamento entre icone e título
-        Container(
-          width: 240,
-          height: 40,
-          padding: const EdgeInsets.only(left: 8, right: 8),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: cores.gray, // Sem preenchimento
-            borderRadius: BorderRadius.circular(8.0), // Raio da borda
-          ),
-          child: Text(
-            widget.title,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            softWrap: false,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+        const SizedBox(width: 8), // Espaçamento entre icone e título
+        InkWell(
+          onTap: widget.onTap,
+          child: Container(
+            width: MediaQuery.of(context).size.width / 2.25,
+            height: 40,
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: cores.gray, // Sem preenchimento
+              borderRadius: BorderRadius.circular(8.0), // Raio da borda
+            ),
+            child: Text(
+              widget.title,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 4),
         widget.value != null
             ? Container(
                 height: 40,

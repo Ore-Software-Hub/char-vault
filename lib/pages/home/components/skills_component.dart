@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class SkillsComponent extends StatefulWidget {
   const SkillsComponent({
     super.key,
@@ -19,14 +18,14 @@ class _SkillsComponentState extends State<SkillsComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
+      width: 75,
       child: Column(
         children: [
           Text(
             widget.value,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 22,
+              fontSize: 18,
             ),
           ),
           const Divider(),
@@ -37,7 +36,7 @@ class _SkillsComponentState extends State<SkillsComponent> {
             softWrap: false,
             style: const TextStyle(
               fontWeight: FontWeight.w300,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ],

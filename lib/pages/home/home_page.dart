@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   String name = "Garry Floyd",
       classe = "Bardo",
       level = "1",
-      curLife = "15",
+      curLife = "15/",
       maxLife = "17",
       pg = "15",
       pp = "15",
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 // Gradiente de fundo
                 Container(
-                  height: (MediaQuery.of(context).size.height / 2),
+                  height: 350,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     gradient: RadialGradient(
@@ -57,7 +57,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -66,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         name,
                         style: const TextStyle(
-                          fontSize: 40,
+                          fontSize: 32,
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
                         ),
@@ -74,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         classe,
                         style: const TextStyle(
-                          fontSize: 32,
+                          fontSize: 24,
                           color: Colors.white,
                           fontWeight: FontWeight.w100,
                         ),
@@ -84,13 +83,13 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           children: [
                             Container(
-                              width: 60,
-                              height: 80,
+                              width: 30,
+                              height: 40,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: Colors.transparent, // Sem preenchimento
-                                borderRadius: BorderRadius.circular(
-                                    15.0), // Raio da borda
+                                borderRadius:
+                                    BorderRadius.circular(8.0), // Raio da borda
                                 border: Border.all(
                                   color: Colors.amber, // Cor da borda
                                   width: 2.0, // Largura da borda
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 level,
                                 style: const TextStyle(
-                                  fontSize: 45,
+                                  fontSize: 24,
                                   color: Colors.amber,
                                   fontWeight: FontWeight.w900,
                                 ),
@@ -108,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                             const Text(
                               "Nível",
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w100,
                               ),
@@ -121,11 +120,12 @@ class _HomePageState extends State<HomePage> {
                           const PhosphorIcon(
                             PhosphorIconsRegular.heart,
                             color: Colors.white,
+                            size: 24,
                           ),
                           Text(
                             curLife,
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             maxLife,
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.w100,
                             ),
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   pg,
                                   style: const TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   pp,
                                   style: const TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   pb,
                                   style: const TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 16,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -199,15 +199,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Positioned(
-                    right: 0,
-                    child: Container(
-                      alignment: Alignment.centerRight,
-                      height: 400,
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.asset(
-                        "assets/img/char.png",
-                      ),
-                    )),
+                  right: 0,
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.asset(
+                      "assets/img/char.png",
+                    ),
+                  ),
+                ),
                 Positioned(
                   top: 16,
                   left: 16,
@@ -219,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                               10.0), // Adjust the radius as needed
                           child: Image.asset(
                             'assets/img/eu.jpg',
-                            width: 50,
+                            width: 35,
                           ),
                         ),
                         onPressed: () {
@@ -229,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const Text(
                         "João Pedro",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ],
                   ),
@@ -247,13 +248,17 @@ class _HomePageState extends State<HomePage> {
                       const Text(
                         "Características",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       TextButton(
                           onPressed: () {},
-                          child: const Text("Teste de Resistência"))
+                          child: Text("Teste de Resistência",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300)))
                     ],
                   ),
                   const Wrap(
@@ -286,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     "Habilidades",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

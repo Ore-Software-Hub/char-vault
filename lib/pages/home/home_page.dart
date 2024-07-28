@@ -1,4 +1,5 @@
 import 'package:character_vault/pages/home/components/features_component.dart';
+import 'package:character_vault/pages/home/components/resistence_bottom_sheet_component.dart';
 import 'package:character_vault/pages/home/components/skills_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -253,7 +254,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) =>
+                                    const ResistenceBottomSheetComponent());
+                          },
                           child: Text("Teste de Resistência",
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,

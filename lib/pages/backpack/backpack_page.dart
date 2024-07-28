@@ -307,7 +307,7 @@ class _BackPackPageState extends State<BackPackPage> {
                       const Text(
                         "Inventário",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

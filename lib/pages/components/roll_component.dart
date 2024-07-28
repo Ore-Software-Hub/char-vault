@@ -37,7 +37,9 @@ class _ButtonRollComponentState extends State<ButtonRollComponent> {
               },
             ),
             foregroundColor: const WidgetStatePropertyAll(Colors.white),
-            backgroundColor: const WidgetStatePropertyAll(cores.primaryColor)),
+            backgroundColor: const WidgetStatePropertyAll(cores.primaryColor),
+            padding: const WidgetStatePropertyAll(
+                EdgeInsets.only(left: 12, right: 12))),
         onPressed: widget.pressed,
         icon: PhosphorIcon(
           widget.icon,

@@ -94,7 +94,7 @@ class MapBottomSheet extends StatefulWidget {
 }
 
 class _MapBottomSheetState extends State<MapBottomSheet> {
-  double sheetHeight = 400;
+  double sheetHeight = 350;
 
   String total = "";
   List<int> dices = [];
@@ -183,7 +183,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
                 ),
                 Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 8.0, // Espaçamento horizontal entre os widgets
+                  spacing: 4.0, // Espaçamento horizontal entre os widgets
                   runSpacing: 4.0, // Espaçamento vertical entre as linhas
                   children: [
                     ButtonRollComponent(
@@ -251,7 +251,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 50, bottom: 50),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
                   child: Column(
                     children: [
                       Text(

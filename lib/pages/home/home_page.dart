@@ -286,18 +286,18 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const Padding(
-              padding: const EdgeInsets.only(top: 24, left: 16, right: 16),
+              padding: EdgeInsets.only(top: 24, left: 16, right: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "Habilidades",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Wrap(
+                  Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 4.0, // Espaçamento horizontal entre os widgets
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
@@ -325,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             )
           ],

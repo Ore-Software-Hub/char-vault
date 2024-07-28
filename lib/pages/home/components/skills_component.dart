@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class SkillsComponent extends StatefulWidget {
   const SkillsComponent({

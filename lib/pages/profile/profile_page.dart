@@ -285,7 +285,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: const Text(
                         "Garry é um músico que não tem talento para tocar alaúde, ele entrou na escola de música depois de ter se apaixonado na professora de música. Passou 1 ano na escola apenas flertando com a professora e não aprendendo nada. Seus pais pagaram 1 ano de aula e esperavam retorno, que nunca veio. Garry então mentiu para seus pais dizendo que ele teria uma turnê pelo mundo e precisava viajar por um tempo, mas era apenas uma desculpa esfarrapada para vadiar pelo mundo azarando as mulheres e torrando a heraça dele e de seus irmãos."),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   )
                 ],

@@ -18,14 +18,14 @@ class _DetailsComponentState extends State<DetailsComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
+      width: MediaQuery.of(context).size.width / 4 - 10,
       child: Column(
         children: [
           Text(
             widget.value,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
           const Divider(),

@@ -38,12 +38,12 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
-              alignment: AlignmentDirectional.bottomCenter,
+              alignment: AlignmentDirectional.bottomEnd,
               clipBehavior: Clip.none,
               children: [
                 // Gradiente de fundo
                 Container(
-                  height: (MediaQuery.of(context).size.height / 2),
+                  height: 350,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     gradient: RadialGradient(
@@ -56,181 +56,155 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 400,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.asset(
-                    "assets/img/char.png",
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: Container(
-                    height: 130,
-                    width: MediaQuery.of(context).size.width,
-                    decoration:
-                        BoxDecoration(color: Colors.black.withAlpha(150)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                name,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 32,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      Text(
+                        classe,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 30,
+                              height: 40,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent, // Sem preenchimento
+                                borderRadius:
+                                    BorderRadius.circular(8.0), // Raio da borda
+                                border: Border.all(
+                                  color: Colors.amber, // Cor da borda
+                                  width: 2.0, // Largura da borda
+                                ),
+                              ),
+                              child: Text(
+                                level,
                                 style: const TextStyle(
-                                  fontSize: 32,
-                                  color: Colors.white,
+                                  fontSize: 24,
+                                  color: Colors.amber,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
-                              Text(
-                                classe,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
+                            ),
+                            const Text(
+                              "Nível",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w100,
                               ),
-                              Row(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const PhosphorIcon(
-                                        PhosphorIconsRegular.heart,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        curLife,
-                                        style: const TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        maxLife,
-                                        style: const TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w100,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Row(
-                                          children: [
-                                            const PhosphorIcon(
-                                                PhosphorIconsRegular.coin,
-                                                color: Colors.amber),
-                                            Text(
-                                              pg,
-                                              style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Row(
-                                          children: [
-                                            const PhosphorIcon(
-                                                PhosphorIconsRegular.coin,
-                                                color: Colors.white70),
-                                            Text(
-                                              pp,
-                                              style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Row(
-                                          children: [
-                                            const PhosphorIcon(
-                                                PhosphorIconsRegular.coin,
-                                                color: Color.fromARGB(
-                                                    255, 189, 86, 49)),
-                                            Text(
-                                              pb,
-                                              style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const PhosphorIcon(
+                            PhosphorIconsRegular.heart,
+                            color: Colors.white,
+                            size: 24,
                           ),
-                          const Spacer(),
+                          Text(
+                            curLife,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            maxLife,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 8, bottom: 8),
-                            child: Column(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Row(
                               children: [
-                                Container(
-                                  width: 60,
-                                  height: 80,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Colors.transparent, // Sem preenchimento
-                                    borderRadius: BorderRadius.circular(
-                                        15.0), // Raio da borda
-                                    border: Border.all(
-                                      color: Colors.amber, // Cor da borda
-                                      width: 2.0, // Largura da borda
-                                    ),
-                                  ),
-                                  child: Text(
-                                    level,
-                                    style: const TextStyle(
-                                      fontSize: 45,
-                                      color: Colors.amber,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
-                                ),
-                                const Text(
-                                  "Nível",
-                                  style: TextStyle(
-                                    fontSize: 22,
+                                const PhosphorIcon(PhosphorIconsRegular.coin,
+                                    color: Colors.amber),
+                                Text(
+                                  pg,
+                                  style: const TextStyle(
+                                    fontSize: 16,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w100,
+                                    fontWeight: FontWeight.w300,
                                   ),
-                                ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Row(
+                              children: [
+                                const PhosphorIcon(PhosphorIconsRegular.coin,
+                                    color: Colors.white70),
+                                Text(
+                                  pp,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Row(
+                              children: [
+                                const PhosphorIcon(PhosphorIconsRegular.coin,
+                                    color: Color.fromARGB(255, 189, 86, 49)),
+                                Text(
+                                  pb,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                )
                               ],
                             ),
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.asset(
+                      "assets/img/char.png",
                     ),
                   ),
                 ),
@@ -245,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               10.0), // Adjust the radius as needed
                           child: Image.asset(
                             'assets/img/eu.jpg',
-                            width: 50,
+                            width: 35,
                           ),
                         ),
                         onPressed: () {
@@ -255,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const Text(
                         "João Pedro",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ],
                   ),
@@ -271,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Text(
                     "Sobre",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -294,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const Text(
                     "História",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -310,6 +284,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: const Text(
                         "Garry é um músico que não tem talento para tocar alaúde, ele entrou na escola de música depois de ter se apaixonado na professora de música. Passou 1 ano na escola apenas flertando com a professora e não aprendendo nada. Seus pais pagaram 1 ano de aula e esperavam retorno, que nunca veio. Garry então mentiu para seus pais dizendo que ele teria uma turnê pelo mundo e precisava viajar por um tempo, mas era apenas uma desculpa esfarrapada para vadiar pelo mundo azarando as mulheres e torrando a heraça dele e de seus irmãos."),
+                  ),
+                  SizedBox(
+                    height: 30,
                   )
                 ],
               ),

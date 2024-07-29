@@ -1,4 +1,4 @@
-import 'package:character_vault/pages/components/dropdown_component.dart';
+import 'package:character_vault/components/dropdown_component.dart';
 import 'package:flutter/material.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;
 

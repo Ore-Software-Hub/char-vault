@@ -1,19 +1,21 @@
-import 'package:character_vault/pages/profile/components/details_component.dart';
+import 'package:character_vault/components/features_component.dart';
+import 'package:character_vault/components/bottomsheet/resistence_bottom_sheet_component.dart';
+import 'package:character_vault/components/skills_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _HomePageState extends State<HomePage> {
   String name = "Garry Floyd",
       classe = "Bardo",
       level = "1",
-      curLife = "15",
+      curLife = "15/",
       maxLife = "17",
       pg = "15",
       pp = "15",
@@ -237,59 +239,99 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Imagem posicionada ao lado
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Sobre",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DetailsComponent(title: "Idade", value: "26 anos"),
-                      DetailsComponent(title: "Raça", value: "Humano"),
-                      DetailsComponent(title: "Antecedentes", value: "Artista"),
-                      DetailsComponent(title: "Alinhamento", value: "Neutro"),
+                      const Text(
+                        "Características",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) =>
+                                    const ResistenceBottomSheetComponent());
+                          },
+                          child: Text("Teste de Resistência",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300)))
+                    ],
+                  ),
+                  const Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 4.0, // Espaçamento horizontal entre os widgets
+                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
+                    children: [
+                      FeaturesComponent(
+                          title: "Força", value: "8", modifier: "-1"),
+                      FeaturesComponent(
+                          title: "Destreza", value: "12", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Constituição", value: "10", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Inteligência", value: "14", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Sabedoria", value: "13", modifier: "+1"),
+                      FeaturesComponent(
+                          title: "Carisma", value: "15", modifier: "+1"),
                     ],
                   )
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+            const Padding(
+              padding: EdgeInsets.only(top: 24, left: 16, right: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "História",
+                  Text(
+                    "Habilidades",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent, // Sem preenchimento
-                      borderRadius: BorderRadius.circular(8.0), // Raio da borda
-                      border: Border.all(
-                        color: Colors.black, // Cor da borda
-                        width: 1.0, // Largura da borda
-                      ),
-                    ),
-                    child: const Text(
-                        "Garry é um músico que não tem talento para tocar alaúde, ele entrou na escola de música depois de ter se apaixonado na professora de música. Passou 1 ano na escola apenas flertando com a professora e não aprendendo nada. Seus pais pagaram 1 ano de aula e esperavam retorno, que nunca veio. Garry então mentiu para seus pais dizendo que ele teria uma turnê pelo mundo e precisava viajar por um tempo, mas era apenas uma desculpa esfarrapada para vadiar pelo mundo azarando as mulheres e torrando a heraça dele e de seus irmãos."),
-                  ),
-                  const SizedBox(
-                    height: 30,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 4.0, // Espaçamento horizontal entre os widgets
+                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
+                    children: [
+                      SkillsComponent(title: "Acrobacia", value: "+2"),
+                      SkillsComponent(title: "Arcanismo", value: "+2"),
+                      SkillsComponent(title: "Atletismo", value: "-1"),
+                      SkillsComponent(title: "Atuação", value: "+2"),
+                      SkillsComponent(title: "Enganação", value: "+3"),
+                      SkillsComponent(title: "Furtividade", value: "0"),
+                      SkillsComponent(title: "História", value: "+2"),
+                      SkillsComponent(title: "Intimidação", value: "0"),
+                      SkillsComponent(title: "Intuição", value: "0"),
+                      SkillsComponent(title: "Investigação", value: "+2"),
+                      SkillsComponent(title: "Lidar com Animais", value: "0"),
+                      SkillsComponent(title: "Medicina", value: "-1"),
+                      SkillsComponent(title: "Natureza", value: "+2"),
+                      SkillsComponent(title: "Percepção", value: "0"),
+                      SkillsComponent(title: "Persuação", value: "+2"),
+                      SkillsComponent(title: "Prestidigitação", value: "0"),
+                      SkillsComponent(title: "Religião", value: "0"),
+                      SkillsComponent(title: "Sobrevivência", value: "-1"),
+                    ],
                   )
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 30,
             )
           ],
         ),

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:character_vault/pages/components/roll_component.dart';
+import 'package:character_vault/components/roll_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;

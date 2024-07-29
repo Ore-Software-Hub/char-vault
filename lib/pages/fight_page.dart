@@ -1,6 +1,6 @@
-import 'package:character_vault/pages/components/add_item_bottom_sheet_component.dart';
-import 'package:character_vault/pages/components/iconb_component.dart';
-import 'package:character_vault/pages/components/item_component.dart';
+import 'package:character_vault/components/bottomsheet/add_item_bottom_sheet_component.dart';
+import 'package:character_vault/components/button/iconb_component.dart';
+import 'package:character_vault/components/item_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;

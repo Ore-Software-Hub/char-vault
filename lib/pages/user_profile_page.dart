@@ -1,3 +1,4 @@
+import 'package:character_vault/pages/create_character_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -171,7 +172,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const CreateCharacterPage()),
+          );
+        },
         child: const PhosphorIcon(
           PhosphorIconsBold.plus,
         ),

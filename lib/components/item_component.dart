@@ -105,7 +105,7 @@ class _ItemComponentState extends State<ItemComponent> {
                 ),
               ),
         const SizedBox(width: 4),
-        ButtonComponent(pressed: () {}, tipo: 1, icon: PhosphorIconsBold.minus)
+        ButtonComponent(pressed: () {}, tipo: 0, icon: PhosphorIconsBold.minus)
       ],
     );
   }

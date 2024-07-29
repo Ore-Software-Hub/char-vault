@@ -294,7 +294,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               ),
                             );
                           },
-                          tipo: 1,
+                          tipo: 0,
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
@@ -345,7 +345,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               ),
                             );
                           },
-                          tipo: 1,
+                          tipo: 0,
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),

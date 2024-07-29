@@ -248,9 +248,10 @@ class _FightPageState extends State<FightPage> {
                         ),
                         onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UserProfilePage()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UserProfilePage()));
                         },
                       ),
                       const Text(
@@ -280,7 +281,7 @@ class _FightPageState extends State<FightPage> {
                         ),
                       ),
                       ButtonComponent(
-                          tipo: 1,
+                          tipo: 0,
                           pressed: () {
                             showModalBottomSheet(
                               backgroundColor: cores.secondaryColor,
@@ -331,7 +332,7 @@ class _FightPageState extends State<FightPage> {
                         ),
                       ),
                       ButtonComponent(
-                          tipo: 1,
+                          tipo: 0,
                           pressed: () {
                             showModalBottomSheet(
                               backgroundColor: cores.secondaryColor,

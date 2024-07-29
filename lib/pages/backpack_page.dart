@@ -297,7 +297,10 @@ class _BackPackPageState extends State<BackPackPage> {
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
-                  const Column(
+                  const Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 4.0, // Espaçamento horizontal entre os widgets
+                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
                     children: [
                       ItemComponent(
                           tipo: 0,
@@ -347,7 +350,10 @@ class _BackPackPageState extends State<BackPackPage> {
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
-                  const Column(
+                  const Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 4.0, // Espaçamento horizontal entre os widgets
+                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
                     children: [
                       ItemComponent(
                           tipo: 1,

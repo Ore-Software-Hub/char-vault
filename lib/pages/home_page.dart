@@ -294,44 +294,48 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 24, left: 16, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Habilidades",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Padding(
+                padding: EdgeInsets.only(top: 24, left: 16, right: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Habilidades",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 4.0, // Espaçamento horizontal entre os widgets
-                    runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                    children: [
-                      SkillsComponent(title: "Acrobacia", value: "+2"),
-                      SkillsComponent(title: "Arcanismo", value: "+2"),
-                      SkillsComponent(title: "Atletismo", value: "-1"),
-                      SkillsComponent(title: "Atuação", value: "+2"),
-                      SkillsComponent(title: "Enganação", value: "+3"),
-                      SkillsComponent(title: "Furtividade", value: "0"),
-                      SkillsComponent(title: "História", value: "+2"),
-                      SkillsComponent(title: "Intimidação", value: "0"),
-                      SkillsComponent(title: "Intuição", value: "0"),
-                      SkillsComponent(title: "Investigação", value: "+2"),
-                      SkillsComponent(title: "Lidar com Animais", value: "0"),
-                      SkillsComponent(title: "Medicina", value: "-1"),
-                      SkillsComponent(title: "Natureza", value: "+2"),
-                      SkillsComponent(title: "Percepção", value: "0"),
-                      SkillsComponent(title: "Persuação", value: "+2"),
-                      SkillsComponent(title: "Prestidigitação", value: "0"),
-                      SkillsComponent(title: "Religião", value: "0"),
-                      SkillsComponent(title: "Sobrevivência", value: "-1"),
-                    ],
-                  )
-                ],
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.center,
+                      spacing: 4.0, // Espaçamento horizontal entre os widgets
+                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
+                      children: [
+                        SkillsComponent(title: "Acrobacia", value: "+2"),
+                        SkillsComponent(title: "Arcanismo", value: "+2"),
+                        SkillsComponent(title: "Atletismo", value: "-1"),
+                        SkillsComponent(title: "Atuação", value: "+2"),
+                        SkillsComponent(title: "Enganação", value: "+3"),
+                        SkillsComponent(title: "Furtividade", value: "0"),
+                        SkillsComponent(title: "História", value: "+2"),
+                        SkillsComponent(title: "Intimidação", value: "0"),
+                        SkillsComponent(title: "Intuição", value: "0"),
+                        SkillsComponent(title: "Investigação", value: "+2"),
+                        SkillsComponent(title: "Lidar com Animais", value: "0"),
+                        SkillsComponent(title: "Medicina", value: "-1"),
+                        SkillsComponent(title: "Natureza", value: "+2"),
+                        SkillsComponent(title: "Percepção", value: "0"),
+                        SkillsComponent(title: "Persuação", value: "+2"),
+                        SkillsComponent(title: "Prestidigitação", value: "0"),
+                        SkillsComponent(title: "Religião", value: "0"),
+                        SkillsComponent(title: "Sobrevivência", value: "-1"),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             const SizedBox(

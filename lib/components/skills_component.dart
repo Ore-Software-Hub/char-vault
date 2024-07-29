@@ -18,7 +18,7 @@ class _SkillsComponentState extends State<SkillsComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 75,
+      width: 90,
       child: Column(
         children: [
           Text(

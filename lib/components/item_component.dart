@@ -26,6 +26,7 @@ class _ItemComponentState extends State<ItemComponent> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (widget.icon != null)
           Padding(
@@ -44,34 +45,36 @@ class _ItemComponentState extends State<ItemComponent> {
               ),
             ),
           ),
-        InkWell(
-          onTap: () {
-            showModalBottomSheet(
-              backgroundColor: cores.secondaryColor,
-              showDragHandle: true,
-              context: context,
-              isScrollControlled: true,
-              builder: (context) => const AddItemBottomSheetComponent(
-                editing: true,
+        Expanded(
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                backgroundColor: cores.secondaryColor,
+                showDragHandle: true,
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => const AddItemBottomSheetComponent(
+                  editing: true,
+                ),
+              );
+            },
+            child: Container(
+              height: 40,
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: cores.gray, // Sem preenchimento
+                borderRadius: BorderRadius.circular(8.0), // Raio da borda
               ),
-            );
-          },
-          child: Container(
-            height: 40,
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: cores.gray, // Sem preenchimento
-              borderRadius: BorderRadius.circular(8.0), // Raio da borda
-            ),
-            child: Text(
-              widget.title,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              softWrap: false,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
+              child: Text(
+                widget.title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                softWrap: false,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
             ),
           ),

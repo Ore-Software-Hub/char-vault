@@ -1,4 +1,4 @@
-import 'package:character_vault/components/button/button_component.dart';
+import 'package:character_vault/components/button_component.dart';
 import 'package:character_vault/pages/login_page.dart';
 import 'package:flutter/material.dart';
 

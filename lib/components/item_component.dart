@@ -1,5 +1,5 @@
 import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/components/button/button_component.dart';
+import 'package:character_vault/components/button_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;

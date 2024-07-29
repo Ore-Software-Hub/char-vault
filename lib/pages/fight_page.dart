@@ -286,6 +286,7 @@ class _FightPageState extends State<FightPage> {
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
                                 tipo: 2,
+                                editing: false,
                               ),
                             );
                           },
@@ -295,10 +296,12 @@ class _FightPageState extends State<FightPage> {
                   const Column(
                     children: [
                       ItemComponent(
+                          tipo: 2,
                           icon: PhosphorIconsRegular.sword,
                           title: "Espada larga",
                           value: "1D6"),
                       ItemComponent(
+                          tipo: 2,
                           icon: PhosphorIconsRegular.sword,
                           title: "Besta leve",
                           value: "1D4"),
@@ -333,6 +336,7 @@ class _FightPageState extends State<FightPage> {
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
                                 tipo: 3,
+                                editing: false,
                               ),
                             );
                           },
@@ -342,10 +346,12 @@ class _FightPageState extends State<FightPage> {
                   const Column(
                     children: [
                       ItemComponent(
+                          tipo: 3,
                           icon: PhosphorIconsRegular.lightning,
                           title: "Canto sombrio",
                           value: "1D4"),
                       ItemComponent(
+                          tipo: 3,
                           icon: PhosphorIconsRegular.lightning,
                           title: "Canto amoroso",
                           value: "2 turnos"),

@@ -1,4 +1,4 @@
-import 'package:character_vault/components/bottomsheet/item_details_component.dart';
+import 'package:character_vault/components/bottomsheet/add_item_component.dart';
 import 'package:character_vault/components/button/iconb_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -10,11 +10,13 @@ class ItemComponent extends StatefulWidget {
     required this.title,
     required this.value,
     required this.icon,
+    required this.tipo,
   });
 
   final String title;
   final String? value;
   final PhosphorFlatIconData icon;
+  final int tipo;
 
   @override
   State<ItemComponent> createState() => _ItemComponentState();
@@ -46,7 +48,10 @@ class _ItemComponentState extends State<ItemComponent> {
               showDragHandle: true,
               context: context,
               isScrollControlled: true,
-              builder: (context) => const ItemDetailsComponent(),
+              builder: (context) => AddItemBottomSheetComponent(
+                tipo: widget.tipo,
+                editing: true,
+              ),
             );
           },
           child: Container(

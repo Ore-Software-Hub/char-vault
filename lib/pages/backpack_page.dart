@@ -286,6 +286,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
                                 tipo: 0,
+                                editing: false,
                               ),
                             );
                           },
@@ -295,10 +296,12 @@ class _BackPackPageState extends State<BackPackPage> {
                   const Column(
                     children: [
                       ItemComponent(
+                          tipo: 0,
                           icon: PhosphorIconsRegular.shield,
                           title: "Elmo Élfico",
                           value: "+2 def"),
                       ItemComponent(
+                          tipo: 0,
                           icon: PhosphorIconsRegular.shovel,
                           title: "Machado Lunar",
                           value: "1D4"),
@@ -333,6 +336,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
                                 tipo: 1,
+                                editing: false,
                               ),
                             );
                           },
@@ -342,14 +346,17 @@ class _BackPackPageState extends State<BackPackPage> {
                   const Column(
                     children: [
                       ItemComponent(
+                          tipo: 1,
                           icon: PhosphorIconsRegular.champagne,
                           title: "Poção de cura",
                           value: "x10"),
                       ItemComponent(
+                          tipo: 1,
                           icon: PhosphorIconsRegular.champagne,
                           title: "Poção de velocidade",
                           value: "x3"),
                       ItemComponent(
+                          tipo: 1,
                           icon: PhosphorIconsRegular.dotsNine,
                           title: "Chave enferrujada",
                           value: null),

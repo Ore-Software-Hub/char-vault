@@ -87,20 +87,24 @@ class _InitialPageState extends State<InitialPage> {
         height: 50,
         animationDuration: const Duration(milliseconds: 200),
         backgroundColor: Colors.white,
-        color: cores.gray,
+        color: cores.secondaryColor,
         onTap: _onItemTapped,
         items: const [
           PhosphorIcon(
-            PhosphorIconsBold.house,
+            color: Colors.white,
+            PhosphorIconsThin.house,
           ),
           PhosphorIcon(
-            PhosphorIconsBold.backpack,
+            color: Colors.white,
+            PhosphorIconsThin.backpack,
           ),
           PhosphorIcon(
-            PhosphorIconsBold.handFist,
+            color: Colors.white,
+            PhosphorIconsThin.handFist,
           ),
           PhosphorIcon(
-            PhosphorIconsBold.user,
+            color: Colors.white,
+            PhosphorIconsThin.user,
           ),
         ],
       ),

@@ -1,66 +1,85 @@
+import 'package:character_vault/pages/components/dropdown_component.dart';
 import 'package:flutter/material.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;
 
-class NotesBottomSheetComponent extends StatefulWidget {
-  const NotesBottomSheetComponent({super.key});
+class AddItemBottomSheetComponent extends StatefulWidget {
+  const AddItemBottomSheetComponent({super.key, required this.tipo});
+
+  final int tipo;
 
   @override
-  _NotesBottomSheetComponentState createState() =>
-      _NotesBottomSheetComponentState();
+  _AddItemBottomSheetComponentState createState() =>
+      _AddItemBottomSheetComponentState();
 }
 
-class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
-  TextEditingController _controller = TextEditingController();
-  bool isEditingText = false;
-  String note = "";
-  double sheetSize = 400;
+class _AddItemBottomSheetComponentState
+    extends State<AddItemBottomSheetComponent> {
+  TextEditingController _controllerTitle = TextEditingController();
+  TextEditingController _controllerValue = TextEditingController();
+
+  double sheetSize = 250;
+  String title = "";
+  String action = "";
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controllerTitle.dispose();
+    _controllerValue.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: note);
+    _controllerTitle = TextEditingController();
+    _controllerValue = TextEditingController();
+    switch (widget.tipo) {
+      case 0:
+        title = "Adicionar um Equipamento";
+        action = "Valor";
+        break;
+      case 1:
+        title = "Adicionar um Objeto";
+        action = "Valor";
+        break;
+      case 2:
+        title = "Adicionar uma Arma";
+        action = "Valor";
+        break;
+      case 3:
+        title = "Adicionar uma Magia";
+        action = "Valor";
+        break;
+    }
   }
 
-  Widget _editTitleTextField() {
-    if (isEditingText) {
-      return TextField(
-        style: const TextStyle(
-          color: Colors.white,
+  _TextFieldDecoration(String title) {
+    return InputDecoration(
+      labelText: title,
+      labelStyle:
+          const TextStyle(color: Colors.white), // Cor do rótulo do TextField
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: const BorderSide(
+          color: Colors.white, // Cor da borda
         ),
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(borderSide: BorderSide.none),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: const BorderSide(
+          color: Colors.white, // Cor da borda quando habilitado
         ),
-        onSubmitted: (newValue) {
-          setState(() {
-            note = newValue;
-            isEditingText = false;
-          });
-        },
-        autofocus: true,
-        controller: _controller,
-      );
-    }
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isEditingText = true;
-        });
-      },
-      child: Text(
-        note,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 18.0,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: const BorderSide(
+          color: Colors.white, // Cor da borda quando focado
         ),
       ),
     );
   }
+
+  onChangeSelect(String selected) {}
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +96,9 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
         height: sheetSize,
         child: Column(
           children: [
-            const Text(
-              "Anotações",
-              style: TextStyle(
+            Text(
+              title,
+              style: const TextStyle(
                   fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
@@ -87,19 +106,46 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: sheetSize - 100,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0), // Raio da borda
-                  border: Border.all(
-                    color:
-                        Theme.of(context).colorScheme.primary, // Cor da borda
-                    width: 1.0, // Largura da borda
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: TextField(
+                controller: _controllerTitle,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                cursorColor: Colors.white,
+                decoration: _TextFieldDecoration("Nome do Item"),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2 - 20,
+                  child: TextField(
+                    controller: _controllerValue,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                    cursorColor: Colors.white,
+                    decoration: _TextFieldDecoration(action),
                   ),
                 ),
-                child: _editTitleTextField()),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2 - 20,
+                  child: DropdownComponent(
+                    onChanged: (value) {},
+                    hintText: "",
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

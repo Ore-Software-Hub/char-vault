@@ -1,16 +1,18 @@
-import 'package:character_vault/pages/backpack/components/iconb_component.dart';
-import 'package:character_vault/pages/backpack/components/item_component.dart';
+import 'package:character_vault/pages/components/add_item_bottom_sheet_component.dart';
+import 'package:character_vault/pages/components/iconb_component.dart';
+import 'package:character_vault/pages/components/item_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:character_vault/constants/cores.constants.dart' as cores;
 
-class FightPage extends StatefulWidget {
-  const FightPage({super.key});
+class BackPackPage extends StatefulWidget {
+  const BackPackPage({super.key});
 
   @override
-  State<FightPage> createState() => _FightPageState();
+  State<BackPackPage> createState() => _BackPackPageState();
 }
 
-class _FightPageState extends State<FightPage> {
+class _BackPackPageState extends State<BackPackPage> {
   String name = "Garry Floyd",
       classe = "Bardo",
       level = "1",
@@ -268,27 +270,39 @@ class _FightPageState extends State<FightPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Armas",
+                        "Equipamentos",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       IconButtonComponent(
-                          pressed: () {}, icon: PhosphorIconsBold.plus)
+                          pressed: () {
+                            showModalBottomSheet(
+                              backgroundColor: cores.secondaryColor,
+                              showDragHandle: true,
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) =>
+                                  const AddItemBottomSheetComponent(
+                                tipo: 0,
+                              ),
+                            );
+                          },
+                          icon: PhosphorIconsBold.plus)
                     ],
                   ),
                   Column(
                     children: [
                       ItemComponent(
-                          icon: PhosphorIconsRegular.sword,
+                          icon: PhosphorIconsRegular.shield,
                           onTap: () {},
-                          title: "Espada larga",
-                          value: "1D6"),
+                          title: "Elmo Élfico",
+                          value: "+2 def"),
                       ItemComponent(
-                          icon: PhosphorIconsRegular.sword,
+                          icon: PhosphorIconsRegular.shovel,
                           onTap: () {},
-                          title: "Besta leve",
+                          title: "Machado Lunar",
                           value: "1D4"),
                     ],
                   )
@@ -305,28 +319,45 @@ class _FightPageState extends State<FightPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Magias",
+                        "Inventário",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       IconButtonComponent(
-                          pressed: () {}, icon: PhosphorIconsBold.plus)
+                          pressed: () {
+                            showModalBottomSheet(
+                              backgroundColor: cores.secondaryColor,
+                              showDragHandle: true,
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) =>
+                                  const AddItemBottomSheetComponent(
+                                tipo: 1,
+                              ),
+                            );
+                          },
+                          icon: PhosphorIconsBold.plus)
                     ],
                   ),
                   Column(
                     children: [
                       ItemComponent(
-                          icon: PhosphorIconsRegular.lightning,
+                          icon: PhosphorIconsRegular.champagne,
                           onTap: () {},
-                          title: "Canto sombrio",
-                          value: "1D4"),
+                          title: "Poção de cura",
+                          value: "x10"),
                       ItemComponent(
-                          icon: PhosphorIconsRegular.lightning,
+                          icon: PhosphorIconsRegular.champagne,
                           onTap: () {},
-                          title: "Canto amoroso",
-                          value: "2 turnos"),
+                          title: "Poção de velocidade",
+                          value: "x3"),
+                      ItemComponent(
+                          icon: PhosphorIconsRegular.dotsNine,
+                          onTap: () {},
+                          title: "Chave enferrujada",
+                          value: null),
                     ],
                   )
                 ],

@@ -1,8 +1,4 @@
-import 'dart:math';
-import 'package:character_vault/pages/components/roll_component.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class NotesBottomSheetComponent extends StatefulWidget {
@@ -34,6 +30,9 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
   Widget _editTitleTextField() {
     if (isEditingText) {
       return TextField(
+        style: TextStyle(
+          color: Colors.white,
+        ),
         decoration: const InputDecoration(
           border: UnderlineInputBorder(borderSide: BorderSide.none),
         ),
@@ -56,7 +55,7 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
       child: Text(
         note,
         style: const TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 18.0,
         ),
       ),
@@ -72,11 +71,11 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
         height: sheetSize,
         child: Column(
           children: [
-            Text(
+            const Text(
               "Anotações",
               style: TextStyle(
                   fontSize: 20,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -118,7 +117,7 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
                       foregroundColor:
                           const WidgetStatePropertyAll(cores.primaryColor),
                       backgroundColor:
-                          const WidgetStatePropertyAll(cores.gray)),
+                          const WidgetStatePropertyAll(Colors.white)),
                   onPressed: () {
                     Navigator.pop(context);
                   },

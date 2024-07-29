@@ -8,7 +8,8 @@ class DiceBottomSheetComponent extends StatefulWidget {
   const DiceBottomSheetComponent({super.key});
 
   @override
-  _DiceBottomSheetComponentState createState() => _DiceBottomSheetComponentState();
+  _DiceBottomSheetComponentState createState() =>
+      _DiceBottomSheetComponentState();
 }
 
 class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
@@ -82,7 +83,9 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Container(
-          color: cores.secondaryColor,
+          decoration: const BoxDecoration(
+              color: cores.secondaryColor,
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           height: sheetHeight,
           width: double.infinity,
           child: Padding(

@@ -60,6 +60,8 @@ class _InitialPageState extends State<InitialPage> {
             label: 'Rolar dados',
             onTap: () {
               showModalBottomSheet(
+                backgroundColor: cores.secondaryColor,
+                showDragHandle: true,
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => const DiceBottomSheetComponent(),
@@ -71,6 +73,7 @@ class _InitialPageState extends State<InitialPage> {
             label: 'Anotações',
             onTap: () {
               showModalBottomSheet(
+                backgroundColor: cores.secondaryColor,
                 showDragHandle: true,
                 context: context,
                 isScrollControlled: true,

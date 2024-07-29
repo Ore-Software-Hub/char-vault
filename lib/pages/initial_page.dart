@@ -1,6 +1,6 @@
 import 'package:character_vault/pages/backpack_page.dart';
-import 'package:character_vault/components/bottomsheet/dice_bottom_sheet_component.dart';
-import 'package:character_vault/components/bottomsheet/notes_bottom_sheet_component.dart';
+import 'package:character_vault/components/bottomsheet/dice_component.dart';
+import 'package:character_vault/components/bottomsheet/notes_component.dart';
 import 'package:character_vault/pages/fight_page.dart';
 import 'package:character_vault/pages/home_page.dart';
 import 'package:character_vault/pages/profile_page.dart';

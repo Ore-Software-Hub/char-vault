@@ -1,4 +1,4 @@
-import 'package:character_vault/components/bottomsheet/add_item_bottom_sheet_component.dart';
+import 'package:character_vault/components/bottomsheet/add_item_component.dart';
 import 'package:character_vault/components/button/iconb_component.dart';
 import 'package:character_vault/components/item_component.dart';
 import 'package:flutter/material.dart';
@@ -292,16 +292,14 @@ class _BackPackPageState extends State<BackPackPage> {
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
-                  Column(
+                  const Column(
                     children: [
                       ItemComponent(
                           icon: PhosphorIconsRegular.shield,
-                          onTap: () {},
                           title: "Elmo Élfico",
                           value: "+2 def"),
                       ItemComponent(
                           icon: PhosphorIconsRegular.shovel,
-                          onTap: () {},
                           title: "Machado Lunar",
                           value: "1D4"),
                     ],
@@ -341,21 +339,18 @@ class _BackPackPageState extends State<BackPackPage> {
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
-                  Column(
+                  const Column(
                     children: [
                       ItemComponent(
                           icon: PhosphorIconsRegular.champagne,
-                          onTap: () {},
                           title: "Poção de cura",
                           value: "x10"),
                       ItemComponent(
                           icon: PhosphorIconsRegular.champagne,
-                          onTap: () {},
                           title: "Poção de velocidade",
                           value: "x3"),
                       ItemComponent(
                           icon: PhosphorIconsRegular.dotsNine,
-                          onTap: () {},
                           title: "Chave enferrujada",
                           value: null),
                     ],

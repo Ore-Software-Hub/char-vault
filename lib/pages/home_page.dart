@@ -1,5 +1,5 @@
 import 'package:character_vault/components/features_component.dart';
-import 'package:character_vault/components/bottomsheet/resistence_bottom_sheet_component.dart';
+import 'package:character_vault/components/bottomsheet/resistence_component.dart';
 import 'package:character_vault/components/skills_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

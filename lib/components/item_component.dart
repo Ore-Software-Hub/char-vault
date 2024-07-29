@@ -1,3 +1,4 @@
+import 'package:character_vault/components/bottomsheet/item_details_component.dart';
 import 'package:character_vault/components/button/iconb_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -9,13 +10,11 @@ class ItemComponent extends StatefulWidget {
     required this.title,
     required this.value,
     required this.icon,
-    required this.onTap,
   });
 
   final String title;
   final String? value;
   final PhosphorFlatIconData icon;
-  final VoidCallback onTap;
 
   @override
   State<ItemComponent> createState() => _ItemComponentState();
@@ -41,7 +40,15 @@ class _ItemComponentState extends State<ItemComponent> {
         ),
         const SizedBox(width: 8), // Espaçamento entre icone e título
         InkWell(
-          onTap: widget.onTap,
+          onTap: () {
+            showModalBottomSheet(
+              backgroundColor: cores.secondaryColor,
+              showDragHandle: true,
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => const ItemDetailsComponent(),
+            );
+          },
           child: Container(
             width: MediaQuery.of(context).size.width / 2.25,
             height: 40,

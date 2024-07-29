@@ -1,4 +1,4 @@
-import 'package:character_vault/components/bottomsheet/add_item_bottom_sheet_component.dart';
+import 'package:character_vault/components/bottomsheet/add_item_component.dart';
 import 'package:character_vault/components/button/iconb_component.dart';
 import 'package:character_vault/components/item_component.dart';
 import 'package:flutter/material.dart';
@@ -292,16 +292,14 @@ class _FightPageState extends State<FightPage> {
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
-                  Column(
+                  const Column(
                     children: [
                       ItemComponent(
                           icon: PhosphorIconsRegular.sword,
-                          onTap: () {},
                           title: "Espada larga",
                           value: "1D6"),
                       ItemComponent(
                           icon: PhosphorIconsRegular.sword,
-                          onTap: () {},
                           title: "Besta leve",
                           value: "1D4"),
                     ],
@@ -341,16 +339,14 @@ class _FightPageState extends State<FightPage> {
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
-                  Column(
+                  const Column(
                     children: [
                       ItemComponent(
                           icon: PhosphorIconsRegular.lightning,
-                          onTap: () {},
                           title: "Canto sombrio",
                           value: "1D4"),
                       ItemComponent(
                           icon: PhosphorIconsRegular.lightning,
-                          onTap: () {},
                           title: "Canto amoroso",
                           value: "2 turnos"),
                     ],

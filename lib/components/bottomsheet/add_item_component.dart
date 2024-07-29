@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class AddItemBottomSheetComponent extends StatefulWidget {
-  const AddItemBottomSheetComponent(
-      {super.key, required this.tipo, required this.editing});
-
-  final int tipo;
+  const AddItemBottomSheetComponent({super.key, required this.editing});
   final bool editing;
 
   @override
@@ -22,7 +19,7 @@ class _AddItemBottomSheetComponentState
 
   double sheetSize = 350;
   String title = "";
-  String action = "";
+  String action = "Valor";
 
   @override
   void dispose() {
@@ -38,26 +35,7 @@ class _AddItemBottomSheetComponentState
     _controllerTitle = TextEditingController();
     _controllerValue = TextEditingController();
     _controllerDescription = TextEditingController();
-    switch (widget.tipo) {
-      case 0:
-        title = widget.editing == true
-            ? "Editar Equipamento"
-            : "Adicionar Equipamento";
-        action = "Valor";
-        break;
-      case 1:
-        title = widget.editing == true ? "Editar Objeto" : "Adicionar Objeto";
-        action = "Valor";
-        break;
-      case 2:
-        title = widget.editing == true ? "Editar Arma" : "Adicionar Arma";
-        action = "Valor";
-        break;
-      case 3:
-        title = widget.editing == true ? "Editar Magia" : "Adicionar Magia";
-        action = "Valor";
-        break;
-    }
+    title = widget.editing ? "Editando Item" : "Adicionando Item";
   }
 
   textFieldDecoration(String title) {
@@ -145,7 +123,9 @@ class _AddItemBottomSheetComponentState
                   width: MediaQuery.of(context).size.width / 2 - 20,
                   child: DropdownComponent(
                     onChanged: (value) {},
-                    hintText: "",
+                    hintText: "Tipo",
+                    foregroundColor: Colors.white,
+                    backgroundColor: cores.secondaryColor,
                   ),
                 )
               ],

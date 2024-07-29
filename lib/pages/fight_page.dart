@@ -290,7 +290,6 @@ class _FightPageState extends State<FightPage> {
                               isScrollControlled: true,
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
-                                tipo: 2,
                                 editing: false,
                               ),
                             );
@@ -341,7 +340,6 @@ class _FightPageState extends State<FightPage> {
                               isScrollControlled: true,
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
-                                tipo: 3,
                                 editing: false,
                               ),
                             );

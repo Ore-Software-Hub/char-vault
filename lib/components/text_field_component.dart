@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TextFieldComponent extends StatefulWidget {
-  const TextFieldComponent({super.key, this.color});
+  const TextFieldComponent({super.key, required this.label, this.color, this.maxlines = 1});
 
+  final String label;
   final Color? color;
+  final int? maxlines;
 
   @override
   State<TextFieldComponent> createState() => _TextFieldComponentState();
@@ -76,7 +78,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       cursorColor: widget.color != null
           ? widget.color!
           : Theme.of(context).colorScheme.primary,
-      decoration: textFieldDecoration("Nome do Item"),
+      decoration: textFieldDecoration(widget.label),
+      maxLines: widget.maxlines,
     );
   }
 }

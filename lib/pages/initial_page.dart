@@ -1,3 +1,4 @@
+import 'package:character_vault/components/bottomsheet/add_item_component.dart';
 import 'package:character_vault/pages/backpack_page.dart';
 import 'package:character_vault/components/bottomsheet/dice_component.dart';
 import 'package:character_vault/components/bottomsheet/notes_component.dart';
@@ -51,6 +52,8 @@ class _InitialPageState extends State<InitialPage> {
         child: SafeArea(child: tabs[_selectedIndex]),
       ),
       floatingActionButton: SpeedDial(
+        backgroundColor: cores.secondaryColor,
+        overlayColor: cores.secondaryColor,
         animatedIcon: AnimatedIcons.menu_arrow,
         children: [
           SpeedDialChild(
@@ -68,8 +71,28 @@ class _InitialPageState extends State<InitialPage> {
               );
             },
           ),
+          if (_selectedIndex == 1 || _selectedIndex == 2)
+            SpeedDialChild(
+              child: const PhosphorIcon(
+                PhosphorIconsBold.plus,
+              ),
+              label: 'Adicionar item',
+              onTap: () {
+                showModalBottomSheet(
+                  backgroundColor: cores.secondaryColor,
+                  showDragHandle: true,
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) => const AddItemBottomSheetComponent(
+                    editing: false,
+                  ),
+                );
+              },
+            ),
           SpeedDialChild(
-            child: const Icon(Icons.comment),
+            child: const PhosphorIcon(
+              PhosphorIconsBold.note,
+            ),
             label: 'Anotações',
             onTap: () {
               showModalBottomSheet(

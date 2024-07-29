@@ -289,7 +289,6 @@ class _BackPackPageState extends State<BackPackPage> {
                               isScrollControlled: true,
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
-                                tipo: 0,
                                 editing: false,
                               ),
                             );
@@ -340,7 +339,6 @@ class _BackPackPageState extends State<BackPackPage> {
                               isScrollControlled: true,
                               builder: (context) =>
                                   const AddItemBottomSheetComponent(
-                                tipo: 1,
                                 editing: false,
                               ),
                             );

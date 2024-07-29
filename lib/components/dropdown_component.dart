@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class DropdownComponent extends StatefulWidget {
   const DropdownComponent({
     super.key,
     required this.onChanged,
+    this.items = const ["Armadura", "Ferramenta", "Arma", "Magia"],
     this.hintText,
+    this.backgroundColor = Colors.white,
+    this.foregroundColor = cores.primaryColor,
   });
 
-  final Function(String?) onChanged;
+  final Function(String?)? onChanged;
   final String? hintText;
+  final List<String> items;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   @override
   State<DropdownComponent> createState() => _DropdownComponentState();
@@ -16,45 +23,46 @@ class DropdownComponent extends StatefulWidget {
 
 class _DropdownComponentState extends State<DropdownComponent> {
   String? selectedValue;
-  List<String> items = ["Armadura", "Ferramenta", "Arma", "Magia"];
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       value: selectedValue,
-      hint: const Text(
-        "Tipo",
-        style: TextStyle(color: Colors.white),
+      hint: Text(
+        widget.hintText!,
+        style: TextStyle(color: widget.foregroundColor!),
       ),
       onChanged: (String? newValue) {
         setState(() {
           selectedValue = newValue;
         });
-        widget.onChanged(newValue); // Chama a função de callback
+        widget.onChanged!(newValue); // Chama a função de callback
       },
-      items: items.map<DropdownMenuItem<String>>((String value) {
+      items: widget.items.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
             value,
-            style: const TextStyle(color: Colors.white),
           ),
         );
       }).toList(),
       decoration: InputDecoration(
+        filled: true,
+        fillColor: widget.backgroundColor!,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white, width: 2),
+          borderSide: BorderSide(color: widget.foregroundColor!, width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: widget.foregroundColor!, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white, width: 2),
+          borderSide: BorderSide(color: widget.foregroundColor!, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
-        filled: true,
-        fillColor: Theme.of(context).colorScheme.secondary,
       ),
-      dropdownColor: Theme.of(context).colorScheme.secondary,
-      icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+      icon: Icon(Icons.arrow_drop_down, color: widget.foregroundColor!),
     );
   }
 }

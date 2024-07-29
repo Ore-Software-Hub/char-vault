@@ -8,14 +8,14 @@ class ItemComponent extends StatefulWidget {
   const ItemComponent({
     super.key,
     required this.title,
-    required this.value,
-    required this.icon,
     required this.tipo,
+    this.value,
+    this.icon,
   });
 
   final String title;
   final String? value;
-  final PhosphorFlatIconData icon;
+  final PhosphorFlatIconData? icon;
   final int tipo;
 
   @override
@@ -27,20 +27,23 @@ class _ItemComponentState extends State<ItemComponent> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          height: 40,
-          width: 40,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: cores.gray, // Sem preenchimento
-            borderRadius: BorderRadius.circular(50.0), // Raio da borda
+        if (widget.icon != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Container(
+              height: 40,
+              width: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: cores.gray, // Sem preenchimento
+                borderRadius: BorderRadius.circular(50.0), // Raio da borda
+              ),
+              child: PhosphorIcon(
+                widget.icon!,
+                size: 30,
+              ),
+            ),
           ),
-          child: PhosphorIcon(
-            widget.icon,
-            size: 30,
-          ),
-        ),
-        const SizedBox(width: 8), // Espaçamento entre icone e título
         InkWell(
           onTap: () {
             showModalBottomSheet(
@@ -48,14 +51,12 @@ class _ItemComponentState extends State<ItemComponent> {
               showDragHandle: true,
               context: context,
               isScrollControlled: true,
-              builder: (context) => AddItemBottomSheetComponent(
-                tipo: widget.tipo,
+              builder: (context) => const AddItemBottomSheetComponent(
                 editing: true,
               ),
             );
           },
           child: Container(
-            width: MediaQuery.of(context).size.width / 2.25,
             height: 40,
             padding: const EdgeInsets.only(left: 8, right: 8),
             alignment: Alignment.center,
@@ -75,36 +76,27 @@ class _ItemComponentState extends State<ItemComponent> {
             ),
           ),
         ),
-        const SizedBox(width: 4),
-        widget.value != null
-            ? Container(
-                height: 40,
-                width: 64,
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: cores.gray, // Sem preenchimento
-                  borderRadius: BorderRadius.circular(8.0), // Raio da borda
-                ),
-                child: Text(
-                  widget.value!,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12,
-                  ),
-                ),
-              )
-            : Container(
-                height: 40,
-                width: 64,
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: cores.gray, // Sem preenchimento
-                  borderRadius: BorderRadius.circular(8.0), // Raio da borda
+        if (widget.value != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4.0, right: 4),
+            child: Container(
+              height: 40,
+              width: 64,
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: cores.gray, // Sem preenchimento
+                borderRadius: BorderRadius.circular(8.0), // Raio da borda
+              ),
+              child: Text(
+                widget.value!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 12,
                 ),
               ),
-        const SizedBox(width: 4),
+            ),
+          ),
         ButtonComponent(pressed: () {}, tipo: 0, icon: PhosphorIconsBold.minus)
       ],
     );

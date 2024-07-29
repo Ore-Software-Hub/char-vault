@@ -109,22 +109,22 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
                   children: [
                     ButtonRollComponent(
                         pressed: () {
-                          addDice(2);
-                        },
-                        icon: PhosphorIconsBold.diceTwo,
-                        label: "D2"),
-                    ButtonRollComponent(
-                        pressed: () {
                           addDice(4);
                         },
-                        icon: PhosphorIconsBold.diceFour,
+                        icon: PhosphorIconsBold.diceTwo,
                         label: "D4"),
                     ButtonRollComponent(
                         pressed: () {
                           addDice(6);
                         },
-                        icon: PhosphorIconsBold.diceSix,
+                        icon: PhosphorIconsBold.diceFour,
                         label: "D6"),
+                    ButtonRollComponent(
+                        pressed: () {
+                          addDice(8);
+                        },
+                        icon: PhosphorIconsBold.diceSix,
+                        label: "D8"),
                     ButtonRollComponent(
                         pressed: () {
                           addDice(10);

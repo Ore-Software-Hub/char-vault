@@ -29,9 +29,9 @@ class _ResistenceBottomSheetComponentState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Habilidades",
+            "Teste de Resistência",
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -42,27 +42,27 @@ class _ResistenceBottomSheetComponentState
             children: [
               SkillsComponent(
                 title: "Força",
-                value: "8",
+                value: "0",
               ),
               SkillsComponent(
                 title: "Destreza",
-                value: "12",
+                value: "+1",
               ),
               SkillsComponent(
                 title: "Constituição",
-                value: "10",
+                value: "+1",
               ),
               SkillsComponent(
                 title: "Inteligência",
-                value: "14",
+                value: "+2",
               ),
               SkillsComponent(
                 title: "Sabedoria",
-                value: "13",
+                value: "+4",
               ),
               SkillsComponent(
                 title: "Carisma",
-                value: "15",
+                value: "+4",
               )
             ],
           )

@@ -1,5 +1,5 @@
 import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/components/button/iconb_component.dart';
+import 'package:character_vault/components/button/button_component.dart';
 import 'package:character_vault/components/item_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -276,7 +276,8 @@ class _FightPageState extends State<FightPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      IconButtonComponent(
+                      ButtonComponent(
+                          tipo: 1,
                           pressed: () {
                             showModalBottomSheet(
                               backgroundColor: cores.secondaryColor,
@@ -326,7 +327,8 @@ class _FightPageState extends State<FightPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      IconButtonComponent(
+                      ButtonComponent(
+                          tipo: 1,
                           pressed: () {
                             showModalBottomSheet(
                               backgroundColor: cores.secondaryColor,

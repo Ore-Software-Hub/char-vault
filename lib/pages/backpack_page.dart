@@ -1,5 +1,5 @@
 import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/components/button/iconb_component.dart';
+import 'package:character_vault/components/button/button_component.dart';
 import 'package:character_vault/components/item_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -276,7 +276,7 @@ class _BackPackPageState extends State<BackPackPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      IconButtonComponent(
+                      ButtonComponent(
                           pressed: () {
                             showModalBottomSheet(
                               backgroundColor: cores.secondaryColor,
@@ -290,6 +290,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               ),
                             );
                           },
+                          tipo: 1,
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),
@@ -326,7 +327,7 @@ class _BackPackPageState extends State<BackPackPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      IconButtonComponent(
+                      ButtonComponent(
                           pressed: () {
                             showModalBottomSheet(
                               backgroundColor: cores.secondaryColor,
@@ -340,6 +341,7 @@ class _BackPackPageState extends State<BackPackPage> {
                               ),
                             );
                           },
+                          tipo: 1,
                           icon: PhosphorIconsBold.plus)
                     ],
                   ),

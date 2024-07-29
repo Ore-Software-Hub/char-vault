@@ -1,6 +1,7 @@
 import 'package:character_vault/components/features_component.dart';
 import 'package:character_vault/components/bottomsheet/resistence_component.dart';
 import 'package:character_vault/components/skills_component.dart';
+import 'package:character_vault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -225,8 +226,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onPressed: () {
-                          Scaffold.of(context)
-                              .openDrawer(); // Abrir o Drawer ao clicar no ícone de menu
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UserProfilePage()),
+                          ); // Abrir o Drawer ao clicar no ícone de menu
                         },
                       ),
                       const Text(

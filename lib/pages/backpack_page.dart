@@ -1,6 +1,7 @@
 import 'package:character_vault/components/bottomsheet/add_item_component.dart';
 import 'package:character_vault/components/button/button_component.dart';
 import 'package:character_vault/components/item_component.dart';
+import 'package:character_vault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;
@@ -246,8 +247,11 @@ class _BackPackPageState extends State<BackPackPage> {
                           ),
                         ),
                         onPressed: () {
-                          Scaffold.of(context)
-                              .openDrawer(); // Abrir o Drawer ao clicar no ícone de menu
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UserProfilePage()));
                         },
                       ),
                       const Text(

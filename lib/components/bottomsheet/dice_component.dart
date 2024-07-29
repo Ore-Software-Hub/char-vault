@@ -34,7 +34,7 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
       var dice = dices[i];
       vals += "D${dice.toInt()}";
       if (i != dices.length - 1) {
-        vals += "+";
+        vals += " + ";
       }
     }
     debugPrint(vals);
@@ -54,7 +54,8 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
 
   calculate() {
     var random = Random();
-    int sum = 0;
+    List<int> sum = [];
+    String subtotal = "";
 
     Map<int, int> countMap = {};
 
@@ -68,12 +69,20 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
 
     countMap.forEach((key, value) {
       for (int i = 0; i < value; i++) {
-        sum += random.nextInt(key) + 1;
+        sum.add(random.nextInt(key) + 1);
       }
     });
 
+    for (var num in sum) {
+      subtotal += "$num + ";
+    }
+
+    subtotal = subtotal.substring(0, subtotal.length - 2); // Remove última +
+    subtotal +=
+        "= ${sum.fold(0, (previousValue, element) => previousValue + element)}";
+
     setState(() {
-      total = sum.toString();
+      total = subtotal;
     });
   }
 

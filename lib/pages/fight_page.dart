@@ -1,10 +1,7 @@
-import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/components/button_component.dart';
 import 'package:character_vault/components/item_component.dart';
 import 'package:character_vault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class FightPage extends StatefulWidget {
   const FightPage({super.key});
@@ -264,40 +261,20 @@ class _FightPageState extends State<FightPage> {
                 // Imagem posicionada ao lado
               ],
             ),
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                  EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Armas",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ButtonComponent(
-                          tipo: 0,
-                          pressed: () {
-                            showModalBottomSheet(
-                              backgroundColor: cores.secondaryColor,
-                              showDragHandle: true,
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) =>
-                                  const AddItemBottomSheetComponent(
-                                editing: false,
-                              ),
-                            );
-                          },
-                          icon: PhosphorIconsBold.plus)
-                    ],
+                  Text(
+                    "Armas",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Wrap(
+                  Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 4.0, // Espaçamento horizontal entre os widgets
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
@@ -317,40 +294,20 @@ class _FightPageState extends State<FightPage> {
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                  EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Magias",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ButtonComponent(
-                          tipo: 0,
-                          pressed: () {
-                            showModalBottomSheet(
-                              backgroundColor: cores.secondaryColor,
-                              showDragHandle: true,
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) =>
-                                  const AddItemBottomSheetComponent(
-                                editing: false,
-                              ),
-                            );
-                          },
-                          icon: PhosphorIconsBold.plus)
-                    ],
+                  Text(
+                    "Magias",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Wrap(
+                  Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 4.0, // Espaçamento horizontal entre os widgets
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas

@@ -1,10 +1,7 @@
-import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/components/button_component.dart';
 import 'package:character_vault/components/item_component.dart';
 import 'package:character_vault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
 
 class BackPackPage extends StatefulWidget {
   const BackPackPage({super.key});
@@ -264,40 +261,20 @@ class _BackPackPageState extends State<BackPackPage> {
                 // Imagem posicionada ao lado
               ],
             ),
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                  EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Equipamentos",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ButtonComponent(
-                          pressed: () {
-                            showModalBottomSheet(
-                              backgroundColor: cores.secondaryColor,
-                              showDragHandle: true,
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) =>
-                                  const AddItemBottomSheetComponent(
-                                editing: false,
-                              ),
-                            );
-                          },
-                          tipo: 0,
-                          icon: PhosphorIconsBold.plus)
-                    ],
+                  Text(
+                    "Equipamentos",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Wrap(
+                  Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 4.0, // Espaçamento horizontal entre os widgets
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
@@ -317,40 +294,20 @@ class _BackPackPageState extends State<BackPackPage> {
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+                  EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Inventário",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ButtonComponent(
-                          pressed: () {
-                            showModalBottomSheet(
-                              backgroundColor: cores.secondaryColor,
-                              showDragHandle: true,
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context) =>
-                                  const AddItemBottomSheetComponent(
-                                editing: false,
-                              ),
-                            );
-                          },
-                          tipo: 0,
-                          icon: PhosphorIconsBold.plus)
-                    ],
+                  Text(
+                    "Inventário",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Wrap(
+                  Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 4.0, // Espaçamento horizontal entre os widgets
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas

@@ -1,8 +1,9 @@
 import 'package:CharVault/firebase_options.dart';
 import 'package:CharVault/pages/initial_page.dart';
 import 'package:CharVault/pages/landing_page.dart';
-import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/providers/theme_provider.dart';
+import 'package:CharVault/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,6 @@ void main() async {
   );
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ThemeProvider()),
-    ChangeNotifierProvider(create: (context) => LoginProvider()),
   ], child: const MyApp()));
 }
 
@@ -30,7 +30,23 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Character Vault',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const LandingPage(),
+      home: StreamBuilder<User?>(
+          stream: AuthService.userStream,
+          builder: (context, snapshot) {
+            debugPrint(snapshot.connectionState.toString());
+            // return snapshot.hasData ? const InitialPage() : const LandingPage();
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return const Center(child: CircularProgressIndicator());
+              case ConnectionState.active:
+                return snapshot.hasData
+                    ? const InitialPage()
+                    : const LandingPage();
+              default:
+                return const LandingPage();
+            }
+          }),
     );
   }
 }

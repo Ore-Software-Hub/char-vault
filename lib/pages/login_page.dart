@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -10,14 +14,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    // isUser = Provider.of<LoginProvider>(context, listen: false).userLogged;
-    // if (isUser == null) {
-    //   Navigator.pop(context);
-    // }
-    // loadUser();
+  }
+
+  loginWithGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await AuthService.signInWithGoogle();
+
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.pop(context);
+    } catch (err) {
+      if (!context.mounted) return;
+      NotificationHelper.showSnackBar(context, "Error ");
+    }
   }
 
   @override
@@ -43,11 +61,12 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     child: ButtonComponent(
                         pressed: () {
-                          
+                          loginWithGoogle();
                         },
                         icon: PhosphorIconsBold.googleLogo,
                         label: "Entrar com Google",
                         tipo: 1,
+                        loading: _isLoading,
                         color: Colors.blue),
                   ),
                 ],

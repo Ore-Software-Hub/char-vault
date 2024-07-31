@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
@@ -9,6 +10,7 @@ class ButtonComponent extends StatefulWidget {
       this.tipo = 3,
       this.icon,
       this.label,
+      this.loading = false,
       this.color = cores.primaryColor});
 
   final VoidCallback pressed;
@@ -17,6 +19,7 @@ class ButtonComponent extends StatefulWidget {
   final PhosphorFlatIconData? icon;
   final String? label;
   final Color? color;
+  final bool loading;
 
   @override
   State<ButtonComponent> createState() => _ButtonComponentState();
@@ -61,7 +64,12 @@ class _ButtonComponentState extends State<ButtonComponent> {
       return ElevatedButton.icon(
         style: buttonStyle(),
         onPressed: widget.pressed,
-        icon: PhosphorIcon(widget.icon!),
+        icon: widget.loading
+            ? LoadingAnimationWidget.twistingDots(
+                leftDotColor: Theme.of(context).colorScheme.primary,
+                rightDotColor: Theme.of(context).colorScheme.onPrimary,
+                size: 20)
+            : PhosphorIcon(widget.icon!),
         label: Text(widget.label!),
       );
     }

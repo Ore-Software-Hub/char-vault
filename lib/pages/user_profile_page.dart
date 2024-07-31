@@ -1,4 +1,6 @@
+import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/pages/create_character_page.dart';
+import 'package:CharVault/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -159,6 +161,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Perfil"),
+        actions: [
+          ButtonComponent(
+            pressed: () {
+              AuthService.signOut();
+              Navigator.pop(context);
+            },
+            icon: PhosphorIconsBold.signOut,
+            tipo: 0,
+          )
+        ],
         forceMaterialTransparency: true,
       ),
       body: SingleChildScrollView(

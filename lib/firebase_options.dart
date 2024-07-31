@@ -54,6 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:386541822660:android:378553fd61b4a006d4df91',
     messagingSenderId: '386541822660',
     projectId: 'char-vault',
+    databaseURL: 'https://char-vault-default-rtdb.firebaseio.com',
     storageBucket: 'char-vault.appspot.com',
   );
 
@@ -62,7 +63,11 @@ class DefaultFirebaseOptions {
     appId: '1:386541822660:ios:964c3163b56593a0d4df91',
     messagingSenderId: '386541822660',
     projectId: 'char-vault',
+    databaseURL: 'https://char-vault-default-rtdb.firebaseio.com',
     storageBucket: 'char-vault.appspot.com',
+    androidClientId: '386541822660-b53pi2ebojvvdvak6oas69ujvp3hkll6.apps.googleusercontent.com',
+    iosClientId: '386541822660-l0pjgp15ui7ot8snmi7e84o5f20bni6v.apps.googleusercontent.com',
     iosBundleId: 'com.example.characterVault',
   );
+
 }

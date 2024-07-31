@@ -95,7 +95,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: const DecorationImage(
-                  image: AssetImage('assets/img/char.png'),
+                  image: AssetImage('assets/img/profile_icon.png'),
                   fit: BoxFit.cover,
                 ),
               ),

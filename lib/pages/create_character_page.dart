@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dropdown_component.dart';
 import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/components/text_field_component.dart';
+import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CreateCharacterPage extends StatefulWidget {
@@ -18,6 +24,10 @@ class CreateCharacterPage extends StatefulWidget {
 class _CreateCharacterPageState extends State<CreateCharacterPage> {
   int step = 1;
   String title = '';
+  bool buscando = false;
+  final imagePicker = ImagePicker();
+  File? imageFile;
+  bool removeImage = false;
 
   @override
   void initState() {
@@ -29,6 +39,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     newStep = step + val;
 
     switch (newStep) {
+      case 0:
+        Navigator.pop(context);
+        break;
       case 1:
         title = 'Dados Pessoais';
         break;
@@ -38,14 +51,165 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       case 3:
         title = 'Inventário & Combate';
         break;
-      default:
-        Navigator.pop(context);
+      case 4:
+        title = 'Salvar Personagem';
         break;
     }
 
     setState(() {
       step = newStep;
     });
+  }
+
+  Widget getImage() {
+    if (removeImage) {
+      return Image.asset(
+        'assets/img/profile_icon.png', // Replace with your image URL
+        width: 100.0,
+        height: 100.0, // Adiciona uma chave única baseada no caminho do arquivo
+      );
+    }
+
+    if (imageFile != null) {
+      return Image.file(
+        File(imageFile!.path), // Replace with your image URL
+        width: 100.0,
+        height: 100.0, // Adiciona uma chave única baseada no caminho do arquivo
+      );
+    }
+
+    return Image.network(
+        "user?.profile?.picture", // Replace with your image URL
+        width: 100.0,
+        height: 100.0,
+        fit: BoxFit.cover, errorBuilder:
+            (BuildContext context, Object exception, StackTrace? stackTrace) {
+      return const Text('😢');
+    });
+  }
+
+  cropImage() async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageFile!.path,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Recortar',
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarWidgetColor: Theme.of(context).colorScheme.onPrimary,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false),
+        // TODO: Add IOS
+      ],
+    );
+    if (croppedFile != null) {
+      setState(() {
+        imageFile = File(croppedFile.path);
+        removeImage = false;
+      });
+    } else {
+      setState(() {
+        imageFile = null;
+      });
+    }
+  }
+
+  pickImage(ImageSource source) async {
+    final pickedFile = await imagePicker.pickImage(source: source);
+
+    if (pickedFile == null) {
+      setState(() {
+        removeImage = false;
+      });
+      return;
+    }
+
+    setState(() {
+      imageFile = File(pickedFile.path);
+    });
+
+    await cropImage();
+  }
+
+  selectImage() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            height: 250,
+            width: double.infinity,
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0, bottom: 8),
+                  child: Text(
+                    "Editar Imagem",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.onSurface,
+                      child: Center(
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(.6),
+                        ),
+                      )),
+                  title: const Text("Camera"),
+                  onTap: () => {
+                    debugPrint("Clicou "),
+                    Navigator.pop(context),
+                    pickImage(ImageSource.camera)
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.onSurface,
+                      child: Center(
+                        child: Icon(
+                          Icons.image,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(.6),
+                        ),
+                      )),
+                  title: const Text("Galeria"),
+                  onTap: () => {
+                    debugPrint("Clicou "),
+                    Navigator.pop(context),
+                    pickImage(ImageSource.gallery)
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.onSurface,
+                      child: Center(
+                        child: Icon(
+                          Icons.delete_forever_outlined,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(.6),
+                        ),
+                      )),
+                  title: const Text("Remover"),
+                  onTap: () => {
+                    Navigator.pop(context),
+                    setState(() {
+                      imageFile = null;
+                      removeImage = true;
+                    })
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Widget returnStep(int step) {
@@ -56,52 +220,81 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           children: [
             Row(
               children: [
+                // Stack(
+                //   clipBehavior: Clip.none,
+                //   alignment: AlignmentDirectional.center,
+                //   children: [
+                //     Container(
+                //       width: 100,
+                //       height: 100,
+                //       decoration: BoxDecoration(
+                //         color: cores.gray,
+                //         borderRadius: BorderRadius.circular(50),
+                //       ),
+                //       child: Container(
+                //         padding: const EdgeInsets.all(2),
+                //         child: ClipRRect(
+                //           borderRadius: BorderRadius.circular(50),
+                //           child: Image.asset(
+                //             'assets/img/eu.jpg',
+                //             width: 75.0,
+                //             height: 75.0,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Positioned(
+                //       bottom: 0,
+                //       right: 0,
+                //       child: Container(
+                //         width: 30,
+                //         height: 30,
+                //         decoration: BoxDecoration(
+                //           color: cores.primaryColor,
+                //           borderRadius: BorderRadius.circular(50),
+                //         ),
+                //         child: Container(
+                //           alignment: AlignmentDirectional.center,
+                //           child: IconButton(
+                //             onPressed: () {},
+                //             icon: const PhosphorIcon(
+                //               PhosphorIconsBold.plus,
+                //               color: Colors.white,
+                //               size: 15,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 Stack(
-                  clipBehavior: Clip.none,
-                  alignment: AlignmentDirectional.center,
                   children: [
                     Container(
-                      width: 100,
-                      height: 100,
+                      height: 120,
+                      width: 120,
                       decoration: BoxDecoration(
-                        color: cores.gray,
-                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                            width: 5,
+                            color: Theme.of(context).colorScheme.surface),
+                        borderRadius: BorderRadius.circular(100), //<-- SEE HERE
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.asset(
-                            'assets/img/eu.jpg',
-                            width: 75.0,
-                            height: 75.0,
-                          ),
-                        ),
-                      ),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              100.0), // Adjust the radius as needed
+                          child: getImage()),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 30,
-                        height: 30,
+                    Container(
+                        width: 120,
+                        height: 120,
                         decoration: BoxDecoration(
-                          color: cores.primaryColor,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Container(
-                          alignment: AlignmentDirectional.center,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const PhosphorIcon(
-                              PhosphorIconsBold.plus,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                            color: Colors.black.withOpacity(0.5),
+                            shape: BoxShape.circle),
+                        child: IconButton(
+                            onPressed: () {
+                              selectImage();
+                            },
+                            icon: const Icon(Icons.image_search))),
                   ],
                 ),
                 const SizedBox(
@@ -516,9 +709,20 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ],
         );
 
+      case 4:
+        return Center(
+          child: LoadingAnimationWidget.discreteCircle(
+              color: Colors.black, size: 60),
+        );
       default:
         return const Center();
     }
+  }
+
+  finishCharacter() async {
+    changeStep(1);
+    var imgurl = await StorageService.upload(imageFile!.path, imageFile!);
+    debugPrint(imgurl);
   }
 
   @override
@@ -541,11 +745,17 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   decoration: BoxDecoration(
                       color: cores.primaryColor,
                       borderRadius: BorderRadius.circular(50)),
-                  child: Text(step.toString(),
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                  child: step == 4
+                      ? const PhosphorIcon(
+                          PhosphorIconsBold.floppyDisk,
+                          color: Colors.white,
+                          size: 15,
+                        )
+                      : Text(step.toString(),
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                 ),
                 const SizedBox(
                   width: 10,
@@ -592,13 +802,14 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         ),
         child: Row(
           children: [
-            ButtonComponent(
-              label: "Voltar",
-              pressed: () {
-                changeStep(-1);
-              },
-              color: cores.gray,
-            ),
+            if (step <= 3)
+              ButtonComponent(
+                label: "Voltar",
+                pressed: () {
+                  changeStep(-1);
+                },
+                color: cores.gray,
+              ),
             const Spacer(),
             if (step < 3)
               ButtonComponent(
@@ -610,7 +821,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             if (step == 3)
               ButtonComponent(
                 label: "Finalizar",
-                pressed: () {},
+                pressed: () {
+                  finishCharacter();
+                },
               )
           ],
         ),

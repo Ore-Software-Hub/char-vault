@@ -23,11 +23,6 @@ class _BackPackPageState extends State<BackPackPage> {
   @override
   void initState() {
     super.initState();
-    // isUser = Provider.of<LoginProvider>(context, listen: false).userLogged;
-    // if (isUser == null) {
-    //   Navigator.pop(context);
-    // }
-    // loadUser();
   }
 
   @override

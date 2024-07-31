@@ -23,11 +23,6 @@ class _FightPageState extends State<FightPage> {
   @override
   void initState() {
     super.initState();
-    // isUser = Provider.of<LoginProvider>(context, listen: false).userLogged;
-    // if (isUser == null) {
-    //   Navigator.pop(context);
-    // }
-    // loadUser();
   }
 
   @override

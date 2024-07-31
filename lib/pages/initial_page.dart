@@ -32,11 +32,6 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     super.initState();
-    // isUser = Provider.of<LoginProvider>(context, listen: false).userLogged;
-    // if (isUser == null) {
-    //   Navigator.pop(context);
-    // }
-    // loadUser();
   }
 
   _onItemTapped(int index) {

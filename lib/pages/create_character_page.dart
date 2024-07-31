@@ -22,11 +22,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   @override
   void initState() {
     super.initState();
-    // isUser = Provider.of<LoginProvider>(context, listen: false).userLogged;
-    // if (isUser == null) {
-    //   Navigator.pop(context);
-    // }
-    // loadUser();
   }
 
   changeStep(int val) {

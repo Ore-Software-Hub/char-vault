@@ -90,6 +90,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   cropImage() async {
     final croppedFile = await ImageCropper().cropImage(
+      compressFormat: ImageCompressFormat.png,
       sourcePath: imageFile!.path,
       uiSettings: [
         AndroidUiSettings(

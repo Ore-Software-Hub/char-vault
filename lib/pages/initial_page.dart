@@ -38,7 +38,6 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<LoginProvider>(context, listen: false).updateUser();
 
     int duration = 1;
     Timer.periodic(
@@ -48,6 +47,7 @@ class _InitialPageState extends State<InitialPage> {
           setState(() {
             timer.cancel();
             loading = false;
+            Provider.of<LoginProvider>(context, listen: false).updateUser();
           });
         } else {
           setState(() {

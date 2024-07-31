@@ -1,18 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 class CharacterModel {
-  String? image;
-  String? name;
-  String? classe;
-  String? level;
-  String? curLife;
-  String? maxLife;
-  String? po;
-  String? pp;
-  String? pb;
+  String image;
+  String name;
+  String classe;
+  String level;
+  String curLife;
+  String maxLife;
+  String po;
+  String pp;
+  String pb;
 
-  CharacterModel(String? image, String? name, String? classe, String? level,
-      String? curLife, String? maxLife, String? po, String? pp, String? pb);
+  CharacterModel(this.image, this.name, this.classe, this.level, this.curLife,
+      this.maxLife, this.po, this.pp, this.pb);
 
   @override
   String toString() {

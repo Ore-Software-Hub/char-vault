@@ -130,43 +130,48 @@ class _HeaderComponentState extends State<HeaderComponent> {
           color: Colors.white,
           size: 24,
         ),
-        returnText(cur, FontWeight.bold, 16),
+        returnText("$cur/", FontWeight.bold, 16),
         returnText(max, FontWeight.w100, 16),
       ],
     );
   }
 
-  returnLevel(String level) {
+  returnLevel(String level, {bool collapse = false}) {
+    double width = level.length * 30;
+
+    if (collapse) {
+      width = level.length * 20;
+    }
+
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            width: 30,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.transparent, // Sem preenchimento
-              borderRadius: BorderRadius.circular(8.0), // Raio da borda
-              border: Border.all(
-                color: Colors.amber, // Cor da borda
-                width: 2.0, // Largura da borda
+        padding: const EdgeInsets.only(top: 8, bottom: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.transparent, // Sem preenchimento
+                borderRadius: BorderRadius.circular(8.0), // Raio da borda
+                border: Border.all(
+                  color: Colors.amber, // Cor da borda
+                  width: 2.0, // Largura da borda
+                ),
+              ),
+              child: returnText(level, FontWeight.bold, !collapse ? 32 : 24,
+                  color: Colors.amber),
+            ),
+            const Text(
+              "Nível",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.w100,
               ),
             ),
-            child: returnText(level, FontWeight.bold, 32, color: Colors.amber),
-          ),
-          const Text(
-            "Nível",
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-              fontWeight: FontWeight.w100,
-            ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 
   @override
@@ -183,13 +188,14 @@ class _HeaderComponentState extends State<HeaderComponent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    returnText("${_user?.char?.name}", FontWeight.bold, 32),
-                    returnText("${_user?.char?.classe}", FontWeight.w100, 24),
-                    returnLevel("${_user?.char?.level}"),
+                    returnText("${_user?.char.name}", FontWeight.bold, 32),
+                    returnText("${_user?.char.classe}", FontWeight.w100, 24),
+                    // returnLevel("${_user?.char.level}"),
+                    returnLevel("${_user?.char.level}"),
                     returnLife(
-                        "${_user?.char?.curLife}", "${_user?.char?.maxLife}"),
-                    returnMoney("${_user?.char?.po}", "${_user?.char?.pb}",
-                        "${_user?.char?.pp}")
+                        "${_user?.char.curLife}", "${_user?.char.maxLife}"),
+                    returnMoney("${_user?.char.po}", "${_user?.char.pb}",
+                        "${_user?.char.pp}")
                   ],
                 ),
               ),
@@ -199,8 +205,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
                   alignment: Alignment.centerRight,
                   height: 250,
                   width: MediaQuery.of(context).size.width,
-                  child: Image.network("${_user?.char?.image}",
-                      width: 35,
+                  child: Image.network("${_user?.char.image}",
                       fit: BoxFit.cover, errorBuilder: (BuildContext context,
                           Object exception, StackTrace? stackTrace) {
                     return const Text('😢');
@@ -238,24 +243,25 @@ class _HeaderComponentState extends State<HeaderComponent> {
                               height: 20,
                             ),
                             returnText(
-                                "${_user?.char?.name}", FontWeight.bold, 32),
+                                "${_user?.char.name}", FontWeight.bold, 32),
                             returnText(
-                                "${_user?.char?.classe}", FontWeight.w100, 24),
+                                "${_user?.char.classe}", FontWeight.w100, 24),
                             Row(
                               children: [
-                                returnLife("${_user?.char?.curLife}",
-                                    "${_user?.char?.maxLife}"),
+                                returnLife("${_user?.char.curLife}",
+                                    "${_user?.char.maxLife}"),
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                returnMoney("${_user?.char?.po}",
-                                    "${_user?.char?.pb}", "${_user?.char?.pp}")
+                                returnMoney("${_user?.char.po}",
+                                    "${_user?.char.pb}", "${_user?.char.pp}")
                               ],
                             ),
                           ],
                         ),
                         const Spacer(),
-                        returnLevel("${_user?.char?.level}"),
+                        returnLevel("${_user?.char.level}", collapse: true),
+                        // returnLevel("${_user?.char.level}"),
                       ],
                     ),
                   ),

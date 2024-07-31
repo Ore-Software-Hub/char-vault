@@ -1,8 +1,11 @@
 import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/create_character_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -12,9 +15,12 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
+  UserModel? _user;
+
   @override
   void initState() {
     super.initState();
+    _user = Provider.of<LoginProvider>(context, listen: false).userModel;
   }
 
   Widget userProfileCard() {
@@ -38,27 +44,31 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 borderRadius: BorderRadius.circular(50.0), // Raio da borda
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.asset(
-                  'assets/img/eu.jpg',
-                  width: 75.0,
-                  height: 75.0,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.network("${_user?.image}",
+                      width: 75.0,
+                      height: 75.0,
+                      fit: BoxFit.cover, errorBuilder: (BuildContext context,
+                          Object exception, StackTrace? stackTrace) {
+                    return const Text('😢');
+                  })),
             ),
             const SizedBox(
               width: 10,
             ),
-            const Column(
-              children: [
-                Text(
-                  "João Pedro",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    "${_user?.name}",
+                    maxLines: 2,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

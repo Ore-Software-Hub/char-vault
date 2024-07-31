@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
           stream: AuthService.userStream,
           builder: (context, snapshot) {
-            debugPrint(snapshot.connectionState.toString());
             // return snapshot.hasData ? const InitialPage() : const LandingPage();
             switch (snapshot.connectionState) {
               case ConnectionState.none:

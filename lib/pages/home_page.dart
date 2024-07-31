@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderComponent(),
+            const HeaderComponent(),
             Padding(
               padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
               child: Column(

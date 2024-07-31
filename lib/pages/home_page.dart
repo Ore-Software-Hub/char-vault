@@ -2,7 +2,10 @@ import 'package:CharVault/components/features_component.dart';
 import 'package:CharVault/components/bottomsheet/resistence_component.dart';
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/skills_component.dart';
+import 'package:CharVault/models/user_model.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,9 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UserModel? _user;
+
   @override
   void initState() {
     super.initState();
+    _user = Provider.of<LoginProvider>(context, listen: false).userModel;
   }
 
   @override
@@ -25,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HeaderComponent(user: null),
+            HeaderComponent(),
             Padding(
               padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
               child: Column(

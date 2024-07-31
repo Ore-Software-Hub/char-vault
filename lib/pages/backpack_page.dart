@@ -33,7 +33,7 @@ class _BackPackPageState extends State<BackPackPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderComponent(user: null, type: 1),
+            HeaderComponent(type: 1),
             Padding(
               padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(

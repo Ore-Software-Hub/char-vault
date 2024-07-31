@@ -1,6 +1,7 @@
 import 'package:CharVault/firebase_options.dart';
 import 'package:CharVault/pages/initial_page.dart';
 import 'package:CharVault/pages/landing_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/providers/theme_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +14,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ThemeProvider()),
+    ChangeNotifierProvider(create: (context) => LoginProvider()),
   ], child: const MyApp()));
 }
 

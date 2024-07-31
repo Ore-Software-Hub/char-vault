@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
 import 'package:CharVault/pages/backpack_page.dart';
 import 'package:CharVault/components/bottomsheet/dice_component.dart';
@@ -5,11 +7,14 @@ import 'package:CharVault/components/bottomsheet/notes_component.dart';
 import 'package:CharVault/pages/fight_page.dart';
 import 'package:CharVault/pages/home_page.dart';
 import 'package:CharVault/pages/profile_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
+import 'package:provider/provider.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
@@ -20,6 +25,7 @@ class InitialPage extends StatefulWidget {
 
 class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 0;
+  bool loading = true;
 
   List<Widget> tabs = [
     const HomePage(),
@@ -32,6 +38,24 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<LoginProvider>(context, listen: false).updateUser();
+
+    int duration = 1;
+    Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        if (duration == 0) {
+          setState(() {
+            timer.cancel();
+            loading = false;
+          });
+        } else {
+          setState(() {
+            duration--;
+          });
+        }
+      },
+    );
   }
 
   _onItemTapped(int index) {
@@ -44,7 +68,10 @@ class _InitialPageState extends State<InitialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SafeArea(child: tabs[_selectedIndex]),
+        child: loading
+            ? LoadingAnimationWidget.threeRotatingDots(
+                color: Theme.of(context).colorScheme.primary, size: 40)
+            : SafeArea(child: tabs[_selectedIndex]),
       ),
       floatingActionButton: SpeedDial(
         backgroundColor: cores.secondaryColor,

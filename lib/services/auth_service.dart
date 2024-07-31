@@ -1,8 +1,21 @@
+import 'package:CharVault/models/user_model.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
-class AuthService {
+class AuthService with ChangeNotifier {
   static final _auth = FirebaseAuth.instance;
+
+  UserModel? _user;
+
+  UserModel? get setUser => _user;
+
+  set setUser(UserModel? newUser) {
+    _user = newUser;
+    notifyListeners();
+  }
 
   static User? get user => _auth.currentUser;
 

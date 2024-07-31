@@ -1,9 +1,11 @@
-
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/models/user_model.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
     });
     try {
       await AuthService.signInWithGoogle();
-
       setState(() {
         _isLoading = false;
       });

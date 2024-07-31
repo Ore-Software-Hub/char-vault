@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HeaderComponent(user: null),
+            const HeaderComponent(),
             const Padding(
               padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(

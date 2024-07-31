@@ -34,7 +34,6 @@ class _FightPageState extends State<FightPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderComponent(
-              user: null,
               type: 1,
             ),
             Padding(

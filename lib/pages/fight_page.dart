@@ -1,6 +1,5 @@
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -33,7 +32,7 @@ class _FightPageState extends State<FightPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       extendBody: true,
       body: SingleChildScrollView(
         child: Column(
@@ -43,7 +42,7 @@ class _FightPageState extends State<FightPage> {
               user: null,
               type: 1,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +74,7 @@ class _FightPageState extends State<FightPage> {
                 ],
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

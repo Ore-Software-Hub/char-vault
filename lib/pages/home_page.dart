@@ -2,9 +2,7 @@ import 'package:CharVault/components/features_component.dart';
 import 'package:CharVault/components/bottomsheet/resistence_component.dart';
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/skills_component.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderComponent(user: null),
+            const HeaderComponent(user: null),
             Padding(
               padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
               child: Column(

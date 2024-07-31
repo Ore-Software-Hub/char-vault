@@ -1,6 +1,5 @@
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -33,14 +32,14 @@ class _BackPackPageState extends State<BackPackPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       extendBody: true,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderComponent(user: null, type: 1),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +71,7 @@ class _BackPackPageState extends State<BackPackPage> {
                 ],
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

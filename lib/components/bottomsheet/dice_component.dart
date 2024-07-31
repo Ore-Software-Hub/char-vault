@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:CharVault/components/roll_component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;

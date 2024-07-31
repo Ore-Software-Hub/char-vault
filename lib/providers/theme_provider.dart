@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
+import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class ThemeProvider with ChangeNotifier {
   ThemeData _themeData = ThemeData(

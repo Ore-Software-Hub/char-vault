@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'package:character_vault/components/roll_component.dart';
-import 'package:character_vault/helpers/notification_helper.dart';
+import 'package:CharVault/components/roll_component.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
+import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class DiceBottomSheetComponent extends StatefulWidget {
   const DiceBottomSheetComponent({super.key});

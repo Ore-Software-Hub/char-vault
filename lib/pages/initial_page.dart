@@ -1,15 +1,15 @@
-import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/pages/backpack_page.dart';
-import 'package:character_vault/components/bottomsheet/dice_component.dart';
-import 'package:character_vault/components/bottomsheet/notes_component.dart';
-import 'package:character_vault/pages/fight_page.dart';
-import 'package:character_vault/pages/home_page.dart';
-import 'package:character_vault/pages/profile_page.dart';
+import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/pages/backpack_page.dart';
+import 'package:CharVault/components/bottomsheet/dice_component.dart';
+import 'package:CharVault/components/bottomsheet/notes_component.dart';
+import 'package:CharVault/pages/fight_page.dart';
+import 'package:CharVault/pages/home_page.dart';
+import 'package:CharVault/pages/profile_page.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
+import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});

@@ -1,11 +1,11 @@
-import 'package:character_vault/components/bottomsheet/add_item_component.dart';
-import 'package:character_vault/components/button_component.dart';
-import 'package:character_vault/components/dropdown_component.dart';
-import 'package:character_vault/components/item_component.dart';
-import 'package:character_vault/components/skills_component.dart';
-import 'package:character_vault/components/text_field_component.dart';
+import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components/dropdown_component.dart';
+import 'package:CharVault/components/item_component.dart';
+import 'package:CharVault/components/skills_component.dart';
+import 'package:CharVault/components/text_field_component.dart';
 import 'package:flutter/material.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
+import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CreateCharacterPage extends StatefulWidget {

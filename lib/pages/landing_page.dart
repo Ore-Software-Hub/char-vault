@@ -1,5 +1,5 @@
-import 'package:character_vault/components/button_component.dart';
-import 'package:character_vault/pages/login_page.dart';
+import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatefulWidget {

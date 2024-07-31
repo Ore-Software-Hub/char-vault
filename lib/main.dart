@@ -1,10 +1,17 @@
-import 'package:character_vault/pages/initial_page.dart';
-import 'package:character_vault/providers/login_provider.dart';
-import 'package:character_vault/providers/theme_provider.dart';
+import 'package:CharVault/firebase_options.dart';
+import 'package:CharVault/pages/initial_page.dart';
+import 'package:CharVault/pages/landing_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/providers/theme_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ThemeProvider()),
     ChangeNotifierProvider(create: (context) => LoginProvider()),
@@ -23,7 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Character Vault',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const InitialPage(),
+      home: const LandingPage(),
     );
   }
 }

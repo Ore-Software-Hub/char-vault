@@ -1,4 +1,4 @@
-import 'package:character_vault/pages/create_character_page.dart';
+import 'package:CharVault/pages/create_character_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 

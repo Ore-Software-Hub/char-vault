@@ -1,5 +1,5 @@
-import 'package:character_vault/components/item_component.dart';
-import 'package:character_vault/pages/user_profile_page.dart';
+import 'package:CharVault/components/item_component.dart';
+import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -262,8 +262,7 @@ class _BackPackPageState extends State<BackPackPage> {
               ],
             ),
             const Padding(
-              padding:
-                  EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -295,8 +294,7 @@ class _BackPackPageState extends State<BackPackPage> {
               ),
             ),
             const Padding(
-              padding:
-                  EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

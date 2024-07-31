@@ -1,8 +1,8 @@
-name: character_vault
+name: CharVault
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -31,11 +31,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  phosphor_flutter: 
+  phosphor_flutter:
   curved_navigation_bar:
   dio: ^5.0.3
   loading_animation_widget: ^1.2.0+4
@@ -50,6 +49,8 @@ dependencies:
   flutter_svg:
   image_picker:
   image_cropper: ^5.0.1
+  firebase_core: ^2.24.2
+  google_sign_in:
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +68,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

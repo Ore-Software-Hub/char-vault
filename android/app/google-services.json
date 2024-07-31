@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386541822660",
+    "project_id": "char-vault",
+    "storage_bucket": "char-vault.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386541822660:android:378553fd61b4a006d4df91",
+        "android_client_info": {
+          "package_name": "com.oresoftware.CharVault"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOnVNm3oEI6WCVXJ5oP16AmCdkqga0gHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:character_vault/constants/cores.constants.dart' as cores;
+import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class FeaturesComponent extends StatefulWidget {
   const FeaturesComponent(

@@ -1,4 +1,4 @@
-import 'package:character_vault/components/button_component.dart';
+import 'package:CharVault/components/button_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -42,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SizedBox(
                     child: ButtonComponent(
-                        pressed: () {},
+                        pressed: () {
+                          
+                        },
                         icon: PhosphorIconsBold.googleLogo,
                         label: "Entrar com Google",
                         tipo: 1,

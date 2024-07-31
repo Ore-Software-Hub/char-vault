@@ -1,5 +1,5 @@
-import 'package:character_vault/components/details_component.dart';
-import 'package:character_vault/pages/user_profile_page.dart';
+import 'package:CharVault/components/details_component.dart';
+import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 

@@ -1,4 +1,4 @@
-import 'package:character_vault/components/skills_component.dart';
+import 'package:CharVault/components/skills_component.dart';
 import 'package:flutter/material.dart';
 
 class ResistenceBottomSheetComponent extends StatefulWidget {

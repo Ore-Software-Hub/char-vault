@@ -1,6 +1,6 @@
-import 'package:character_vault/components/dropdown_component.dart';
+import 'package:CharVault/components/dropdown_component.dart';
 import 'package:flutter/material.dart';
-import 'package:character_vault/constants/cores.constants.dart' as cores;
+import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class AddItemBottomSheetComponent extends StatefulWidget {
   const AddItemBottomSheetComponent({super.key, required this.editing});

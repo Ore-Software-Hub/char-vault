@@ -1,4 +1,4 @@
-package com.example.character_vault
+package com.oresoftware.CharVault
 
 import io.flutter.embedding.android.FlutterActivity
 

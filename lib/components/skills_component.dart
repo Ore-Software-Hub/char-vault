@@ -22,14 +22,6 @@ class _SkillsComponentState extends State<SkillsComponent> {
       child: Column(
         children: [
           Text(
-            widget.value,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-          const Divider(),
-          Text(
             widget.title,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -39,6 +31,14 @@ class _SkillsComponentState extends State<SkillsComponent> {
               fontSize: 14,
             ),
           ),
+          Text(
+            widget.value,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          const Divider(),
         ],
       ),
     );

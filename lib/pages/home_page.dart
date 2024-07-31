@@ -312,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       alignment: WrapAlignment.center,
                       spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
+                      runSpacing: 8.0, // Espaçamento vertical entre as linhas
                       children: [
                         SkillsComponent(title: "Acrobacia", value: "+2"),
                         SkillsComponent(title: "Arcanismo", value: "+2"),

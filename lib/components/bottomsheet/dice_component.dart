@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:character_vault/components/roll_component.dart';
+import 'package:character_vault/helpers/notification_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:character_vault/constants/cores.constants.dart' as cores;
@@ -27,9 +28,14 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
   addDice(int value) {
     String vals = "";
 
+    if (dices.length >= 4) {
+      return;
+    }
+
     setState(() {
       dices.add(value);
     });
+
     for (var i = 0; i < dices.length; i++) {
       var dice = dices[i];
       vals += "D${dice.toInt()}";
@@ -37,7 +43,7 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
         vals += " + ";
       }
     }
-    debugPrint(vals);
+
     setState(() {
       diceValues = vals;
       total = "";
@@ -186,6 +192,7 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
                     children: [
                       Text(
                         diceValues,
+                        maxLines: 2,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,

@@ -6,6 +6,7 @@ class DropdownComponent extends StatefulWidget {
     super.key,
     required this.onChanged,
     required this.items,
+    required this.value,
     this.hintText,
     this.backgroundColor = Colors.white,
     this.foregroundColor = cores.primaryColor,
@@ -16,6 +17,7 @@ class DropdownComponent extends StatefulWidget {
   final List<ItemDropdown> items;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final String value;
 
   @override
   State<DropdownComponent> createState() => _DropdownComponentState();
@@ -23,6 +25,12 @@ class DropdownComponent extends StatefulWidget {
 
 class _DropdownComponentState extends State<DropdownComponent> {
   String? selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = widget.value.isEmpty ? null : widget.value;
+  }
 
   @override
   Widget build(BuildContext context) {

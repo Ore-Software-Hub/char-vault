@@ -6,6 +6,7 @@ class TextFieldComponent extends StatefulWidget {
       {super.key,
       required this.label,
       required this.onChanged,
+      required this.value,
       this.color,
       this.maxlines = 1,
       this.keyboardType = TextInputType.text});
@@ -13,6 +14,7 @@ class TextFieldComponent extends StatefulWidget {
   final String label;
   final Color? color;
   final int? maxlines;
+  final String value;
   final Function(String) onChanged;
   final TextInputType keyboardType;
 
@@ -32,7 +34,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: widget.value);
   }
 
   textFieldDecoration(String title) {

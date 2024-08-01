@@ -1,8 +1,11 @@
 import 'package:CharVault/components/skills_component.dart';
+import 'package:CharVault/models/character_model.dart';
 import 'package:flutter/material.dart';
 
 class ResistenceBottomSheetComponent extends StatefulWidget {
-  const ResistenceBottomSheetComponent({super.key});
+  const ResistenceBottomSheetComponent({super.key, required this.savingThrows});
+
+  final List<FeatureDetails> savingThrows;
 
   @override
   _ResistenceBottomSheetComponentState createState() =>
@@ -25,10 +28,10 @@ class _ResistenceBottomSheetComponentState
       padding: const EdgeInsets.only(top: 16),
       height: sheetHeight,
       width: double.infinity,
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Teste de Resistência",
             style: TextStyle(
               fontSize: 16,
@@ -39,32 +42,12 @@ class _ResistenceBottomSheetComponentState
             alignment: WrapAlignment.center,
             spacing: 4.0, // Espaçamento horizontal entre os widgets
             runSpacing: 4.0, // Espaçamento vertical entre as linhas
-            children: [
-              SkillsComponent(
-                title: "Força",
-                value: "0",
-              ),
-              SkillsComponent(
-                title: "Destreza",
-                value: "+1",
-              ),
-              SkillsComponent(
-                title: "Constituição",
-                value: "+1",
-              ),
-              SkillsComponent(
-                title: "Inteligência",
-                value: "+2",
-              ),
-              SkillsComponent(
-                title: "Sabedoria",
-                value: "+4",
-              ),
-              SkillsComponent(
-                title: "Carisma",
-                value: "+4",
-              )
-            ],
+            children: widget.savingThrows.map<SkillsComponent>((feature) {
+              return SkillsComponent(
+                title: feature.title,
+                value: feature.modifier.toString(),
+              );
+            }).toList(),
           )
         ],
       ),

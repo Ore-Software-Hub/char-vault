@@ -22,6 +22,7 @@ class _DetailsComponentState extends State<DetailsComponent> {
       child: Column(
         children: [
           Text(
+            textAlign: TextAlign.center,
             widget.value,
             style: const TextStyle(
               fontWeight: FontWeight.bold,

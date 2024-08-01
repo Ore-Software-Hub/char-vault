@@ -10,6 +10,7 @@ class CharacterModel {
   String pb;
 
   CharacterDetails? details;
+  List<FeatureDetails>? savingThrows;
   List<FeatureDetails>? features;
   List<SkillDetails>? skills;
 
@@ -24,12 +25,13 @@ class CharacterModel {
       this.pp,
       this.pb,
       this.details,
+      this.savingThrows,
       this.features,
       this.skills);
 
   @override
   String toString() {
-    return "image $image, name $name, classe $classe, level $level, curLife $curLife, maxLife $maxLife, po $po, pp $pp, pb $pb";
+    return "image $image, name $name, classe $classe, level $level, curLife $curLife, maxLife $maxLife, po $po, pp $pp, pb $pb, details ${details.toString()}, features ${features.toString()}, savingThrows ${savingThrows.toString()}, skills ${skills.toString()},";
   }
 }
 
@@ -42,6 +44,11 @@ class CharacterDetails {
 
   CharacterDetails(
       this.age, this.race, this.background, this.alignment, this.backstory);
+
+  @override
+  String toString() {
+    return "age $age, race $race, background $background, alignment $alignment, backstory $backstory,";
+  }
 }
 
 class FeatureDetails {
@@ -50,6 +57,11 @@ class FeatureDetails {
   int modifier;
 
   FeatureDetails(this.title, this.value, this.modifier);
+
+  @override
+  String toString() {
+    return "title $title, value $value, modifier $modifier,";
+  }
 }
 
 class SkillDetails {
@@ -57,4 +69,9 @@ class SkillDetails {
   int value;
 
   SkillDetails(this.title, this.value);
+
+  @override
+  String toString() {
+    return "title $title, value $value,";
+  }
 }

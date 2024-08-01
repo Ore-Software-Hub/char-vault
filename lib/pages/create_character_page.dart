@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/components/bottomsheet/text_component.dart';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dropdown_component.dart';
 import 'package:CharVault/components/item_component.dart';
@@ -330,6 +331,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: TextFieldComponent(
+                    value: _name,
                     label: "Nome do personagem",
                     onChanged: (value) => {
                       setState(() {
@@ -347,6 +349,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: TextFieldComponent(
+                        value: _age,
                         label: "Idade",
                         keyboardType: TextInputType.number,
                         onChanged: (value) => {
@@ -359,6 +362,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: DropdownComponent(
+                        value: _race,
                         onChanged: (value) => {
                           setState(() {
                             _race = value!;
@@ -385,6 +389,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: TextFieldComponent(
+                        value: _background,
                         label: "Antecedente",
                         onChanged: (value) => {
                           setState(() {
@@ -396,6 +401,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: DropdownComponent(
+                        value: _alignment,
                         onChanged: (value) => {
                           setState(() {
                             _alignment = value!;
@@ -413,6 +419,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: TextFieldComponent(
+                    value: _backstory,
                     maxlines: 8,
                     label: "História sobre o personagem",
                     onChanged: (value) => {
@@ -477,6 +484,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.7,
                       child: DropdownComponent(
+                        value: _classe,
                         onChanged: (value) => {
                           setState(() {
                             _classe = value!;
@@ -489,6 +497,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
+                        value: _level,
                         label: "Nível",
                         keyboardType: TextInputType.number,
                         onChanged: (value) => {
@@ -500,14 +509,34 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     ),
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 5),
-                  child: Text(
-                    "Insira os valores da habilidades (15, 14, 13, 12, 10, 8)",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Insira os valores da habilidades",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => const TextBottomSheetComponent(
+                              textList: [
+                                "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
+                                "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
+                              ],
+                            ),
+                          );
+                        },
+                        icon: const PhosphorIcon(PhosphorIconsRegular.info),
+                      )
+                    ],
                   ),
                 ),
                 Wrap(
@@ -518,6 +547,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
                       child: TextFieldComponent(
+                        keyboardType: TextInputType.number,
+                        value: _strength,
                         label: "Força",
                         onChanged: (value) => {
                           setState(() {
@@ -529,6 +560,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
                       child: TextFieldComponent(
+                        keyboardType: TextInputType.number,
+                        value: _dexterity,
                         label: "Destreza",
                         onChanged: (value) => {
                           setState(() {
@@ -540,6 +573,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
                       child: TextFieldComponent(
+                        keyboardType: TextInputType.number,
+                        value: _constitution,
                         label: "Constituição",
                         onChanged: (value) => {
                           setState(() {
@@ -551,6 +586,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
                       child: TextFieldComponent(
+                        keyboardType: TextInputType.number,
+                        value: _intelligence,
                         label: "Inteligência",
                         onChanged: (value) => {
                           setState(() {
@@ -562,6 +599,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
                       child: TextFieldComponent(
+                        keyboardType: TextInputType.number,
+                        value: _wisdom,
                         label: "Sabedoria",
                         onChanged: (value) => {
                           setState(() {
@@ -573,6 +612,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
                       child: TextFieldComponent(
+                        keyboardType: TextInputType.number,
+                        value: _charisma,
                         label: "Carisma",
                         onChanged: (value) => {
                           setState(() {
@@ -818,15 +859,64 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     List<String> life = [];
 
     var classe = classes.firstWhere((classe) => classe.display == _classe);
-    var maxLife = classe.value + cons.modifier;
+    var maxLife = (classe.value + cons.modifier).toString();
     life.add(maxLife);
     life.add(maxLife);
 
     return life;
   }
 
+  int getProficiencyBonus(int level) {
+    if (level >= 1 && level <= 4) {
+      return 2;
+    } else if (level >= 5 && level <= 8) {
+      return 3;
+    } else if (level >= 9 && level <= 12) {
+      return 4;
+    } else if (level >= 13 && level <= 16) {
+      return 5;
+    } else if (level >= 17 && level <= 20) {
+      return 6;
+    } else {
+      return 0; // Valor padrão se o nível estiver fora do intervalo esperado
+    }
+  }
+
+  getSavingThrows(List<FeatureDetails> features) {
+    var classesProficiencies = {
+      'Bárbaro': ['Força', 'Constituição'],
+      'Bardo': ['Destreza', 'Carisma'],
+      'Bruxo': ['Sabedoria', 'Carisma'],
+      'Clérigo': ['Sabedoria', 'Carisma'],
+      'Druida': ['Inteligência', 'Sabedoria'],
+      'Feiticeiro': ['Constituição', 'Carisma'],
+      'Guerreiro': ['Força', 'Constituição'],
+      'Ladino': ['Destreza', 'Inteligência'],
+      'Mago': ['Inteligência', 'Sabedoria'],
+      'Paladino': ['Sabedoria', 'Carisma'],
+    };
+
+    var classe = classes.firstWhere((classe) => classe.display == _classe);
+
+    var proficiencies = classesProficiencies[classe.display]!;
+
+    List<FeatureDetails> savingThrows = [];
+
+    for (var feat in features) {
+      if (proficiencies.contains(feat.title)) {
+        var saving = FeatureDetails(feat.title, feat.value,
+            feat.modifier + getProficiencyBonus(int.parse(_level)));
+        savingThrows.add(saving);
+      } else {
+        savingThrows.add(feat);
+      }
+    }
+    return savingThrows;
+  }
+
   finishCharacter() async {
     changeStep(1);
+
     // var imgurl = await StorageService.upload(imageFile!.path, imageFile!);
     var details =
         CharacterDetails(_age, _race, _background, _alignment, _backstory);
@@ -848,6 +938,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       wisdom,
       charisma,
     ];
+
+    List<FeatureDetails> savingThrows = getSavingThrows(features);
 
     var skillStrength = createSkill(["Atletismo"], strength);
     var skillDex =
@@ -872,6 +964,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       ...skillChar
     ];
 
+    skills.sort((a, b) => a.title.compareTo(b.title));
+
     var life = getLife(constitution);
 
     var po = "0";
@@ -879,6 +973,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var pb = "0";
 
     _char = CharacterModel(
+        // TODO: pegar url que foi salvo no firebase
         "https://i.pinimg.com/originals/02/f2/a6/02f2a6f010ab7885a6324d4f426312e9.png",
         _name,
         _classe,
@@ -889,8 +984,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         pp,
         pb,
         details,
+        savingThrows,
         features,
         skills);
+
+    // TODO: salvar  _char no realtime database
+    debugPrint(_char.toString());
   }
 
   nextAvailable() {
@@ -921,7 +1020,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       };
     }
 
-    return changeStep(1);
+    return () {
+      changeStep(1);
+    };
   }
 
   @override

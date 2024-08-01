@@ -122,6 +122,7 @@ class _AddItemBottomSheetComponentState
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 2 - 20,
                   child: DropdownComponent(
+                    value: "",
                     onChanged: (value) {},
                     hintText: "Tipo",
                     items: [

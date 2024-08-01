@@ -526,7 +526,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            builder: (context) => const TextBottomSheetComponent(
+                            builder: (context) =>
+                                const TextBottomSheetComponent(
                               textList: [
                                 "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
                                 "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
@@ -813,36 +814,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
   }
 
-  createFeature(String title, int value) {
-    var modifier = 0;
-
-    if (value >= 20) {
-      modifier = 5;
-    } else if (value >= 18) {
-      modifier = 4;
-    } else if (value >= 16) {
-      modifier = 3;
-    } else if (value >= 14) {
-      modifier = 2;
-    } else if (value >= 12) {
-      modifier = 1;
-    } else if (value >= 10) {
-      modifier = 0;
-    } else if (value >= 8) {
-      modifier = -1;
-    } else if (value >= 6) {
-      modifier = -2;
-    } else if (value >= 4) {
-      modifier = -3;
-    } else if (value >= 2) {
-      modifier = -4;
-    } else {
-      modifier = -5;
-    }
-
-    return FeatureDetails(title, value, modifier);
-  }
-
   List<SkillDetails> createSkill(List<String> items, FeatureDetails feature) {
     List<SkillDetails> result = [];
 
@@ -921,14 +892,22 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var details =
         CharacterDetails(_age, _race, _background, _alignment, _backstory);
 
-    var strength = createFeature("Força", int.tryParse(_strength)!);
-    var dexterity = createFeature("Destreza", int.tryParse(_dexterity)!);
-    var constitution =
-        createFeature("Constituição", int.tryParse(_constitution)!);
-    var intelligence =
-        createFeature("Inteligência", int.tryParse(_intelligence)!);
-    var wisdom = createFeature("Sabedoria", int.tryParse(_wisdom)!);
-    var charisma = createFeature("Carisma", int.tryParse(_charisma)!);
+    var strength = FeatureDetails("Força", int.tryParse(_strength)!,
+        ((int.tryParse(_strength)! - 10) / 2).floor());
+    var dexterity = FeatureDetails("Destreza", int.tryParse(_dexterity)!,
+        ((int.tryParse(_dexterity)! - 10) / 2).floor());
+    var constitution = FeatureDetails(
+        "Constituição",
+        int.tryParse(_constitution)!,
+        ((int.tryParse(_constitution)! - 10) / 2).floor());
+    var intelligence = FeatureDetails(
+        "Inteligência",
+        int.tryParse(_intelligence)!,
+        ((int.tryParse(_intelligence)! - 10) / 2).floor());
+    var wisdom = FeatureDetails("Sabedoria", int.tryParse(_wisdom)!,
+        ((int.tryParse(_wisdom)! - 10) / 2).floor());
+    var charisma = FeatureDetails("Carisma", int.tryParse(_charisma)!,
+        ((int.tryParse(_charisma)! - 10) / 2).floor());
 
     List<FeatureDetails> features = [
       strength,

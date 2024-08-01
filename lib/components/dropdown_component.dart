@@ -5,7 +5,7 @@ class DropdownComponent extends StatefulWidget {
   const DropdownComponent({
     super.key,
     required this.onChanged,
-    this.items = const ["Armadura", "Ferramenta", "Arma", "Magia"],
+    required this.items,
     this.hintText,
     this.backgroundColor = Colors.white,
     this.foregroundColor = cores.primaryColor,
@@ -13,7 +13,7 @@ class DropdownComponent extends StatefulWidget {
 
   final Function(String?)? onChanged;
   final String? hintText;
-  final List<String> items;
+  final List<ItemDropdown> items;
   final Color? backgroundColor;
   final Color? foregroundColor;
 
@@ -38,11 +38,11 @@ class _DropdownComponentState extends State<DropdownComponent> {
         });
         widget.onChanged!(newValue); // Chama a função de callback
       },
-      items: widget.items.map<DropdownMenuItem<String>>((String value) {
+      items: widget.items.map<DropdownMenuItem<String>>((ItemDropdown obj) {
         return DropdownMenuItem<String>(
-          value: value,
+          value: obj.display,
           child: Text(
-            value,
+            obj.display,
           ),
         );
       }).toList(),
@@ -65,4 +65,11 @@ class _DropdownComponentState extends State<DropdownComponent> {
       icon: Icon(Icons.arrow_drop_down, color: widget.foregroundColor!),
     );
   }
+}
+
+class ItemDropdown {
+  final String display;
+  final dynamic value;
+
+  ItemDropdown({required this.display, required this.value});
 }

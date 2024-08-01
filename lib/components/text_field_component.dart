@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldComponent extends StatefulWidget {
-  const TextFieldComponent({super.key, required this.label, this.color, this.maxlines = 1});
+  const TextFieldComponent(
+      {super.key,
+      required this.label,
+      required this.onChanged,
+      this.color,
+      this.maxlines = 1,
+      this.keyboardType = TextInputType.text});
 
   final String label;
   final Color? color;
   final int? maxlines;
+  final Function(String) onChanged;
+  final TextInputType keyboardType;
 
   @override
   State<TextFieldComponent> createState() => _TextFieldComponentState();
@@ -70,6 +79,13 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
+      keyboardType: widget.keyboardType,
+      inputFormatters: widget.keyboardType == TextInputType.number
+          ? [FilteringTextInputFormatter.digitsOnly]
+          : null,
+      onChanged: (value) {
+        widget.onChanged(value);
+      },
       style: TextStyle(
         color: widget.color != null
             ? widget.color!

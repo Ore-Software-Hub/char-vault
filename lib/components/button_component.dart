@@ -13,7 +13,7 @@ class ButtonComponent extends StatefulWidget {
       this.loading = false,
       this.color = cores.primaryColor});
 
-  final VoidCallback pressed;
+  final Function()? pressed;
   final int tipo;
 
   final PhosphorFlatIconData? icon;
@@ -56,7 +56,7 @@ class _ButtonComponentState extends State<ButtonComponent> {
     if (widget.tipo == 0) {
       return IconButton(
         style: buttonStyle(),
-        onPressed: widget.pressed,
+        onPressed: widget.pressed!,
         icon: PhosphorIcon(widget.icon!),
       );
     }

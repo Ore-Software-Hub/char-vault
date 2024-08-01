@@ -6,7 +6,8 @@ import 'package:CharVault/components/dropdown_component.dart';
 import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/components/text_field_component.dart';
-import 'package:CharVault/services/storage_service.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/models/character_model.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
@@ -28,6 +29,51 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   final imagePicker = ImagePicker();
   File? imageFile;
   bool removeImage = false;
+
+  List<ItemDropdown> classes = [
+    ItemDropdown(display: "Bárbaro", value: 12),
+    ItemDropdown(display: "Bardo", value: 8),
+    ItemDropdown(display: "Bruxo", value: 8),
+    ItemDropdown(display: "Clérigo", value: 8),
+    ItemDropdown(display: "Druida", value: 8),
+    ItemDropdown(display: "Feiticeiro", value: 6),
+    ItemDropdown(display: "Guerreiro", value: 10),
+    ItemDropdown(display: "Ladino", value: 8),
+    ItemDropdown(display: "Mago", value: 6),
+    ItemDropdown(display: "Paladino", value: 10),
+  ];
+
+  List<ItemDropdown> alignments = [
+    ItemDropdown(display: "Legal Bom", value: 0),
+    ItemDropdown(display: "Legal Mau", value: 0),
+    ItemDropdown(display: "Legal Neutro", value: 0),
+    ItemDropdown(display: "Neutro Bom", value: 0),
+    ItemDropdown(display: "Neutro", value: 0),
+    ItemDropdown(display: "Neutro Mau", value: 0),
+    ItemDropdown(display: "Caótico Neutro", value: 0),
+    ItemDropdown(display: "Caótico Bom", value: 0),
+    ItemDropdown(display: "Caótico Mau", value: 0),
+  ];
+
+  // Step 1
+  String _name = "";
+  String _age = "";
+  String _race = "";
+  String _background = "";
+  String _alignment = "";
+  String _backstory = "";
+
+  // Step 2
+  String _classe = "";
+  String _level = "";
+  String _strength = "";
+  String _dexterity = "";
+  String _constitution = "";
+  String _intelligence = "";
+  String _wisdom = "";
+  String _charisma = "";
+
+  CharacterModel? _char;
 
   @override
   void initState() {
@@ -221,54 +267,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           children: [
             Row(
               children: [
-                // Stack(
-                //   clipBehavior: Clip.none,
-                //   alignment: AlignmentDirectional.center,
-                //   children: [
-                //     Container(
-                //       width: 100,
-                //       height: 100,
-                //       decoration: BoxDecoration(
-                //         color: cores.gray,
-                //         borderRadius: BorderRadius.circular(50),
-                //       ),
-                //       child: Container(
-                //         padding: const EdgeInsets.all(2),
-                //         child: ClipRRect(
-                //           borderRadius: BorderRadius.circular(50),
-                //           child: Image.asset(
-                //             'assets/img/eu.jpg',
-                //             width: 75.0,
-                //             height: 75.0,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     Positioned(
-                //       bottom: 0,
-                //       right: 0,
-                //       child: Container(
-                //         width: 30,
-                //         height: 30,
-                //         decoration: BoxDecoration(
-                //           color: cores.primaryColor,
-                //           borderRadius: BorderRadius.circular(50),
-                //         ),
-                //         child: Container(
-                //           alignment: AlignmentDirectional.center,
-                //           child: IconButton(
-                //             onPressed: () {},
-                //             icon: const PhosphorIcon(
-                //               PhosphorIconsBold.plus,
-                //               color: Colors.white,
-                //               size: 15,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 Stack(
                   children: [
                     Container(
@@ -278,7 +276,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         border: Border.all(
                             width: 5,
                             color: Theme.of(context).colorScheme.surface),
-                        borderRadius: BorderRadius.circular(100), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(10), //<-- SEE HERE
                       ),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(
@@ -289,8 +287,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            shape: BoxShape.circle),
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius:
+                              BorderRadius.circular(10), //<-- SEE HERE
+                        ),
                         child: IconButton(
                             onPressed: () {
                               selectImage();
@@ -329,8 +329,13 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  child: const TextFieldComponent(
+                  child: TextFieldComponent(
                     label: "Nome do personagem",
+                    onChanged: (value) => {
+                      setState(() {
+                        _name = value;
+                      })
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -341,16 +346,32 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Idade",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _age = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: DropdownComponent(
-                        onChanged: (value) {},
+                        onChanged: (value) => {
+                          setState(() {
+                            _race = value!;
+                          })
+                        },
                         hintText: "Raça",
-                        items: const ["Humano", "Anão", "Elfo", "Orc", "Gnomo"],
+                        items: [
+                          ItemDropdown(display: "Humano", value: 0),
+                          ItemDropdown(display: "Anão", value: 0),
+                          ItemDropdown(display: "Elfo", value: 0),
+                          ItemDropdown(display: "Orc", value: 0),
+                          ItemDropdown(display: "Gnomo", value: 0)
+                        ],
                       ),
                     )
                   ],
@@ -363,26 +384,25 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Antecedente",
+                        onChanged: (value) => {
+                          setState(() {
+                            _background = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: DropdownComponent(
-                        onChanged: (value) {},
+                        onChanged: (value) => {
+                          setState(() {
+                            _alignment = value!;
+                          })
+                        },
                         hintText: "Ética",
-                        items: const [
-                          "Legal Bom",
-                          "Legal Mau",
-                          "Legal Neutro",
-                          "Neutro Bom",
-                          "Neutro",
-                          "Neutro Mau",
-                          "Caótico Neutro",
-                          "Caótico Bom",
-                          "Caótico Mau"
-                        ],
+                        items: alignments,
                       ),
                     )
                   ],
@@ -392,9 +412,14 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  child: const TextFieldComponent(
+                  child: TextFieldComponent(
                     maxlines: 8,
                     label: "História sobre o personagem",
+                    onChanged: (value) => {
+                      setState(() {
+                        _backstory = value;
+                      })
+                    },
                   ),
                 ),
               ],
@@ -452,28 +477,25 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.7,
                       child: DropdownComponent(
-                        onChanged: (value) {},
+                        onChanged: (value) => {
+                          setState(() {
+                            _classe = value!;
+                          })
+                        },
                         hintText: "Classe",
-                        items: const [
-                          "Bárbaro",
-                          "Bardo",
-                          "Clérigo",
-                          "Druida",
-                          "Guerreiro",
-                          "Monge",
-                          "Paladino",
-                          "Patrulheiro",
-                          "Ladino",
-                          "Feiticeiro",
-                          "Bruxo",
-                          "Mago"
-                        ],
+                        items: classes,
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
-                      child: const TextFieldComponent(
-                        label: "Idade",
+                      child: TextFieldComponent(
+                        label: "Nível",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _level = value;
+                          })
+                        },
                       ),
                     ),
                   ],
@@ -495,38 +517,68 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Força",
+                        onChanged: (value) => {
+                          setState(() {
+                            _strength = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Destreza",
+                        onChanged: (value) => {
+                          setState(() {
+                            _dexterity = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Constituição",
+                        onChanged: (value) => {
+                          setState(() {
+                            _constitution = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Inteligência",
+                        onChanged: (value) => {
+                          setState(() {
+                            _intelligence = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Sabedoria",
+                        onChanged: (value) => {
+                          setState(() {
+                            _wisdom = value;
+                          })
+                        },
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 4,
-                      child: const TextFieldComponent(
+                      child: TextFieldComponent(
                         label: "Carisma",
+                        onChanged: (value) => {
+                          setState(() {
+                            _charisma = value;
+                          })
+                        },
                       ),
                     )
                   ],
@@ -720,10 +772,156 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
   }
 
+  createFeature(String title, int value) {
+    var modifier = 0;
+
+    if (value >= 20) {
+      modifier = 5;
+    } else if (value >= 18) {
+      modifier = 4;
+    } else if (value >= 16) {
+      modifier = 3;
+    } else if (value >= 14) {
+      modifier = 2;
+    } else if (value >= 12) {
+      modifier = 1;
+    } else if (value >= 10) {
+      modifier = 0;
+    } else if (value >= 8) {
+      modifier = -1;
+    } else if (value >= 6) {
+      modifier = -2;
+    } else if (value >= 4) {
+      modifier = -3;
+    } else if (value >= 2) {
+      modifier = -4;
+    } else {
+      modifier = -5;
+    }
+
+    return FeatureDetails(title, value, modifier);
+  }
+
+  List<SkillDetails> createSkill(List<String> items, FeatureDetails feature) {
+    List<SkillDetails> result = [];
+
+    for (var item in items) {
+      var skill = SkillDetails(item, feature.modifier);
+
+      result.add(skill);
+    }
+
+    return result;
+  }
+
+  getLife(FeatureDetails cons) {
+    List<String> life = [];
+
+    var classe = classes.firstWhere((classe) => classe.display == _classe);
+    var maxLife = classe.value + cons.modifier;
+    life.add(maxLife);
+    life.add(maxLife);
+
+    return life;
+  }
+
   finishCharacter() async {
     changeStep(1);
-    var imgurl = await StorageService.upload(imageFile!.path, imageFile!);
-    debugPrint(imgurl);
+    // var imgurl = await StorageService.upload(imageFile!.path, imageFile!);
+    var details =
+        CharacterDetails(_age, _race, _background, _alignment, _backstory);
+
+    var strength = createFeature("Força", int.tryParse(_strength)!);
+    var dexterity = createFeature("Destreza", int.tryParse(_dexterity)!);
+    var constitution =
+        createFeature("Constituição", int.tryParse(_constitution)!);
+    var intelligence =
+        createFeature("Inteligência", int.tryParse(_intelligence)!);
+    var wisdom = createFeature("Sabedoria", int.tryParse(_wisdom)!);
+    var charisma = createFeature("Carisma", int.tryParse(_charisma)!);
+
+    List<FeatureDetails> features = [
+      strength,
+      dexterity,
+      constitution,
+      intelligence,
+      wisdom,
+      charisma,
+    ];
+
+    var skillStrength = createSkill(["Atletismo"], strength);
+    var skillDex =
+        createSkill(["Acrobacia", "Furtividade", "Prestidigitação"], dexterity);
+    var skillIntel = createSkill(
+        ["Arcanismo", "Investigação", "Natureza", "Religião"], intelligence);
+    var skillWis = createSkill([
+      "Intuição",
+      "Lidar com Animais",
+      "Medicina",
+      "Percepção",
+      "Sobrevivência"
+    ], wisdom);
+    var skillChar = createSkill(
+        ["Atuação", "Enganação", "Intimidação", "Persuasão"], charisma);
+
+    var skills = [
+      ...skillStrength,
+      ...skillDex,
+      ...skillIntel,
+      ...skillWis,
+      ...skillChar
+    ];
+
+    var life = getLife(constitution);
+
+    var po = "0";
+    var pp = "0";
+    var pb = "0";
+
+    _char = CharacterModel(
+        "https://i.pinimg.com/originals/02/f2/a6/02f2a6f010ab7885a6324d4f426312e9.png",
+        _name,
+        _classe,
+        _level,
+        life[0],
+        life[1],
+        po,
+        pp,
+        pb,
+        details,
+        features,
+        skills);
+  }
+
+  nextAvailable() {
+    if (step == 1 &&
+        (_name.isEmpty ||
+            _age.isEmpty ||
+            _race.isEmpty ||
+            _background.isEmpty ||
+            _alignment.isEmpty)) {
+      return () {
+        NotificationHelper.showSnackBar(
+            context, "Preencha todos os campos para prosseguir");
+      };
+    }
+
+    if (step == 2 &&
+        (_classe.isEmpty ||
+            _level.isEmpty ||
+            _strength.isEmpty ||
+            _dexterity.isEmpty ||
+            _constitution.isEmpty ||
+            _intelligence.isEmpty ||
+            _wisdom.isEmpty ||
+            _charisma.isEmpty)) {
+      return () {
+        NotificationHelper.showSnackBar(
+            context, "Preencha todos os campos para prosseguir");
+      };
+    }
+
+    return changeStep(1);
   }
 
   @override
@@ -815,9 +1013,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             if (step < 3)
               ButtonComponent(
                 label: "Próximo",
-                pressed: () {
-                  changeStep(1);
-                },
+                pressed: nextAvailable(),
               ),
             if (step == 3)
               ButtonComponent(

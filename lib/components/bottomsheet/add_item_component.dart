@@ -124,6 +124,12 @@ class _AddItemBottomSheetComponentState
                   child: DropdownComponent(
                     onChanged: (value) {},
                     hintText: "Tipo",
+                    items: [
+                      ItemDropdown(display: "Armadura", value: 0),
+                      ItemDropdown(display: "Ferramenta", value: 0),
+                      ItemDropdown(display: "Arma", value: 0),
+                      ItemDropdown(display: "Magia", value: 0),
+                    ],
                     foregroundColor: Colors.white,
                     backgroundColor: cores.secondaryColor,
                   ),

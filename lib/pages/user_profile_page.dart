@@ -57,9 +57,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
     setState(() {
       loadingChars = true;
     });
-    var _chars = await DatabaseService.getUserCharacters(_user!.id);
+    var charsLoaded = await DatabaseService.getUserCharacters(_user!.id);
     setState(() {
-      chars = _chars;
+      chars = charsLoaded;
       loadingChars = false;
     });
   }

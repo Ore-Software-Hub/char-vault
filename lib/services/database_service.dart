@@ -24,6 +24,10 @@ class DatabaseService {
           newCharacter
               .toMap()); // Salvando o personagem na coleção de personagens
 
+      newCharacter.id = charId;
+
+      await updateCharacter(charId, newCharacter.toMap());
+
       var userCharsRef = _database.ref(
           'Users/$userId/chars'); // Referência ao nó de personagens do usuário
 

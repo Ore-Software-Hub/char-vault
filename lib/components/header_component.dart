@@ -1,7 +1,10 @@
+import 'package:CharVault/components/bottomsheet/edit_life_component%20copy.dart';
+import 'package:CharVault/components/bottomsheet/edit_money_component%20copy%202.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -95,53 +98,102 @@ class _HeaderComponentState extends State<HeaderComponent> {
   }
 
   returnMoney(String po, String pp, String pb) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Row(
-            children: [
-              const PhosphorIcon(PhosphorIconsRegular.coin,
-                  color: Colors.amber),
-              returnText(po, FontWeight.w300, 16),
-            ],
+    return InkWell(
+      onTap: () async {
+        final newLifeVal = await showModalBottomSheet<String>(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          showDragHandle: true,
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => EditMoneyBottomSheetComponent(
+            char: _char!,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Row(
-            children: [
-              const PhosphorIcon(PhosphorIconsRegular.coin,
-                  color: Colors.white70),
-              returnText(pp, FontWeight.w300, 16),
-            ],
+        );
+
+        _char!.curLife = newLifeVal!;
+
+        Provider.of<LoginProvider>(context, listen: false)
+            .updateUser(char: _char);
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Row(
+              children: [
+                const PhosphorIcon(PhosphorIconsRegular.coin,
+                    color: Colors.amber),
+                const SizedBox(
+                  width: 5,
+                ),
+                returnText(po, FontWeight.w300, 16),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Row(
-            children: [
-              const PhosphorIcon(PhosphorIconsRegular.coin,
-                  color: Color.fromARGB(255, 189, 86, 49)),
-              returnText(pb, FontWeight.w300, 16),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Row(
+              children: [
+                const PhosphorIcon(PhosphorIconsRegular.coin,
+                    color: Colors.white70),
+                const SizedBox(
+                  width: 5,
+                ),
+                returnText(pp, FontWeight.w300, 16),
+              ],
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Row(
+              children: [
+                const PhosphorIcon(PhosphorIconsRegular.coin,
+                    color: Color.fromARGB(255, 189, 86, 49)),
+                const SizedBox(
+                  width: 5,
+                ),
+                returnText(pb, FontWeight.w300, 16),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   returnLife(String cur, String max) {
-    return Row(
-      children: [
-        const PhosphorIcon(
-          PhosphorIconsRegular.heart,
-          color: Colors.white,
-          size: 24,
-        ),
-        returnText("$cur/", FontWeight.bold, 16),
-        returnText(max, FontWeight.w100, 16),
-      ],
+    return InkWell(
+      onTap: () async {
+        final newLifeVal = await showModalBottomSheet<String>(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          showDragHandle: true,
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => EditLifeBottomSheetComponent(
+            curLife: _char!.curLife,
+          ),
+        );
+        setState(() {
+          _char!.curLife = newLifeVal!;
+          Provider.of<LoginProvider>(context, listen: false)
+              .updateUser(char: _char);
+        });
+        await DatabaseService.updateCharacter(_char!.id, _char!.toMap());
+      },
+      child: Row(
+        children: [
+          const PhosphorIcon(
+            PhosphorIconsRegular.heart,
+            color: Colors.white,
+            size: 24,
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          returnText("$cur/", FontWeight.bold, 16),
+          returnText(max, FontWeight.w100, 16),
+        ],
+      ),
     );
   }
 
@@ -201,7 +253,14 @@ class _HeaderComponentState extends State<HeaderComponent> {
                     returnText("${_char?.classe}", FontWeight.w100, 24),
                     // returnLevel("${_char?.level}"),
                     returnLevel("${_char?.level}"),
+
+                    const SizedBox(
+                      height: 5,
+                    ),
                     returnLife("${_char?.curLife}", "${_char?.maxLife}"),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     returnMoney("${_char?.po}", "${_char?.pb}", "${_char?.pp}")
                   ],
                 ),
@@ -232,9 +291,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
             clipBehavior: Clip.none,
             children: [
               // Gradiente de fundo
-              backgroundGradient(MediaQuery.of(context).size.height / 4),
+              backgroundGradient(MediaQuery.of(context).size.height / 3.5),
               Positioned(
-                bottom: 0,
                 child: SizedBox(
                   height: 130,
                   width: MediaQuery.of(context).size.width,

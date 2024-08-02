@@ -819,8 +819,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     List<String> life = [];
     var classe = classes.firstWhere((classe) => classe.display == _classe);
 
-    var maxLife =
-        CharacterModel.calculateLife(classe.value, int.parse(_level), cons.modifier);
+    var maxLife = CharacterModel.calculateLife(
+        classe.value, int.parse(_level), cons.modifier);
 
     life.add(maxLife);
     life.add(maxLife);
@@ -944,8 +944,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var pp = "0";
     var pb = "0";
 
-    _char = CharacterModel(imgurl, _name, _classe, _level, life[0], life[1], po,
-        pp, pb, details, savingThrows, features, skills);
+    _char = CharacterModel("", imgurl, _name, _classe, _level, life[0], life[1],
+        po, pp, pb, details, savingThrows, features, skills);
 
     var added = await DatabaseService.addCharacter(user.id, _char!);
 

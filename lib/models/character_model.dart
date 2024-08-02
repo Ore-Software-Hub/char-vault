@@ -1,6 +1,5 @@
-import 'package:CharVault/components/dropdown_component.dart';
-
 class CharacterModel {
+  String id;
   String image;
   String name;
   String classe;
@@ -17,6 +16,7 @@ class CharacterModel {
   List<SkillDetails>? skills;
 
   CharacterModel(
+      this.id,
       this.image,
       this.name,
       this.classe,
@@ -33,6 +33,7 @@ class CharacterModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'image': image,
       'name': name,
       'classe': classe,
@@ -51,6 +52,7 @@ class CharacterModel {
 
   factory CharacterModel.fromMap(Map<dynamic, dynamic> map) {
     return CharacterModel(
+      map['id'] ?? '',
       map['image'] ?? '',
       map['name'] ?? '',
       map['classe'] ?? '',

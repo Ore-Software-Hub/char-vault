@@ -64,7 +64,7 @@ class LoginProvider with ChangeNotifier {
         skills);
 
     UserModel newUserModel =
-        UserModel(curUser!.photoURL!, curUser.displayName!, char);
+        UserModel(curUser!.uid, curUser!.photoURL!, curUser.displayName!, char);
     userModel = newUserModel;
   }
 }

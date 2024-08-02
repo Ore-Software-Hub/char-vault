@@ -1,3 +1,4 @@
+import 'package:CharVault/models/character_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class DatabaseService {
@@ -15,18 +16,20 @@ class DatabaseService {
   }
 
   /// Método para adicionar um personagem a um usuário
-  static Future<void> addCharacter(String userId, dynamic newCharacter) async {
-    String charId = await saveData('Chars',
-        newCharacter); // Salvando o personagem na coleção de personagens
+static Future<bool> addCharacter(String userId, CharacterModel newCharacter) async {
+  try {
+    String charId = await saveData('Chars', newCharacter.toMap()); // Salvando o personagem na coleção de personagens
 
-    var userCharsRef = _database.ref(
-        'Users/$userId/chars'); // Referência ao nó de personagens do usuário
+    var userCharsRef = _database.ref('Users/$userId/chars'); // Referência ao nó de personagens do usuário
 
-    await userCharsRef
-        .child(charId)
-        .set(true); // Adicionando a referência ao personagem no nó do usuário
+    await userCharsRef.child(charId).set(true); // Adicionando a referência ao personagem no nó do usuário
+
+    return true; // Confirmação de que foi salvo com sucesso
+  } catch (e) {
+    print('Erro ao salvar o personagem: $e');
+    return false; // Retorna false em caso de erro
   }
-
+}
   /// Método para deletar um personagem de um usuário
   static Future<void> deleteCharacter(String userId, String charId) async {
     var userCharsRef = _database.ref(

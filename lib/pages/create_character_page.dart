@@ -9,12 +9,17 @@ import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/components/text_field_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/pages/login_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
+import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CreateCharacterPage extends StatefulWidget {
   const CreateCharacterPage({super.key});
@@ -109,7 +114,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   Widget getImage() {
-    if (removeImage) {
+    if (removeImage || imageFile == null) {
       return Image.asset(
         'assets/img/profile_icon.png', // Replace with your image URL
         width: 100.0,
@@ -117,22 +122,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       );
     }
 
-    if (imageFile != null) {
-      return Image.file(
-        File(imageFile!.path), // Replace with your image URL
-        width: 100.0,
-        height: 100.0, // Adiciona uma chave única baseada no caminho do arquivo
-      );
-    }
-
-    return Image.network(
-        "user?.profile?.picture", // Replace with your image URL
-        width: 100.0,
-        height: 100.0,
-        fit: BoxFit.cover, errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-      return const Text('😢');
-    });
+    return Image.file(
+      File(imageFile!.path), // Replace with your image URL
+      width: 100.0,
+      height: 100.0, // Adiciona uma chave única baseada no caminho do arquivo
+    );
   }
 
   cropImage() async {
@@ -887,8 +881,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   finishCharacter() async {
     changeStep(1);
+    var user = Provider.of<LoginProvider>(context, listen: false).userModel;
 
-    // var imgurl = await StorageService.upload(imageFile!.path, imageFile!);
+    var imgurl = await StorageService.uploadUserImage(user!.id, imageFile!);
+
     var details =
         CharacterDetails(_age, _race, _background, _alignment, _backstory);
 
@@ -951,24 +947,13 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var pp = "0";
     var pb = "0";
 
-    _char = CharacterModel(
-        // TODO: pegar url que foi salvo no firebase
-        "https://i.pinimg.com/originals/02/f2/a6/02f2a6f010ab7885a6324d4f426312e9.png",
-        _name,
-        _classe,
-        _level,
-        life[0],
-        life[1],
-        po,
-        pp,
-        pb,
-        details,
-        savingThrows,
-        features,
-        skills);
+    _char = CharacterModel(imgurl, _name, _classe, _level, life[0], life[1], po,
+        pp, pb, details, savingThrows, features, skills);
 
-    // TODO: salvar  _char no realtime database
-    debugPrint(_char.toString());
+    var added = await DatabaseService.addCharacter(user.id, _char!);
+
+    NotificationHelper.showSnackBar(
+        context, added ? "Personagem adicionado!" : "Ocorreu um erro");
   }
 
   nextAvailable() {
@@ -977,7 +962,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             _age.isEmpty ||
             _race.isEmpty ||
             _background.isEmpty ||
-            _alignment.isEmpty)) {
+            _alignment.isEmpty ||
+            imageFile == null)) {
       return () {
         NotificationHelper.showSnackBar(
             context, "Preencha todos os campos para prosseguir");

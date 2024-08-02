@@ -100,7 +100,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
   returnMoney(String po, String pp, String pb) {
     return InkWell(
       onTap: () async {
-        final newLifeVal = await showModalBottomSheet<String>(
+        final newMoney = await showModalBottomSheet<List<String>>(
           backgroundColor: Theme.of(context).colorScheme.secondary,
           showDragHandle: true,
           context: context,
@@ -110,10 +110,16 @@ class _HeaderComponentState extends State<HeaderComponent> {
           ),
         );
 
-        _char!.curLife = newLifeVal!;
-
-        Provider.of<LoginProvider>(context, listen: false)
-            .updateUser(char: _char);
+        if (newMoney != null) {
+          setState(() {
+            _char!.po = newMoney[0];
+            _char!.pp = newMoney[1];
+            _char!.pb = newMoney[2];
+            Provider.of<LoginProvider>(context, listen: false)
+                .updateUser(char: _char);
+          });
+          await DatabaseService.updateCharacter(_char!.id, _char!.toMap());
+        }
       },
       child: Row(
         children: [
@@ -173,12 +179,15 @@ class _HeaderComponentState extends State<HeaderComponent> {
             curLife: _char!.curLife,
           ),
         );
-        setState(() {
-          _char!.curLife = newLifeVal!;
-          Provider.of<LoginProvider>(context, listen: false)
-              .updateUser(char: _char);
-        });
-        await DatabaseService.updateCharacter(_char!.id, _char!.toMap());
+
+        if (newLifeVal != null) {
+          setState(() {
+            _char!.curLife = newLifeVal;
+            Provider.of<LoginProvider>(context, listen: false)
+                .updateUser(char: _char);
+          });
+          await DatabaseService.updateCharacter(_char!.id, _char!.toMap());
+        }
       },
       child: Row(
         children: [

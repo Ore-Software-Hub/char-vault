@@ -1,7 +1,5 @@
-import 'package:CharVault/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
-import 'package:provider/provider.dart';
 
 class EditLifeBottomSheetComponent extends StatefulWidget {
   const EditLifeBottomSheetComponent({super.key, required this.curLife});

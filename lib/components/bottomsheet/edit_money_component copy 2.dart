@@ -180,9 +180,17 @@ class _EditMoneyBottomSheetComponentState
                           const WidgetStatePropertyAll(Colors.white),
                       backgroundColor:
                           const WidgetStatePropertyAll(cores.primaryColor)),
-                  onPressed: () {
-                    Navigator.pop(context,);
-                  },
+                  onPressed: _controllerGold.text.isEmpty ||
+                          _controllerSilver.text.isEmpty ||
+                          _controllerBronze.text.isEmpty
+                      ? null
+                      : () {
+                          var po = _controllerGold.text;
+                          var pp = _controllerSilver.text;
+                          var pb = _controllerBronze.text;
+
+                          Navigator.pop(context, [po, pp, pb]);
+                        },
                   child: const Text('Salvar'),
                 ),
               ],

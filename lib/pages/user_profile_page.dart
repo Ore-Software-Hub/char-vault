@@ -26,7 +26,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   bool loading = true;
   bool loadingChars = false;
 
-  List<CharacterModel>? chars;
+  List<CharacterModel> chars = [];
 
   @override
   void initState() {
@@ -151,7 +151,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         rightDotColor: Theme.of(context).colorScheme.secondary,
                         size: 30),
                   )
-                : chars == null
+                : chars.isEmpty
                     ? Center(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
@@ -195,7 +195,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                       )
                     : Column(
-                        children: chars!.map<CharDetailsComponent>((char) {
+                        children: chars.map<CharDetailsComponent>((char) {
                           return CharDetailsComponent(char: char);
                         }).toList(),
                       )

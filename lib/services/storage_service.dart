@@ -36,7 +36,7 @@ class StorageService {
   static Future<String> getImageDownloadUrl(String imageId) async {
     try {
       var ref =
-          _storage.ref().child(imageId); // Usar o ID da imagem diretamente
+          _storage.ref().child("/users/images$imageId"); // Usar o ID da imagem diretamente
       return await ref.getDownloadURL();
     } catch (e) {
       print('Erro ao obter a URL de download do arquivo: $e');

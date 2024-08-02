@@ -9,7 +9,6 @@ import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/components/text_field_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/pages/login_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';

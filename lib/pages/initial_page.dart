@@ -36,6 +36,22 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     super.initState();
+    int duration = 1;
+    Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        if (duration == 0) {
+          setState(() {
+            timer.cancel();
+            loading = false;
+          });
+        } else {
+          setState(() {
+            duration--;
+          });
+        }
+      },
+    );
   }
 
   _onItemTapped(int index) {

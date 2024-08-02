@@ -5,6 +5,7 @@ import 'package:CharVault/components/char_details_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/create_character_page.dart';
+import 'package:CharVault/pages/landing_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/services/database_service.dart';
@@ -56,8 +57,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
     setState(() {
       loadingChars = true;
     });
-    var _chars = await DatabaseService.getUserCharacters(_user!.id);
+    var chars = await DatabaseService.getUserCharacters(_user!.id);
     setState(() {
+      chars = chars;
       loadingChars = false;
     });
   }
@@ -175,11 +177,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   )
                 : Column(
                     children: chars!.map<CharDetailsComponent>((char) {
-                      return const CharDetailsComponent(
-                        name: "Garry Floyd",
-                        level: "1",
-                        idChar: "",
-                      );
+                      return CharDetailsComponent(char: char);
                     }).toList(),
                   )
           ],
@@ -197,7 +195,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ButtonComponent(
             pressed: () {
               AuthService.signOut();
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LandingPage()),
+                (route) => false,
+              );
             },
             icon: PhosphorIconsBold.signOut,
             tipo: 0,

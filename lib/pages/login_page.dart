@@ -1,5 +1,6 @@
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -28,7 +29,11 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = false;
       });
-      Navigator.pop(context);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const UserProfilePage()),
+        (route) => false,
+      );
     } catch (err) {
       if (!context.mounted) return;
       NotificationHelper.showSnackBar(context, "Error ");

@@ -1,6 +1,4 @@
 import 'package:CharVault/firebase_options.dart';
-import 'package:CharVault/helpers/shared_preferences_helper.dart';
-import 'package:CharVault/pages/initial_page.dart';
 import 'package:CharVault/pages/landing_page.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
@@ -11,7 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:CharVault/constants/strings.constants.dart' as constants;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,7 +4,7 @@ class UserModel {
   String id;
   String image;
   String name;
-  CharacterModel char;
+  CharacterModel? char;
 
   UserModel(this.id, this.image, this.name, this.char);
 

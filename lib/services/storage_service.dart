@@ -17,7 +17,7 @@ class StorageService {
       return await snapshot.ref.getDownloadURL();
     } catch (e) {
       print('Erro ao fazer upload do arquivo: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -28,7 +28,7 @@ class StorageService {
       await ref.delete();
     } catch (e) {
       print('Erro ao deletar o arquivo: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -40,7 +40,7 @@ class StorageService {
       return await ref.getDownloadURL();
     } catch (e) {
       print('Erro ao obter a URL de download do arquivo: $e');
-      throw e;
+      rethrow;
     }
   }
 }

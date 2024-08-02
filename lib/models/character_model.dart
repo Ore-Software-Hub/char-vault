@@ -47,7 +47,7 @@ class CharacterModel {
     };
   }
 
-  factory CharacterModel.fromMap(Map<String, dynamic> map) {
+  factory CharacterModel.fromMap(Map<dynamic, dynamic> map) {
     return CharacterModel(
       map['image'] ?? '',
       map['name'] ?? '',
@@ -91,7 +91,7 @@ class CharacterDetails {
     };
   }
 
-  factory CharacterDetails.fromMap(Map<String, dynamic> map) {
+  factory CharacterDetails.fromMap(Map<dynamic, dynamic> map) {
     return CharacterDetails(
       map['age'] ?? '',
       map['race'] ?? '',
@@ -122,7 +122,7 @@ class FeatureDetails {
     };
   }
 
-  factory FeatureDetails.fromMap(Map<String, dynamic> map) {
+  factory FeatureDetails.fromMap(Map<dynamic, dynamic> map) {
     return FeatureDetails(
       map['title'] ?? '',
       map['value'] ?? 0,
@@ -149,7 +149,7 @@ class SkillDetails {
     };
   }
 
-  factory SkillDetails.fromMap(Map<String, dynamic> map) {
+  factory SkillDetails.fromMap(Map<dynamic, dynamic> map) {
     return SkillDetails(
       map['title'] ?? '',
       map['value'] ?? 0,

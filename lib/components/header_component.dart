@@ -1,13 +1,10 @@
-import 'package:CharVault/helpers/shared_preferences_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
-import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:CharVault/constants/strings.constants.dart' as constants;
 
 class HeaderComponent extends StatefulWidget {
   const HeaderComponent({super.key, this.type = 0});
@@ -30,8 +27,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
   }
 
   loadChar() async {
-    var charId = SharedPreferencesHelper.getData("int", constants.charSelected);
-    var char = await DatabaseService.getCharacter(charId);
+    var char =
+        Provider.of<LoginProvider>(context, listen: false).userModel!.char;
     setState(() => _char = char);
   }
 

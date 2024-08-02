@@ -1,18 +1,13 @@
-import 'package:CharVault/helpers/shared_preferences_helper.dart';
+import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/pages/initial_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:CharVault/constants/strings.constants.dart' as constants;
+import 'package:provider/provider.dart';
 
 class CharDetailsComponent extends StatefulWidget {
-  const CharDetailsComponent(
-      {super.key,
-      required this.name,
-      required this.level,
-      required this.idChar});
+  const CharDetailsComponent({super.key, required this.char});
 
-  final String name;
-  final String level;
-  final String idChar;
+  final CharacterModel char;
 
   @override
   State<CharDetailsComponent> createState() => _CharDetailsComponentState();
@@ -23,10 +18,13 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        SharedPreferencesHelper.setData(
-            "int", constants.charSelected, widget.idChar);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const InitialPage()));
+        Provider.of<LoginProvider>(context, listen: false)
+            .updateUser(char: widget.char);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const InitialPage()),
+          (route) => false,
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -59,13 +57,13 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    widget.name,
+                    widget.char.name,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("Nível ${widget.level}"),
+                  Text("Nível ${widget.char.level}"),
                 ],
               )
             ],

@@ -75,8 +75,7 @@ class DatabaseService {
     for (var charId in snapshot.children) {
       var charSnapshot = await _database.ref('Chars/${charId.key}').get();
       if (charSnapshot.exists) {
-        // TODO: corrigir o retorno disso aqui, tá vindo só a lista de id de char e não os char
-        var characterData = charSnapshot.value as Map<String, dynamic>;
+        var characterData = charSnapshot.value as Map<dynamic, dynamic>;
         characters.add(CharacterModel.fromMap(characterData));
       }
     }

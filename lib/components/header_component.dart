@@ -1,9 +1,13 @@
+import 'package:CharVault/helpers/shared_preferences_helper.dart';
+import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:CharVault/constants/strings.constants.dart' as constants;
 
 class HeaderComponent extends StatefulWidget {
   const HeaderComponent({super.key, this.type = 0});
@@ -16,11 +20,19 @@ class HeaderComponent extends StatefulWidget {
 
 class _HeaderComponentState extends State<HeaderComponent> {
   UserModel? _user;
+  CharacterModel? _char;
 
   @override
   void initState() {
     super.initState();
     _user = Provider.of<LoginProvider>(context, listen: false).userModel;
+    loadChar();
+  }
+
+  loadChar() async {
+    var charId = SharedPreferencesHelper.getData("int", constants.charSelected);
+    var char = await DatabaseService.getCharacter(charId);
+    setState(() => _char = char);
   }
 
   backgroundGradient(double height) {
@@ -188,14 +200,12 @@ class _HeaderComponentState extends State<HeaderComponent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    returnText("${_user?.char.name}", FontWeight.bold, 32),
-                    returnText("${_user?.char.classe}", FontWeight.w100, 24),
-                    // returnLevel("${_user?.char.level}"),
-                    returnLevel("${_user?.char.level}"),
-                    returnLife(
-                        "${_user?.char.curLife}", "${_user?.char.maxLife}"),
-                    returnMoney("${_user?.char.po}", "${_user?.char.pb}",
-                        "${_user?.char.pp}")
+                    returnText("${_char?.name}", FontWeight.bold, 32),
+                    returnText("${_char?.classe}", FontWeight.w100, 24),
+                    // returnLevel("${_char?.level}"),
+                    returnLevel("${_char?.level}"),
+                    returnLife("${_char?.curLife}", "${_char?.maxLife}"),
+                    returnMoney("${_char?.po}", "${_char?.pb}", "${_char?.pp}")
                   ],
                 ),
               ),
@@ -205,9 +215,9 @@ class _HeaderComponentState extends State<HeaderComponent> {
                   alignment: Alignment.centerRight,
                   height: 250,
                   width: MediaQuery.of(context).size.width,
-                  child: Image.network("${_user?.char.image}",
-                      fit: BoxFit.cover, errorBuilder: (BuildContext context,
-                          Object exception, StackTrace? stackTrace) {
+                  child: Image.network("${_char?.image}", fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
                     return const Text('😢');
                   }),
                 ),
@@ -242,26 +252,24 @@ class _HeaderComponentState extends State<HeaderComponent> {
                             const SizedBox(
                               height: 20,
                             ),
-                            returnText(
-                                "${_user?.char.name}", FontWeight.bold, 32),
-                            returnText(
-                                "${_user?.char.classe}", FontWeight.w100, 24),
+                            returnText("${_char?.name}", FontWeight.bold, 32),
+                            returnText("${_char?.classe}", FontWeight.w100, 24),
                             Row(
                               children: [
-                                returnLife("${_user?.char.curLife}",
-                                    "${_user?.char.maxLife}"),
+                                returnLife(
+                                    "${_char?.curLife}", "${_char?.maxLife}"),
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                returnMoney("${_user?.char.po}",
-                                    "${_user?.char.pb}", "${_user?.char.pp}")
+                                returnMoney("${_char?.po}", "${_char?.pb}",
+                                    "${_char?.pp}")
                               ],
                             ),
                           ],
                         ),
                         const Spacer(),
-                        returnLevel("${_user?.char.level}", collapse: true),
-                        // returnLevel("${_user?.char.level}"),
+                        returnLevel("${_char?.level}", collapse: true),
+                        // returnLevel("${_char?.level}"),
                       ],
                     ),
                   ),

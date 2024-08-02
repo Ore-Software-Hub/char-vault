@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components/char_details_component.dart';
+import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/create_character_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -16,11 +22,44 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   UserModel? _user;
+  bool loading = true;
+  bool loadingChars = false;
+
+  List<CharacterModel>? chars;
 
   @override
   void initState() {
     super.initState();
-    _user = Provider.of<LoginProvider>(context, listen: false).userModel;
+    int duration = 1;
+    Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        if (duration == 0) {
+          setState(() {
+            timer.cancel();
+            loading = false;
+            Provider.of<LoginProvider>(context, listen: false).updateUser();
+            _user =
+                Provider.of<LoginProvider>(context, listen: false).userModel;
+            loadChars();
+          });
+        } else {
+          setState(() {
+            duration--;
+          });
+        }
+      },
+    );
+  }
+
+  loadChars() async {
+    setState(() {
+      loadingChars = true;
+    });
+    var _chars = await DatabaseService.getUserCharacters(_user!.id);
+    setState(() {
+      loadingChars = false;
+    });
   }
 
   Widget userProfileCard() {
@@ -76,53 +115,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  Widget characterDetails(String name, String level) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Container(
-        height: 55,
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.grey[300], // Sem preenchimento
-          borderRadius: BorderRadius.circular(10.0), // Raio da borda
-        ),
-        child: Row(
-          children: [
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  image: AssetImage('assets/img/profile_icon.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text("Nível $level"),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget charactersList() {
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
@@ -138,23 +130,58 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Column(
-              children: [
-                characterDetails("Garry Floyd", "1"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-                characterDetails("Francis", "15"),
-              ],
-            )
+            chars == null
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300], // Sem preenchimento
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Raio da borda
+                        ),
+                        child: const Row(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              width: 50,
+                              child:
+                                  PhosphorIcon(PhosphorIconsBold.placeholder),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Nenhum personagem encontrado",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text("Crie um novo!"),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : Column(
+                    children: chars!.map<CharDetailsComponent>((char) {
+                      return const CharDetailsComponent(
+                        name: "Garry Floyd",
+                        level: "1",
+                        idChar: "",
+                      );
+                    }).toList(),
+                  )
           ],
         ),
       ),
@@ -178,28 +205,36 @@ class _UserProfilePageState extends State<UserProfilePage> {
         ],
         forceMaterialTransparency: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            userProfileCard(),
-            const SizedBox(height: 16),
-            charactersList(),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const CreateCharacterPage()),
-          );
-        },
-        child: const PhosphorIcon(
-          PhosphorIconsBold.plus,
-        ),
-      ),
+      body: loading
+          ? Center(
+              child: LoadingAnimationWidget.threeRotatingDots(
+                  color: Theme.of(context).colorScheme.primary, size: 40),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  userProfileCard(),
+                  const SizedBox(height: 16),
+                  charactersList(),
+                ],
+              ),
+            ),
+      floatingActionButton: loading
+          ? null
+          : FloatingActionButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateCharacterPage()),
+                );
+                loadChars();
+              },
+              child: const PhosphorIcon(
+                PhosphorIconsBold.plus,
+              ),
+            ),
     );
   }
 }

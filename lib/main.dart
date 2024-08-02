@@ -1,6 +1,8 @@
 import 'package:CharVault/firebase_options.dart';
+import 'package:CharVault/helpers/shared_preferences_helper.dart';
 import 'package:CharVault/pages/initial_page.dart';
 import 'package:CharVault/pages/landing_page.dart';
+import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/providers/theme_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
@@ -9,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:CharVault/constants/strings.constants.dart' as constants;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,14 +42,13 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
           stream: AuthService.userStream,
           builder: (context, snapshot) {
-            // return snapshot.hasData ? const InitialPage() : const LandingPage();
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
                 return const Center(child: CircularProgressIndicator());
               case ConnectionState.active:
                 return snapshot.hasData
-                    ? const InitialPage()
+                    ? const UserProfilePage()
                     : const LandingPage();
               default:
                 return const LandingPage();

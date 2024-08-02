@@ -447,11 +447,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     padding: const EdgeInsets.all(2),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        'assets/img/eu.jpg',
-                        width: 75.0,
-                        height: 75.0,
-                      ),
+                      child: getImage(),
                     ),
                   ),
                 ),

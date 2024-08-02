@@ -57,9 +57,9 @@ class SharedPreferencesHelper {
       case "bool":
         return prefs.getBool(tag);
       case "int":
-        return prefs.getInt(tag) ?? 0;
+        return prefs.getInt(tag) ?? -1;
       case "double":
-        return prefs.getDouble(tag) ?? 0;
+        return prefs.getDouble(tag) ?? -1;
       case "string":
         return prefs.getString(tag) ?? "";
     }

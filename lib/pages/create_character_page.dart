@@ -949,6 +949,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
     NotificationHelper.showSnackBar(
         context, added ? "Personagem adicionado!" : "Ocorreu um erro");
+    Navigator.pop(context);
   }
 
   nextAvailable() {

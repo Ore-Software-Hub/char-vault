@@ -57,9 +57,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
     setState(() {
       loadingChars = true;
     });
-    var chars = await DatabaseService.getUserCharacters(_user!.id);
+    var _chars = await DatabaseService.getUserCharacters(_user!.id);
     setState(() {
-      chars = chars;
+      chars = _chars;
       loadingChars = false;
     });
   }
@@ -125,65 +125,88 @@ class _UserProfilePageState extends State<UserProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Meus personagens",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Meus personagens",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ButtonComponent(
+                  pressed: () {
+                    _pullRefresh();
+                  },
+                  tipo: 0,
+                  icon: PhosphorIconsBold.arrowsClockwise,
+                )
+              ],
             ),
-            chars == null
+            loadingChars
                 ? Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Container(
-                        height: 55,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300], // Sem preenchimento
-                          borderRadius:
-                              BorderRadius.circular(10.0), // Raio da borda
-                        ),
-                        child: const Row(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              width: 50,
-                              child:
-                                  PhosphorIcon(PhosphorIconsBold.placeholder),
+                    child: LoadingAnimationWidget.twistingDots(
+                        leftDotColor: Theme.of(context).colorScheme.primary,
+                        rightDotColor: Theme.of(context).colorScheme.secondary,
+                        size: 30),
+                  )
+                : chars == null
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300], // Sem preenchimento
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // Raio da borda
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            child: const Row(
                               children: [
-                                Text(
-                                  "Nenhum personagem encontrado",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: PhosphorIcon(
+                                      PhosphorIconsBold.placeholder),
                                 ),
-                                Text("Crie um novo!"),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Nenhum personagem encontrado",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text("Crie um novo!"),
+                                  ],
+                                )
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
-                : Column(
-                    children: chars!.map<CharDetailsComponent>((char) {
-                      return CharDetailsComponent(char: char);
-                    }).toList(),
-                  )
+                      )
+                    : Column(
+                        children: chars!.map<CharDetailsComponent>((char) {
+                          return CharDetailsComponent(char: char);
+                        }).toList(),
+                      )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _pullRefresh() async {
+    await loadChars();
   }
 
   @override

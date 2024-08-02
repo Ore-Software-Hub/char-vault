@@ -33,7 +33,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: Colors.grey[300], // Sem preenchimento
+            color: Theme.of(context).colorScheme.secondary, // Sem preenchimento
             borderRadius: BorderRadius.circular(10.0), // Raio da borda
           ),
           child: Row(
@@ -42,11 +42,11 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/img/profile_icon.png'),
-                    fit: BoxFit.cover,
-                  ),
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Image.network(
+                  widget.char.image,
                 ),
               ),
               const SizedBox(
@@ -58,12 +58,16 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                 children: [
                   Text(
                     widget.char.name,
-                    style: const TextStyle(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text("Nível ${widget.char.level}"),
+                  Text("Nível ${widget.char.level}",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      )),
                 ],
               )
             ],

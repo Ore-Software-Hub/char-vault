@@ -92,12 +92,13 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
 
                 if (confirmed) {
                   var charId = widget.char.id;
+                  var charImageId = widget.char.image;
                   var userId =
                       Provider.of<LoginProvider>(context, listen: false)
                           .userModel!
                           .id;
 
-                  await DatabaseService.deleteCharacter(userId, charId);
+                  await DatabaseService.deleteCharacter(userId, charId, charImageId);
 
                   NotificationHelper.showSnackBar(
                       context, "Personagem ${widget.char.name} foi removido!");

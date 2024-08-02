@@ -1,4 +1,5 @@
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/services/storage_service.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class DatabaseService {
@@ -43,7 +44,8 @@ class DatabaseService {
   }
 
   /// Método para deletar um personagem de um usuário
-  static Future<void> deleteCharacter(String userId, String charId) async {
+  static Future<void> deleteCharacter(
+      String userId, String charId, String charImageId) async {
     var userCharsRef = _database.ref(
         'Users/$userId/chars/$charId'); // Referência ao nó de personagens do usuário
 
@@ -54,6 +56,7 @@ class DatabaseService {
         'Chars/$charId'); // Referência ao personagem na coleção de personagens
 
     await charRef.remove(); // Removendo o personagem da coleção de personagens
+    await StorageService.deleteImageById(charImageId);
   }
 
   /// Método para ler os dados de um personagem específico

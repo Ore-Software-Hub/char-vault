@@ -24,19 +24,30 @@ class StorageService {
   /// Remover imagem pelo ID da imagem
   static Future<void> deleteImageById(String imageId) async {
     try {
-      var ref = _storage.ref().child('$path$imageId');
-      await ref.delete();
+      var imageRef = _storage.ref().child('users/images/');
+
+      // Listar todos os arquivos no diretório
+      ListResult result = await imageRef.listAll();
+
+      final List<Reference> matchingFiles = result.items.where((item) {
+        return item.name.startsWith(imageId);
+      }).toList();
+
+      for (final Reference file in matchingFiles) {
+        await file.delete();
+        print('Arquivo ${file.name} removido com sucesso');
+      }
     } catch (e) {
-      print('Erro ao deletar o arquivo: $e');
-      rethrow;
+      print('Error getting download URL: $e');
     }
   }
 
   /// Retornar a URL de download de uma imagem
   static Future<String> getImageDownloadUrl(String imageId) async {
     try {
-      var ref =
-          _storage.ref().child("/users/images$imageId"); // Usar o ID da imagem diretamente
+      var ref = _storage
+          .ref()
+          .child("/users/images$imageId"); // Usar o ID da imagem diretamente
       return await ref.getDownloadURL();
     } catch (e) {
       print('Erro ao obter a URL de download do arquivo: $e');

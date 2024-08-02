@@ -1,3 +1,5 @@
+import 'package:CharVault/components/dropdown_component.dart';
+
 class CharacterModel {
   String image;
   String name;
@@ -59,10 +61,41 @@ class CharacterModel {
       map['pp'] ?? '',
       map['pb'] ?? '',
       map['details'] != null ? CharacterDetails.fromMap(map['details']) : null,
-      map['savingThrows'] != null ? List<FeatureDetails>.from(map['savingThrows'].map((x) => FeatureDetails.fromMap(x))) : null,
-      map['features'] != null ? List<FeatureDetails>.from(map['features'].map((x) => FeatureDetails.fromMap(x))) : null,
-      map['skills'] != null ? List<SkillDetails>.from(map['skills'].map((x) => SkillDetails.fromMap(x))) : null,
+      map['savingThrows'] != null
+          ? List<FeatureDetails>.from(
+              map['savingThrows'].map((x) => FeatureDetails.fromMap(x)))
+          : null,
+      map['features'] != null
+          ? List<FeatureDetails>.from(
+              map['features'].map((x) => FeatureDetails.fromMap(x)))
+          : null,
+      map['skills'] != null
+          ? List<SkillDetails>.from(
+              map['skills'].map((x) => SkillDetails.fromMap(x)))
+          : null,
     );
+  }
+
+  static String calculateLife(int pv, int level, int modifier) {
+    var maxLife = "0";
+
+    if (level == 1) {
+      maxLife = (pv + modifier).toString();
+    } else {
+      int initial = pv + modifier;
+
+      int lifePerLevel = (pv / 2).ceil() + 1 + modifier;
+
+      int totalPerLevel = 0;
+
+      for (var i = 0; i < level - 1; i++) {
+        totalPerLevel += lifePerLevel;
+      }
+
+      maxLife = (initial + totalPerLevel).toString();
+    }
+
+    return maxLife;
   }
 
   @override

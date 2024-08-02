@@ -817,9 +817,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   getLife(FeatureDetails cons) {
     List<String> life = [];
-
     var classe = classes.firstWhere((classe) => classe.display == _classe);
-    var maxLife = (classe.value + cons.modifier).toString();
+
+    var maxLife =
+        CharacterModel.calculateLife(classe.value, int.parse(_level), cons.modifier);
+
     life.add(maxLife);
     life.add(maxLife);
 

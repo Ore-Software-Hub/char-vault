@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/components/bottomsheet/loading_component.dart';
 import 'package:CharVault/components/bottomsheet/text_component.dart';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dropdown_component.dart';
@@ -15,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -102,7 +102,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       case 2:
         title = 'Características & Inventário';
         break;
-      // TODO: Alterar a tela de salvar para aparecer no bottomsheet
       case 3:
         title = 'Salvar Personagem';
         break;
@@ -777,15 +776,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ],
         );
 
-      case 3:
-        return Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: LoadingAnimationWidget.discreteCircle(
-                color: Colors.black, size: 60),
-          ),
-        );
       default:
         return const Center();
     }
@@ -894,7 +884,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   finishCharacter() async {
-    changeStep(1);
     var user = Provider.of<LoginProvider>(context, listen: false).userModel;
 
     var imgurl = await StorageService.uploadUserImage(user!.id, imageFile!);
@@ -964,8 +953,20 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     _char = CharacterModel("", imgurl, _name, _classe, _level, life[0], life[1],
         po, pp, pb, details, savingThrows, features, skills);
 
-    var added = await DatabaseService.addCharacter(user.id, _char!);
+    final added = await showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      builder: (context) => LoadingBottomSheetComponent(
+        title: "Salvar Personagem",
+        obj: _char!,
+        function: () async {
+          var added = await DatabaseService.addCharacter(user.id, _char!);
 
+          Navigator.pop(context, added);
+        },
+      ),
+    );
     NotificationHelper.showSnackBar(
         context, added ? "Personagem adicionado!" : "Ocorreu um erro");
     Navigator.pop(context);
@@ -1086,21 +1087,20 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         ),
         child: Row(
           children: [
-            if (step <= 3)
-              ButtonComponent(
-                label: "Voltar",
-                pressed: () {
-                  changeStep(-1);
-                },
-                color: cores.gray,
-              ),
+            ButtonComponent(
+              label: "Voltar",
+              pressed: () {
+                changeStep(-1);
+              },
+              color: cores.gray,
+            ),
             const Spacer(),
-            if (step < 3)
+            if (step < 2)
               ButtonComponent(
                 label: "Próximo",
                 pressed: nextAvailable(),
               ),
-            if (step == 3)
+            if (step == 2)
               ButtonComponent(
                 label: "Finalizar",
                 pressed: () {

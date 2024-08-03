@@ -9,6 +9,7 @@ import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/components/text_field_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
@@ -1060,7 +1061,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       floatingActionButton: step == 2
           ? FloatingActionButton(
               onPressed: () async {
-                final item = await showModalBottomSheet<List<String>>(
+                var user = Provider.of<LoginProvider>(context, listen: false)
+                    .userModel;
+                final item = await showModalBottomSheet<ItemModel>(
                   backgroundColor: cores.secondaryColor,
                   showDragHandle: true,
                   context: context,
@@ -1071,7 +1074,33 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 );
 
                 if (item != null) {
-                  // TODO: Criar model item
+                  var newItem = ItemComponent(
+                    title: item.title,
+                    tipo: 0,
+                  );
+                  await DatabaseService.addItemModel(user!.id, item);
+                  switch (item.tipo) {
+                    case 'Arma':
+                      _weapons.add(newItem);
+                      break;
+
+                    case 'Armadura':
+                    case 'Equipamento':
+                    case 'Item':
+                      _equipments.add(newItem);
+                      break;
+
+                    case 'Consumíveis':
+                    case 'Item mágico':
+                    case 'Objeto':
+                    case 'Outros':
+                      _inventory.add(newItem);
+                      break;
+
+                    case 'Magia':
+                      _spells.add(newItem);
+                      break;
+                  }
                 }
               },
               child: const PhosphorIcon(

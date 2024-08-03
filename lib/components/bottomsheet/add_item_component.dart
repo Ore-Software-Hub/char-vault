@@ -1,4 +1,5 @@
 import 'package:CharVault/components/dropdown_component.dart';
+import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
@@ -20,6 +21,7 @@ class _AddItemBottomSheetComponentState
   double sheetSize = 350;
   String title = "";
   String action = "Valor";
+  String tipo = "";
 
   @override
   void dispose() {
@@ -123,13 +125,22 @@ class _AddItemBottomSheetComponentState
                   width: MediaQuery.of(context).size.width / 2 - 20,
                   child: DropdownComponent(
                     value: "",
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        tipo = value!;
+                      });
+                    },
                     hintText: "Tipo",
                     items: [
-                      ItemDropdown(display: "Armadura", value: 0),
-                      ItemDropdown(display: "Ferramenta", value: 0),
                       ItemDropdown(display: "Arma", value: 0),
+                      ItemDropdown(display: "Armadura", value: 0),
+                      ItemDropdown(display: "Consumíveis", value: 0),
+                      ItemDropdown(display: "Equipamento", value: 0),
+                      ItemDropdown(display: "Item", value: 0),
+                      ItemDropdown(display: "Item mágico", value: 0),
                       ItemDropdown(display: "Magia", value: 0),
+                      ItemDropdown(display: "Objeto", value: 0),
+                      ItemDropdown(display: "Outros", value: 0),
                     ],
                     foregroundColor: Colors.white,
                     backgroundColor: cores.secondaryColor,
@@ -205,9 +216,19 @@ class _AddItemBottomSheetComponentState
                           const WidgetStatePropertyAll(Colors.white),
                       backgroundColor:
                           const WidgetStatePropertyAll(cores.primaryColor)),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: _controllerTitle.text.isEmpty ||
+                          _controllerValue.text.isEmpty ||
+                          _controllerDescription.text.isEmpty
+                      ? null
+                      : () {
+                          var newItemModel = ItemModel(
+                              "",
+                              _controllerTitle.text,
+                              _controllerValue.text,
+                              _controllerDescription.text,
+                              tipo);
+                          Navigator.pop(context, newItemModel);
+                        },
                   child: const Text('Salvar'),
                 ),
               ],

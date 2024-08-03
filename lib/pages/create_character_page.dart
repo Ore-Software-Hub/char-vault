@@ -5,7 +5,6 @@ import 'package:CharVault/components/bottomsheet/text_component.dart';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dropdown_component.dart';
 import 'package:CharVault/components/item_component.dart';
-import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/components/text_field_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
@@ -34,6 +33,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   final imagePicker = ImagePicker();
   File? imageFile;
   bool removeImage = false;
+  List<ItemComponent> _equipments = [],
+      _weapons = [],
+      _inventory = [],
+      _spells = [];
 
   List<ItemDropdown> classes = [
     ItemDropdown(display: "Bárbaro", value: 12),
@@ -97,12 +100,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         title = 'Dados Pessoais';
         break;
       case 2:
-        title = 'Características';
+        title = 'Características & Inventário';
         break;
+      // TODO: Alterar a tela de salvar para aparecer no bottomsheet
       case 3:
-        title = 'Inventário & Combate';
-        break;
-      case 4:
         title = 'Salvar Personagem';
         break;
     }
@@ -453,9 +454,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
-                  "Garry Floyd",
-                  style: TextStyle(
+                Text(
+                  _name,
+                  style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -615,192 +616,208 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Testes de Resistência",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                      children: [
-                        SkillsComponent(title: "Força", value: "+2"),
-                        SkillsComponent(title: "Destreza", value: "+2"),
-                        SkillsComponent(title: "Constituição", value: "-1"),
-                        SkillsComponent(title: "Inteligência", value: "+2"),
-                        SkillsComponent(title: "Sabedoria", value: "+3"),
-                        SkillsComponent(title: "Carisma", value: "0"),
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Habilidades",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                      children: [
-                        SkillsComponent(title: "Acrobacia", value: "+2"),
-                        SkillsComponent(title: "Arcanismo", value: "+2"),
-                        SkillsComponent(title: "Atletismo", value: "-1"),
-                        SkillsComponent(title: "Atuação", value: "+2"),
-                        SkillsComponent(title: "Enganação", value: "+3"),
-                        SkillsComponent(title: "Furtividade", value: "0"),
-                        SkillsComponent(title: "História", value: "+2"),
-                        SkillsComponent(title: "Intimidação", value: "0"),
-                        SkillsComponent(title: "Intuição", value: "0"),
-                        SkillsComponent(title: "Investigação", value: "+2"),
-                        SkillsComponent(title: "Lidar com Animais", value: "0"),
-                        SkillsComponent(title: "Medicina", value: "-1"),
-                        SkillsComponent(title: "Natureza", value: "+2"),
-                        SkillsComponent(title: "Percepção", value: "0"),
-                        SkillsComponent(title: "Persuação", value: "+2"),
-                        SkillsComponent(title: "Prestidigitação", value: "0"),
-                        SkillsComponent(title: "Religião", value: "0"),
-                        SkillsComponent(title: "Sobrevivência", value: "-1"),
-                      ],
-                    )
-                  ],
+                const Text(
+                  "Os valores dos testes de perícia serão calculados automaticamente!",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ],
             ),
             const SizedBox(
               height: 10,
             ),
+            const Divider(
+              indent: 20,
+              endIndent: 20,
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Equipamentos",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      _equipments.isEmpty
+                          ? returnInformation("Nenhum Equipamento adicionado!",
+                              "Adicione um novo!")
+                          : Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing:
+                                  4.0, // Espaçamento horizontal entre os widgets
+                              runSpacing:
+                                  4.0, // Espaçamento vertical entre as linhas
+                              children: _equipments.map<ItemComponent>((item) {
+                                return ItemComponent(
+                                  title: item.title,
+                                  tipo: item.tipo,
+                                );
+                              }).toList(),
+                            )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Inventário",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      _inventory.isEmpty
+                          ? returnInformation(
+                              "Nenhum item adicionado!", "Adicione um novo!")
+                          : Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing:
+                                  4.0, // Espaçamento horizontal entre os widgets
+                              runSpacing:
+                                  4.0, // Espaçamento vertical entre as linhas
+                              children: _inventory.map<ItemComponent>((item) {
+                                return ItemComponent(
+                                  title: item.title,
+                                  tipo: item.tipo,
+                                );
+                              }).toList(),
+                            )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Armas",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      _weapons.isEmpty
+                          ? returnInformation(
+                              "Nenhuma arma encontrada!", "Adicione uma nova!")
+                          : Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing:
+                                  4.0, // Espaçamento horizontal entre os widgets
+                              runSpacing:
+                                  4.0, // Espaçamento vertical entre as linhas
+                              children: _weapons.map<ItemComponent>((item) {
+                                return ItemComponent(
+                                  title: item.title,
+                                  tipo: item.tipo,
+                                );
+                              }).toList(),
+                            )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Magias",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      _spells.isEmpty
+                          ? returnInformation(
+                              "Nenhuma magia adicionada", "Adicione uma nova!")
+                          : Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing:
+                                  4.0, // Espaçamento horizontal entre os widgets
+                              runSpacing:
+                                  4.0, // Espaçamento vertical entre as linhas
+                              children: _spells.map<ItemComponent>((item) {
+                                return ItemComponent(
+                                  title: item.title,
+                                  tipo: item.tipo,
+                                );
+                              }).toList(),
+                            )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            )
           ],
         );
 
       case 3:
-        return const Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Equipamentos",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                      children: [
-                        ItemComponent(title: "title", tipo: 0),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Inventário",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                      children: [
-                        ItemComponent(title: "title", tipo: 0),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Armas",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                      children: [
-                        ItemComponent(title: "title", tipo: 0),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Magias",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 4.0, // Espaçamento horizontal entre os widgets
-                      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                      children: [
-                        ItemComponent(title: "title", tipo: 0),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ],
-        );
-
-      case 4:
         return Center(
-          child: LoadingAnimationWidget.discreteCircle(
-              color: Colors.black, size: 60),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: LoadingAnimationWidget.discreteCircle(
+                color: Colors.black, size: 60),
+          ),
         );
       default:
         return const Center();
     }
+  }
+
+  Widget returnInformation(String text, String subtext) {
+    return Row(
+      children: [
+        const SizedBox(
+          height: 50,
+          width: 50,
+          child: PhosphorIcon(PhosphorIconsBold.placeholder),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(subtext),
+          ],
+        )
+      ],
+    );
   }
 
   List<SkillDetails> createSkill(List<String> items, FeatureDetails feature) {
@@ -1039,10 +1056,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ],
         )),
       ),
-      floatingActionButton: step == 3
+      floatingActionButton: step == 2
           ? FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
+              onPressed: () async {
+                final item = await showModalBottomSheet<List<String>>(
                   backgroundColor: cores.secondaryColor,
                   showDragHandle: true,
                   context: context,
@@ -1051,6 +1068,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     editing: false,
                   ),
                 );
+
+                if (item != null) {
+                  // TODO: Criar model item
+                }
               },
               child: const PhosphorIcon(
                 PhosphorIconsBold.plus,

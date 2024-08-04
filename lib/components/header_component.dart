@@ -25,14 +25,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
   @override
   void initState() {
     super.initState();
-    _user = Provider.of<LoginProvider>(context, listen: false).userModel;
-    loadChar();
-  }
-
-  loadChar() async {
-    var char =
-        Provider.of<LoginProvider>(context, listen: false).userModel!.char;
-    setState(() => _char = char);
+    _user = Provider.of<LoginProvider>(context, listen: false).userModel!;
+    _char = _user!.char;
   }
 
   backgroundGradient(double height) {

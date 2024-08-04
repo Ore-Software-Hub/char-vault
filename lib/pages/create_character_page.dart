@@ -34,7 +34,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   final imagePicker = ImagePicker();
   File? imageFile;
   bool removeImage = false;
-  List<ItemComponent> _equipments = [],
+  List<ItemModel> _equipments = [],
       _weapons = [],
       _inventory = [],
       _spells = [];
@@ -651,19 +651,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       _equipments.isEmpty
                           ? returnInformation("Nenhum Equipamento adicionado!",
                               "Adicione um novo!")
-                          : Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing:
-                                  4.0, // Espaçamento horizontal entre os widgets
-                              runSpacing:
-                                  4.0, // Espaçamento vertical entre as linhas
-                              children: _equipments.map<ItemComponent>((item) {
-                                return ItemComponent(
-                                  title: item.title,
-                                  tipo: item.tipo,
-                                );
-                              }).toList(),
-                            )
+                          : returnItemComponent(_equipments)
                     ],
                   ),
                 ),
@@ -685,19 +673,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       _inventory.isEmpty
                           ? returnInformation(
                               "Nenhum item adicionado!", "Adicione um novo!")
-                          : Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing:
-                                  4.0, // Espaçamento horizontal entre os widgets
-                              runSpacing:
-                                  4.0, // Espaçamento vertical entre as linhas
-                              children: _inventory.map<ItemComponent>((item) {
-                                return ItemComponent(
-                                  title: item.title,
-                                  tipo: item.tipo,
-                                );
-                              }).toList(),
-                            )
+                          : returnItemComponent(_inventory)
                     ],
                   ),
                 ),
@@ -719,19 +695,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       _weapons.isEmpty
                           ? returnInformation(
                               "Nenhuma arma encontrada!", "Adicione uma nova!")
-                          : Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing:
-                                  4.0, // Espaçamento horizontal entre os widgets
-                              runSpacing:
-                                  4.0, // Espaçamento vertical entre as linhas
-                              children: _weapons.map<ItemComponent>((item) {
-                                return ItemComponent(
-                                  title: item.title,
-                                  tipo: item.tipo,
-                                );
-                              }).toList(),
-                            )
+                          : returnItemComponent(_weapons)
                     ],
                   ),
                 ),
@@ -753,19 +717,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       _spells.isEmpty
                           ? returnInformation(
                               "Nenhuma magia adicionada", "Adicione uma nova!")
-                          : Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing:
-                                  4.0, // Espaçamento horizontal entre os widgets
-                              runSpacing:
-                                  4.0, // Espaçamento vertical entre as linhas
-                              children: _spells.map<ItemComponent>((item) {
-                                return ItemComponent(
-                                  title: item.title,
-                                  tipo: item.tipo,
-                                );
-                              }).toList(),
-                            )
+                          : returnItemComponent(_spells)
                     ],
                   ),
                 ),
@@ -808,6 +760,32 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ],
         )
       ],
+    );
+  }
+
+  Widget returnItemComponent(List<ItemModel> items) {
+    // TODO: Corrigir remoção de items
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 4.0, // Espaçamento horizontal entre os widgets
+      runSpacing: 4.0, // Espaçamento vertical entre as linhas
+      children: items.map<Row>((item) {
+        return Row(
+          children: [
+            Expanded(
+              child: ItemComponent(
+                item: item,
+              ),
+            ),
+            ButtonComponent(
+                pressed: () {
+                  items.remove(item);
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.minus)
+          ],
+        );
+      }).toList(),
     );
   }
 
@@ -954,7 +932,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     _char = CharacterModel("", imgurl, _name, _classe, _level, life[0], life[1],
         po, pp, pb, details, savingThrows, features, skills);
 
-    final added = await showModalBottomSheet(
+    final charId = await showModalBottomSheet(
       context: context,
       isDismissible: false,
       enableDrag: false,
@@ -968,8 +946,41 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         },
       ),
     );
+
     NotificationHelper.showSnackBar(
-        context, added ? "Personagem adicionado!" : "Ocorreu um erro");
+        context, charId != null ? "Personagem adicionado!" : "Ocorreu um erro");
+
+    if (charId != null) {
+      await showModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        enableDrag: false,
+        builder: (context) => LoadingBottomSheetComponent(
+          title: "Salvando Items",
+          obj: _char!,
+          function: () async {
+            List<ItemModel> items = [
+              ..._equipments,
+              ..._inventory,
+              ..._weapons,
+              ..._spells
+            ];
+
+            bool added = false;
+
+            for (var item in items) {
+              added = await DatabaseService.addItemModel(charId, item);
+            }
+
+            NotificationHelper.showSnackBar(
+                context, added ? "Itens adicionados!" : "Ocorreu um erro");
+
+            Navigator.pop(context, added);
+          },
+        ),
+      );
+    }
+
     Navigator.pop(context);
   }
 
@@ -1061,8 +1072,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       floatingActionButton: step == 2
           ? FloatingActionButton(
               onPressed: () async {
-                var user = Provider.of<LoginProvider>(context, listen: false)
-                    .userModel;
                 final item = await showModalBottomSheet<ItemModel>(
                   backgroundColor: cores.secondaryColor,
                   showDragHandle: true,
@@ -1074,31 +1083,26 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 );
 
                 if (item != null) {
-                  var newItem = ItemComponent(
-                    title: item.title,
-                    tipo: 0,
-                  );
-                  await DatabaseService.addItemModel(user!.id, item);
                   switch (item.tipo) {
                     case 'Arma':
-                      _weapons.add(newItem);
+                      _weapons.add(item);
                       break;
 
                     case 'Armadura':
                     case 'Equipamento':
                     case 'Item':
-                      _equipments.add(newItem);
+                      _equipments.add(item);
                       break;
 
                     case 'Consumíveis':
                     case 'Item mágico':
                     case 'Objeto':
                     case 'Outros':
-                      _inventory.add(newItem);
+                      _inventory.add(item);
                       break;
 
                     case 'Magia':
-                      _spells.add(newItem);
+                      _spells.add(item);
                       break;
                   }
                 }

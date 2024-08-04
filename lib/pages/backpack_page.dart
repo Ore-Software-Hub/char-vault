@@ -1,5 +1,6 @@
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
+import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -11,15 +12,6 @@ class BackPackPage extends StatefulWidget {
 }
 
 class _BackPackPageState extends State<BackPackPage> {
-  String name = "Garry Floyd",
-      classe = "Bardo",
-      level = "1",
-      curLife = "15/",
-      maxLife = "17",
-      pg = "15",
-      pp = "15",
-      pb = "15";
-
   @override
   void initState() {
     super.initState();
@@ -27,19 +19,19 @@ class _BackPackPageState extends State<BackPackPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       extendBody: true,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderComponent(type: 1),
+            const HeaderComponent(type: 1),
             Padding(
-              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Equipamentos",
                     style: TextStyle(
                       fontSize: 20,
@@ -52,26 +44,26 @@ class _BackPackPageState extends State<BackPackPage> {
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
                     children: [
                       ItemComponent(
-                          tipo: 0,
-                          icon: PhosphorIconsRegular.shield,
-                          title: "Elmo Élfico",
-                          value: "+2 def"),
+                        icon: PhosphorIconsRegular.shield,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                       ItemComponent(
-                          tipo: 0,
-                          icon: PhosphorIconsRegular.shovel,
-                          title: "Machado Lunar",
-                          value: "1D4"),
+                        icon: PhosphorIconsRegular.shovel,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                     ],
                   )
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Inventário",
                     style: TextStyle(
                       fontSize: 20,
@@ -84,20 +76,20 @@ class _BackPackPageState extends State<BackPackPage> {
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
                     children: [
                       ItemComponent(
-                          tipo: 1,
-                          icon: PhosphorIconsRegular.champagne,
-                          title: "Poção de cura",
-                          value: "x10"),
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                        icon: PhosphorIconsRegular.champagne,
+                      ),
                       ItemComponent(
-                          tipo: 1,
-                          icon: PhosphorIconsRegular.champagne,
-                          title: "Poção de velocidade",
-                          value: "x3"),
+                        icon: PhosphorIconsRegular.champagne,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                       ItemComponent(
-                          tipo: 1,
-                          icon: PhosphorIconsRegular.dotsNine,
-                          title: "Chave enferrujada",
-                          value: null),
+                        icon: PhosphorIconsRegular.dotsNine,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                     ],
                   )
                 ],

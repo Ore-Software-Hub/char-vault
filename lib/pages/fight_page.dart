@@ -1,5 +1,6 @@
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
+import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -11,15 +12,6 @@ class FightPage extends StatefulWidget {
 }
 
 class _FightPageState extends State<FightPage> {
-  String name = "Garry Floyd",
-      classe = "Bardo",
-      level = "1",
-      curLife = "15/",
-      maxLife = "17",
-      pg = "15",
-      pp = "15",
-      pb = "15";
-
   @override
   void initState() {
     super.initState();
@@ -27,21 +19,21 @@ class _FightPageState extends State<FightPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       extendBody: true,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HeaderComponent(
+            const HeaderComponent(
               type: 1,
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Armas",
                     style: TextStyle(
                       fontSize: 20,
@@ -54,26 +46,26 @@ class _FightPageState extends State<FightPage> {
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
                     children: [
                       ItemComponent(
-                          tipo: 2,
-                          icon: PhosphorIconsRegular.sword,
-                          title: "Espada larga",
-                          value: "1D6"),
+                        icon: PhosphorIconsRegular.sword,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                       ItemComponent(
-                          tipo: 2,
-                          icon: PhosphorIconsRegular.sword,
-                          title: "Besta leve",
-                          value: "1D4"),
+                        icon: PhosphorIconsRegular.sword,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                     ],
                   )
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Magias",
                     style: TextStyle(
                       fontSize: 20,
@@ -86,15 +78,15 @@ class _FightPageState extends State<FightPage> {
                     runSpacing: 4.0, // Espaçamento vertical entre as linhas
                     children: [
                       ItemComponent(
-                          tipo: 3,
-                          icon: PhosphorIconsRegular.lightning,
-                          title: "Canto sombrio",
-                          value: "1D4"),
+                        icon: PhosphorIconsRegular.lightning,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                       ItemComponent(
-                          tipo: 3,
-                          icon: PhosphorIconsRegular.lightning,
-                          title: "Canto amoroso",
-                          value: "2 turnos"),
+                        icon: PhosphorIconsRegular.lightning,
+                        item: ItemModel(
+                            "id", "title", "value", "description", "tipo"),
+                      ),
                     ],
                   )
                 ],

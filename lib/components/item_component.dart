@@ -1,22 +1,14 @@
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
-import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class ItemComponent extends StatefulWidget {
-  const ItemComponent({
-    super.key,
-    required this.title,
-    required this.tipo,
-    this.value,
-    this.icon,
-  });
+  const ItemComponent({super.key, required this.item, this.icon});
 
-  final String title;
-  final String? value;
-  final PhosphorFlatIconData? icon;
-  final int tipo;
+  final ItemModel item;
+  final PhosphorIconData? icon;
 
   @override
   State<ItemComponent> createState() => _ItemComponentState();
@@ -67,7 +59,7 @@ class _ItemComponentState extends State<ItemComponent> {
                 borderRadius: BorderRadius.circular(8.0), // Raio da borda
               ),
               child: Text(
-                widget.title,
+                widget.item.title,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 softWrap: false,
@@ -79,7 +71,7 @@ class _ItemComponentState extends State<ItemComponent> {
             ),
           ),
         ),
-        if (widget.value != null)
+        if (widget.item.value.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: 4.0, right: 4),
             child: Container(
@@ -92,7 +84,7 @@ class _ItemComponentState extends State<ItemComponent> {
                 borderRadius: BorderRadius.circular(8.0), // Raio da borda
               ),
               child: Text(
-                widget.value!,
+                widget.item.value,
                 style: const TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: 12,
@@ -100,7 +92,6 @@ class _ItemComponentState extends State<ItemComponent> {
               ),
             ),
           ),
-        ButtonComponent(pressed: () {}, tipo: 0, icon: PhosphorIconsBold.minus)
       ],
     );
   }

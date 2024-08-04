@@ -10,7 +10,6 @@ class DatabaseService {
   static const String charCollection = "Chars";
   static const String itemsCollection = "Items";
 
-
   /// Método para salvar dados em uma coleção e retornar a chave única gerada
   static Future<String> saveData(String collection, dynamic value) async {
     var ref = _database.ref(collection);
@@ -23,7 +22,7 @@ class DatabaseService {
   }
 
   /// Método para adicionar um personagem a um usuário
-  static Future<bool> addCharacter(
+  static Future<String?> addCharacter(
       String userId, CharacterModel newCharacter) async {
     try {
       String charId = await saveData(
@@ -42,10 +41,10 @@ class DatabaseService {
           .child(charId)
           .set(true); // Adicionando a referência ao personagem no nó do usuário
 
-      return true; // Confirmação de que foi salvo com sucesso
+      return charId; // Confirmação de que foi salvo com sucesso
     } catch (e) {
       print('Erro ao salvar o personagem: $e');
-      return false; // Retorna false em caso de erro
+      return null; // Retorna false em caso de erro
     }
   }
 
@@ -86,7 +85,8 @@ class DatabaseService {
 
     List<CharacterModel> characters = [];
     for (var charId in snapshot.children) {
-      var charSnapshot = await _database.ref('$charCollection/${charId.key}').get();
+      var charSnapshot =
+          await _database.ref('$charCollection/${charId.key}').get();
       if (charSnapshot.exists) {
         var characterData = charSnapshot.value as Map<dynamic, dynamic>;
         characters.add(CharacterModel.fromMap(characterData));
@@ -97,12 +97,13 @@ class DatabaseService {
   }
 
   static Future<bool> addItemModel(
-      String userId, ItemModel newItemModel) async {
+      String charId, ItemModel newItemModel) async {
     try {
-      String newItemModelId = await saveData(itemsCollection, newItemModel.toMap());
+      String newItemModelId =
+          await saveData(itemsCollection, newItemModel.toMap());
       newItemModel.id = newItemModelId;
       await updateItemModel(newItemModelId, newItemModel.toMap());
-      var userModelsRef = _database.ref('$userCollection/$userId/items');
+      var userModelsRef = _database.ref('$charCollection/$charId/items');
       await userModelsRef.child(newItemModelId).set(true);
       return true;
     } catch (e) {
@@ -112,8 +113,9 @@ class DatabaseService {
   }
 
   static Future<void> deleteItemModel(
-      String userId, String newItemModelId) async {
-    var userModelsRef = _database.ref('$userCollection/$userId/items/$newItemModelId');
+      String charId, String newItemModelId) async {
+    var userModelsRef =
+        _database.ref('$charCollection/$charId/items/$newItemModelId');
     await userModelsRef.remove();
     var modelRef = _database.ref('$itemsCollection/$newItemModelId');
     await modelRef.remove();
@@ -133,12 +135,13 @@ class DatabaseService {
     await modelRef.update(updatedData);
   }
 
-  static Future<List<ItemModel>> getUserItemModels(String userId) async {
-    var userModelsRef = _database.ref('$userCollection/$userId/items');
-    DataSnapshot snapshot = await userModelsRef.get();
+  static Future<List<ItemModel>> getCharItemModels(String charId) async {
+    var charModelsRef = _database.ref('$charCollection/$charId/items');
+    DataSnapshot snapshot = await charModelsRef.get();
     List<ItemModel> itemModels = [];
     for (var itemModelId in snapshot.children) {
-      var modelSnapshot = await _database.ref('$itemsCollection/${itemModelId.key}').get();
+      var modelSnapshot =
+          await _database.ref('$itemsCollection/${itemModelId.key}').get();
       if (modelSnapshot.exists) {
         var modelData = modelSnapshot.value as Map<dynamic, dynamic>;
         itemModels.add(ItemModel.fromMap(modelData));

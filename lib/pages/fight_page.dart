@@ -65,10 +65,11 @@ class _FightPageState extends State<FightPage> {
               ),
             ),
             ButtonComponent(
-                pressed: () {
+                pressed: () async {
                   setState(() {
                     items.remove(item);
                   });
+                  await DatabaseService.deleteItemModel(_char!.id, item.id);
                 },
                 tipo: 0,
                 icon: PhosphorIconsBold.minus)

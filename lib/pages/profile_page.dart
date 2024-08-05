@@ -44,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       DetailsComponent(
                           title: "Idade", value: _char!.details!.age),

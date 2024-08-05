@@ -10,9 +10,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HeaderComponent extends StatefulWidget {
-  const HeaderComponent({super.key, this.type = 0});
-
-  final int type;
+  const HeaderComponent({super.key});
 
   @override
   State<HeaderComponent> createState() => _HeaderComponentState();
@@ -242,110 +240,53 @@ class _HeaderComponentState extends State<HeaderComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.type == 0
-        ? Stack(
-            alignment: AlignmentDirectional.bottomEnd,
-            clipBehavior: Clip.none,
+    return Stack(
+      alignment: AlignmentDirectional.bottomEnd,
+      clipBehavior: Clip.none,
+      children: [
+        // Gradiente de fundo
+        backgroundGradient(350),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Gradiente de fundo
-              backgroundGradient(350),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    returnText("${_char?.name}", FontWeight.bold, 32),
-                    returnText("${_char?.classe}", FontWeight.w100, 24),
-                    // returnLevel("${_char?.level}"),
-                    returnLevel("${_char?.level}"),
+              returnText("${_char?.name}", FontWeight.bold, 32),
+              returnText("${_char?.classe}", FontWeight.w100, 24),
+              // returnLevel("${_char?.level}"),
+              returnLevel("${_char?.level}"),
 
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    returnLife("${_char?.curLife}", "${_char?.maxLife}"),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    returnMoney("${_char?.po}", "${_char?.pb}", "${_char?.pp}")
-                  ],
-                ),
+              const SizedBox(
+                height: 5,
               ),
-              Positioned(
-                right: 0,
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  height: 250,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image.network("${_char?.image}", fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                    return const Text('😢');
-                  }),
-                ),
+              returnLife("${_char?.curLife}", "${_char?.maxLife}"),
+              const SizedBox(
+                height: 5,
               ),
-              Positioned(
-                top: 16,
-                left: 16,
-                child: profileTop("${_user?.image}", "${_user?.name}"),
-              ),
-              // Imagem posicionada ao lado
+              returnMoney("${_char?.po}", "${_char?.pb}", "${_char?.pp}")
             ],
-          )
-        : Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            clipBehavior: Clip.none,
-            children: [
-              // Gradiente de fundo
-              backgroundGradient(MediaQuery.of(context).size.height / 3.5),
-              Positioned(
-                child: SizedBox(
-                  height: 130,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            returnText("${_char?.name}", FontWeight.bold, 24,
-                                wrap: true),
-                            returnText("${_char?.classe}", FontWeight.w100, 20),
-                            Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    returnLife("${_char?.curLife}",
-                                        "${_char?.maxLife}"),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    returnMoney("${_char?.po}", "${_char?.pb}",
-                                        "${_char?.pp}")
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        returnLevel("${_char?.level}", collapse: true),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 16,
-                left: 16,
-                child: profileTop("${_user?.image}", "${_user?.name}"),
-              ),
-              // Imagem posicionada ao lado
-            ],
-          );
+          ),
+        ),
+        Positioned(
+          right: 0,
+          child: Container(
+            alignment: Alignment.centerRight,
+            height: 250,
+            width: MediaQuery.of(context).size.width,
+            child: Image.network("${_char?.image}", fit: BoxFit.cover,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+              return const Text('😢');
+            }),
+          ),
+        ),
+        Positioned(
+          top: 16,
+          left: 16,
+          child: profileTop("${_user?.image}", "${_user?.name}"),
+        ),
+        // Imagem posicionada ao lado
+      ],
+    );
   }
 }

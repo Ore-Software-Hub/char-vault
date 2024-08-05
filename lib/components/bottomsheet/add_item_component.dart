@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class AddItemBottomSheetComponent extends StatefulWidget {
-  const AddItemBottomSheetComponent({super.key, required this.editing});
+  const AddItemBottomSheetComponent(
+      {super.key, required this.editing, this.item});
   final bool editing;
+  final ItemModel? item;
 
   @override
   _AddItemBottomSheetComponentState createState() =>
@@ -34,10 +36,14 @@ class _AddItemBottomSheetComponentState
   @override
   void initState() {
     super.initState();
-    _controllerTitle = TextEditingController();
-    _controllerValue = TextEditingController();
-    _controllerDescription = TextEditingController();
+    _controllerTitle =
+        TextEditingController(text: widget.editing ? widget.item!.title : null);
+    _controllerValue =
+        TextEditingController(text: widget.editing ? widget.item!.value : null);
+    _controllerDescription = TextEditingController(
+        text: widget.editing ? widget.item!.description : null);
     title = widget.editing ? "Editando Item" : "Adicionando Item";
+    tipo = widget.editing ? widget.item!.tipo : "";
   }
 
   textFieldDecoration(String title) {
@@ -124,7 +130,7 @@ class _AddItemBottomSheetComponentState
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 2 - 20,
                   child: DropdownComponent(
-                    value: "",
+                    value: tipo,
                     onChanged: (value) {
                       setState(() {
                         tipo = value!;
@@ -191,7 +197,7 @@ class _AddItemBottomSheetComponentState
                       backgroundColor:
                           const WidgetStatePropertyAll(Colors.white)),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, null);
                   },
                   child: const Text('Voltar'),
                 ),
@@ -222,7 +228,7 @@ class _AddItemBottomSheetComponentState
                       ? null
                       : () {
                           var newItemModel = ItemModel(
-                              "",
+                              widget.editing ? widget.item!.id : "",
                               _controllerTitle.text,
                               _controllerValue.text,
                               _controllerDescription.text,

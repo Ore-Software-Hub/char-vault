@@ -39,16 +39,20 @@ class _ItemComponentState extends State<ItemComponent> {
           ),
         Expanded(
           child: InkWell(
-            onTap: () {
-              showModalBottomSheet(
+            onTap: () async {
+              final item = await showModalBottomSheet<ItemModel?>(
                 backgroundColor: cores.secondaryColor,
                 showDragHandle: true,
                 context: context,
                 isScrollControlled: true,
-                builder: (context) => const AddItemBottomSheetComponent(
+                builder: (context) => AddItemBottomSheetComponent(
                   editing: true,
+                  item: widget.item,
                 ),
               );
+              if (item != null) {
+                //TODO: implementar edição
+              }
             },
             child: Container(
               height: 40,

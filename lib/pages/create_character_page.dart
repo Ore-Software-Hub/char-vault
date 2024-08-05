@@ -764,7 +764,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   Widget returnItemComponent(List<ItemModel> items) {
-    // TODO: Corrigir remoção de items
     return Wrap(
       alignment: WrapAlignment.center,
       spacing: 4.0, // Espaçamento horizontal entre os widgets
@@ -779,7 +778,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             ),
             ButtonComponent(
                 pressed: () {
-                  items.remove(item);
+                  setState(() {
+                    items.remove(item);
+                  });
                 },
                 tipo: 0,
                 icon: PhosphorIconsBold.minus)

@@ -168,7 +168,7 @@ class _FightPageState extends State<FightPage> {
                                   Theme.of(context).colorScheme.secondary,
                               size: 30),
                         )
-                      : _weapons.isEmpty
+                      : _spells.isEmpty
                           ? returnInformation(
                               "Nenhuma magia encontrada!", "Adicione uma nova!")
                           : returnItemComponent(_spells)

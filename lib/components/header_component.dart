@@ -262,7 +262,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
               const SizedBox(
                 height: 5,
               ),
-              returnMoney("${_char?.po}", "${_char?.pb}", "${_char?.pp}")
+              returnMoney("${_char?.po}", "${_char?.pp}", "${_char?.pb}")
             ],
           ),
         ),

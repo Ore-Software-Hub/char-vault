@@ -45,7 +45,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
   }
 
   profileTop(String image, String name) {
-    debugPrint(_user.toString());
     return Row(
       children: [
         IconButton(

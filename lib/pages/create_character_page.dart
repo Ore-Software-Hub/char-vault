@@ -194,25 +194,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       backgroundColor: Theme.of(context).colorScheme.onSurface,
                       child: Center(
                         child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(.6),
-                        ),
-                      )),
-                  title: const Text("Camera"),
-                  onTap: () => {
-                    debugPrint("Clicou "),
-                    Navigator.pop(context),
-                    pickImage(ImageSource.camera)
-                  },
-                ),
-                ListTile(
-                  leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).colorScheme.onSurface,
-                      child: Center(
-                        child: Icon(
                           Icons.image,
                           color: Theme.of(context)
                               .colorScheme
@@ -221,11 +202,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         ),
                       )),
                   title: const Text("Galeria"),
-                  onTap: () => {
-                    debugPrint("Clicou "),
-                    Navigator.pop(context),
-                    pickImage(ImageSource.gallery)
-                  },
+                  onTap: () =>
+                      {Navigator.pop(context), pickImage(ImageSource.gallery)},
                 ),
                 ListTile(
                   leading: CircleAvatar(

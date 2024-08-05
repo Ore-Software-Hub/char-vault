@@ -80,9 +80,11 @@ class _HeaderComponentState extends State<HeaderComponent> {
     FontWeight weight,
     double fontSize, {
     Color color = Colors.white,
+    bool wrap = false,
   }) {
     return Text(
       text,
+      softWrap: wrap,
       style: TextStyle(
         fontSize: fontSize,
         color: color,
@@ -310,24 +312,28 @@ class _HeaderComponentState extends State<HeaderComponent> {
                             const SizedBox(
                               height: 20,
                             ),
-                            returnText("${_char?.name}", FontWeight.bold, 32),
-                            returnText("${_char?.classe}", FontWeight.w100, 24),
+                            returnText("${_char?.name}", FontWeight.bold, 24,
+                                wrap: true),
+                            returnText("${_char?.classe}", FontWeight.w100, 20),
                             Row(
                               children: [
-                                returnLife(
-                                    "${_char?.curLife}", "${_char?.maxLife}"),
-                                const SizedBox(
-                                  width: 20,
+                                Row(
+                                  children: [
+                                    returnLife("${_char?.curLife}",
+                                        "${_char?.maxLife}"),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    returnMoney("${_char?.po}", "${_char?.pb}",
+                                        "${_char?.pp}")
+                                  ],
                                 ),
-                                returnMoney("${_char?.po}", "${_char?.pb}",
-                                    "${_char?.pp}")
                               ],
                             ),
                           ],
                         ),
                         const Spacer(),
                         returnLevel("${_char?.level}", collapse: true),
-                        // returnLevel("${_char?.level}"),
                       ],
                     ),
                   ),

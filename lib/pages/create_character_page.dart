@@ -909,7 +909,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var pb = "0";
 
     _char = CharacterModel("", imgurl, _name, _classe, _level, life[0], life[1],
-        po, pp, pb, details, savingThrows, features, skills);
+        po, pp, pb, '', details, savingThrows, features, skills);
 
     final charId = await showModalBottomSheet(
       context: context,

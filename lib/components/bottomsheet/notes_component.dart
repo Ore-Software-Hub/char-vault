@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class NotesBottomSheetComponent extends StatefulWidget {
-  const NotesBottomSheetComponent({super.key});
+  const NotesBottomSheetComponent({super.key, required this.note});
+
+  final String note;
 
   @override
   _NotesBottomSheetComponentState createState() =>
@@ -24,7 +26,8 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: note);
+    _controller = TextEditingController(text: widget.note);
+    note = widget.note;
   }
 
   Widget _editTitleTextField() {
@@ -151,7 +154,7 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
                       backgroundColor:
                           const WidgetStatePropertyAll(cores.primaryColor)),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, note);
                   },
                   child: const Text('Salvar'),
                 ),

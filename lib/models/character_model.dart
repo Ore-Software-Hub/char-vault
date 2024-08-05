@@ -9,6 +9,7 @@ class CharacterModel {
   String po;
   String pp;
   String pb;
+  String notes;
 
   CharacterDetails? details;
   List<FeatureDetails>? savingThrows;
@@ -26,6 +27,7 @@ class CharacterModel {
       this.po,
       this.pp,
       this.pb,
+      this.notes,
       this.details,
       this.savingThrows,
       this.features,
@@ -43,6 +45,7 @@ class CharacterModel {
       'po': po,
       'pp': pp,
       'pb': pb,
+      'notes': notes,
       'details': details?.toMap(),
       'savingThrows': savingThrows?.map((e) => e.toMap()).toList(),
       'features': features?.map((e) => e.toMap()).toList(),
@@ -62,6 +65,7 @@ class CharacterModel {
       map['po'] ?? '',
       map['pp'] ?? '',
       map['pb'] ?? '',
+      map['notes'] ?? '',
       map['details'] != null ? CharacterDetails.fromMap(map['details']) : null,
       map['savingThrows'] != null
           ? List<FeatureDetails>.from(

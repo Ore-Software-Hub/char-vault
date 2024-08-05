@@ -128,14 +128,25 @@ class _InitialPageState extends State<InitialPage> {
               PhosphorIconsBold.note,
             ),
             label: 'Anotações',
-            onTap: () {
-              showModalBottomSheet(
+            onTap: () async {
+              final note = await showModalBottomSheet<String?>(
                 backgroundColor: cores.secondaryColor,
                 showDragHandle: true,
                 context: context,
                 isScrollControlled: true,
-                builder: (context) => const NotesBottomSheetComponent(),
+                builder: (context) => NotesBottomSheetComponent(
+                  note: _char!.notes,
+                ),
               );
+
+              if (note != null) {
+                setState(() {
+                  _char!.notes = note;
+                });
+                await DatabaseService.updateCharacter(
+                    _char!.id, _char!.toMap());
+                NotificationHelper.showSnackBar(context, "Notas atualizadas");
+              }
             },
           ),
         ],

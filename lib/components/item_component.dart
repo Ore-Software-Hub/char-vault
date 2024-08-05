@@ -1,5 +1,7 @@
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
@@ -50,8 +52,11 @@ class _ItemComponentState extends State<ItemComponent> {
                   item: widget.item,
                 ),
               );
+
               if (item != null) {
-                //TODO: implementar edição
+                await DatabaseService.updateItemModel(
+                    widget.item.id, item.toMap());
+                NotificationHelper.showSnackBar(context, "Item atualizado");
               }
             },
             child: Container(

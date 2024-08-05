@@ -1,19 +1,25 @@
 import 'dart:async';
 
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/backpack_page.dart';
 import 'package:CharVault/components/bottomsheet/dice_component.dart';
 import 'package:CharVault/components/bottomsheet/notes_component.dart';
 import 'package:CharVault/pages/fight_page.dart';
 import 'package:CharVault/pages/home_page.dart';
+import 'package:CharVault/pages/login_page.dart';
 import 'package:CharVault/pages/profile_page.dart';
+import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
+import 'package:provider/provider.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
@@ -25,6 +31,7 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 0;
   bool loading = true;
+  CharacterModel? _char;
 
   List<Widget> tabs = [
     const HomePage(),
@@ -45,6 +52,9 @@ class _InitialPageState extends State<InitialPage> {
           setState(() {
             timer.cancel();
             loading = false;
+            _char = Provider.of<LoginProvider>(context, listen: false)
+                .userModel!
+                .char;
           });
         } else {
           setState(() {
@@ -106,31 +116,12 @@ class _InitialPageState extends State<InitialPage> {
                       editing: false,
                     ),
                   );
-                  // TODO: implementar add item
-                  // if (item != null) {
-                  //   switch (item.tipo) {
-                  //     case 'Arma':
-                  //       _weapons.add(item);
-                  //       break;
-
-                  //     case 'Armadura':
-                  //     case 'Equipamento':
-                  //     case 'Item':
-                  //       _equipments.add(item);
-                  //       break;
-
-                  //     case 'Consumíveis':
-                  //     case 'Item mágico':
-                  //     case 'Objeto':
-                  //     case 'Outros':
-                  //       _inventory.add(item);
-                  //       break;
-
-                  //     case 'Magia':
-                  //       _spells.add(item);
-                  //       break;
-                  //   }
-                  // }
+                  if (item != null) {
+                    final added =
+                        await DatabaseService.addItemModel(_char!.id, item);
+                    NotificationHelper.showSnackBar(context,
+                        "Item ${added ? "Adicionado" : "Não adicionado"}");
+                  }
                 }),
           SpeedDialChild(
             child: const PhosphorIcon(

@@ -9,7 +9,6 @@ import 'package:CharVault/components/bottomsheet/dice_component.dart';
 import 'package:CharVault/components/bottomsheet/notes_component.dart';
 import 'package:CharVault/pages/fight_page.dart';
 import 'package:CharVault/pages/home_page.dart';
-import 'package:CharVault/pages/login_page.dart';
 import 'package:CharVault/pages/profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';

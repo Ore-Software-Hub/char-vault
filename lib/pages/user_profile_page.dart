@@ -99,6 +99,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "${_user?.name}",
@@ -106,6 +107,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    "v0.1.0-beta",
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ],

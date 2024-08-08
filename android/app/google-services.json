@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "386541822660-b53pi2ebojvvdvak6oas69ujvp3hkll6.apps.googleusercontent.com",
+          "client_id": "386541822660-6taj57v51u7pe0edricun87veepona9e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.oresoftware.CharVault",
-            "certificate_hash": "929c825fd68f1fa6371e968169ec836c07ca6159"
+            "certificate_hash": "9d8fed4e514bc42b4ea0e192e2188428c5356d67"
           }
         },
         {

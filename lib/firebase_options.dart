@@ -50,23 +50,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBOnVNm3oEI6WCVXJ5oP16AmCdkqga0gHI',
-    appId: '1:386541822660:android:378553fd61b4a006d4df91',
-    messagingSenderId: '386541822660',
-    projectId: 'char-vault',
-    databaseURL: 'https://char-vault-default-rtdb.firebaseio.com',
-    storageBucket: 'char-vault.appspot.com',
+    apiKey: 'AIzaSyAedtKBfkoR0LXeFGoQcv2kGxwbnq2duJw',
+    appId: '1:1028764636554:android:52ff5d45449531e1da2473',
+    messagingSenderId: '1028764636554',
+    projectId: 'characters-vault-4cab1',
+    databaseURL: 'https://characters-vault-4cab1-default-rtdb.firebaseio.com',
+    storageBucket: 'characters-vault-4cab1.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDK9QZHj9kXDiN2yCvgMGOBGTOTh94kEGo',
-    appId: '1:386541822660:ios:964c3163b56593a0d4df91',
-    messagingSenderId: '386541822660',
-    projectId: 'char-vault',
-    databaseURL: 'https://char-vault-default-rtdb.firebaseio.com',
-    storageBucket: 'char-vault.appspot.com',
-    androidClientId: '386541822660-b53pi2ebojvvdvak6oas69ujvp3hkll6.apps.googleusercontent.com',
-    iosClientId: '386541822660-l0pjgp15ui7ot8snmi7e84o5f20bni6v.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD0iRRfgFHkoMoGjWREUDDazKOUA6PqIg4',
+    appId: '1:1028764636554:ios:3ec4c46667b7dd47da2473',
+    messagingSenderId: '1028764636554',
+    projectId: 'characters-vault-4cab1',
+    databaseURL: 'https://characters-vault-4cab1-default-rtdb.firebaseio.com',
+    storageBucket: 'characters-vault-4cab1.appspot.com',
+    androidClientId: '1028764636554-uv09hc41pcaou95uuk9t4pa44b513tqu.apps.googleusercontent.com',
+    iosClientId: '1028764636554-gd0etnvmu73up59qh43ud856nk3gnirk.apps.googleusercontent.com',
     iosBundleId: 'com.example.characterVault',
   );
 

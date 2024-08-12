@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:CharVault/components/roll_component.dart';
+import 'package:CharVault/components/button_component.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
@@ -121,68 +121,47 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
                   spacing: 4.0, // Espaçamento horizontal entre os widgets
                   runSpacing: 4.0, // Espaçamento vertical entre as linhas
                   children: [
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(4);
                         },
-                        icon: PhosphorIconsBold.diceTwo,
                         label: "D4"),
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(6);
                         },
-                        icon: PhosphorIconsBold.diceFour,
                         label: "D6"),
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(8);
                         },
-                        icon: PhosphorIconsBold.diceSix,
                         label: "D8"),
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(10);
                         },
-                        icon: PhosphorIconsBold.diceOne,
                         label: "D10"),
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(12);
                         },
-                        icon: PhosphorIconsBold.diceOne,
                         label: "D12"),
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(20);
                         },
-                        icon: PhosphorIconsBold.diceOne,
                         label: "D20"),
-                    ButtonRollComponent(
+                    ButtonComponent(
                         pressed: () {
                           addDice(100);
                         },
-                        icon: PhosphorIconsBold.diceOne,
                         label: "D100"),
-                    ElevatedButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.pressed)) {
-                                  return cores
-                                      .secondaryColor; // Altere para a cor desejada
-                                }
-                                return null; // Use o valor padrão para outros estados
-                              },
-                            ),
-                            foregroundColor:
-                                const WidgetStatePropertyAll(Colors.white),
-                            backgroundColor: const WidgetStatePropertyAll(
-                                cores.primaryColor)),
-                        onPressed: () {
-                          removeDice();
-                        },
-                        child: const Text("X"))
+                    ButtonComponent(
+                      pressed: () {
+                        removeDice();
+                      },
+                      label: "X",
+                    )
                   ],
                 ),
                 Padding(
@@ -213,11 +192,11 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
                     ],
                   ),
                 ),
-                ButtonRollComponent(
+                ButtonComponent(
                     pressed: () {
                       calculate();
                     },
-                    icon: PhosphorIconsBold.arrowClockwise,
+                    disabled: dices.isEmpty,
                     label: "Rolar")
               ],
             ),

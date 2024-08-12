@@ -11,15 +11,16 @@ class ButtonComponent extends StatefulWidget {
       this.icon,
       this.label,
       this.loading = false,
-      this.color = cores.primaryColor});
+      this.color = cores.primaryColor,
+      this.disabled = false});
 
   final Function()? pressed;
   final int tipo;
-
   final PhosphorFlatIconData? icon;
   final String? label;
   final Color? color;
   final bool loading;
+  final bool disabled;
 
   @override
   State<ButtonComponent> createState() => _ButtonComponentState();
@@ -31,39 +32,50 @@ class _ButtonComponentState extends State<ButtonComponent> {
     super.initState();
   }
 
-  buttonStyle() {
+  ButtonStyle buttonStyle() {
     return ButtonStyle(
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          const RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(8)), // Torna o botão quadrado
-          ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>(
-          (Set<WidgetState> states) {
-            if (states.contains(WidgetState.pressed)) {
-              return cores.secondaryColor; // Altere para a cor desejada
-            }
-            return null; // Use o valor padrão para outros estados
-          },
-        ),
-        foregroundColor: const WidgetStatePropertyAll(Colors.white),
-        backgroundColor: WidgetStatePropertyAll(widget.color!));
+      ),
+      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return cores.secondaryColor;
+          }
+          return null;
+        },
+      ),
+      foregroundColor: MaterialStateProperty.all<Color>(
+        widget.disabled ? Colors.grey : Colors.white,
+      ),
+      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return Colors.grey.shade400; // Cor do botão desativado
+          }
+          return widget.color;
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool isDisabled = widget.disabled || widget.pressed == null;
+
     if (widget.tipo == 0) {
       return IconButton(
         style: buttonStyle(),
-        onPressed: widget.pressed!,
+        onPressed: isDisabled ? null : widget.pressed,
         icon: PhosphorIcon(widget.icon!),
       );
     }
     if (widget.tipo == 1) {
       return ElevatedButton.icon(
         style: buttonStyle(),
-        onPressed: widget.pressed,
+        onPressed: isDisabled ? null : widget.pressed,
         icon: widget.loading
             ? LoadingAnimationWidget.twistingDots(
                 leftDotColor: Theme.of(context).colorScheme.primary,
@@ -75,7 +87,7 @@ class _ButtonComponentState extends State<ButtonComponent> {
     }
     return ElevatedButton(
       style: buttonStyle(),
-      onPressed: widget.pressed,
+      onPressed: isDisabled ? null : widget.pressed,
       child: Text(widget.label!),
     );
   }

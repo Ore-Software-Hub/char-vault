@@ -1,3 +1,4 @@
+import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dropdown_component.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
@@ -175,67 +176,26 @@ class _AddItemBottomSheetComponentState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)), // Torna o botão quadrado
-                        ),
-                      ),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return cores
-                                .secondaryColor; // Altere para a cor desejada
-                          }
-                          return null; // Use o valor padrão para outros estados
-                        },
-                      ),
-                      foregroundColor:
-                          const WidgetStatePropertyAll(cores.primaryColor),
-                      backgroundColor:
-                          const WidgetStatePropertyAll(Colors.white)),
-                  onPressed: () {
+                ButtonComponent(
+                  pressed: () {
                     Navigator.pop(context, null);
                   },
-                  child: const Text('Voltar'),
+                  label: 'Voltar',
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)), // Torna o botão quadrado
-                        ),
-                      ),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return cores
-                                .secondaryColor; // Altere para a cor desejada
-                          }
-                          return null; // Use o valor padrão para outros estados
-                        },
-                      ),
-                      foregroundColor:
-                          const WidgetStatePropertyAll(Colors.white),
-                      backgroundColor:
-                          const WidgetStatePropertyAll(cores.primaryColor)),
-                  onPressed: _controllerTitle.text.isEmpty ||
-                          _controllerValue.text.isEmpty ||
-                          _controllerDescription.text.isEmpty
-                      ? null
-                      : () {
-                          var newItemModel = ItemModel(
-                              widget.editing ? widget.item!.id : "",
-                              _controllerTitle.text,
-                              _controllerValue.text,
-                              _controllerDescription.text,
-                              tipo);
-                          Navigator.pop(context, newItemModel);
-                        },
-                  child: const Text('Salvar'),
+                ButtonComponent(
+                  pressed: () {
+                    var newItemModel = ItemModel(
+                        widget.editing ? widget.item!.id : "",
+                        _controllerTitle.text,
+                        _controllerValue.text,
+                        _controllerDescription.text,
+                        tipo);
+                    Navigator.pop(context, newItemModel);
+                  },
+                  disabled: _controllerTitle.text.isEmpty ||
+                      _controllerValue.text.isEmpty ||
+                      _controllerDescription.text.isEmpty,
+                  label: 'Salvar',
                 ),
               ],
             )

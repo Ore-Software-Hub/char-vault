@@ -73,8 +73,6 @@ class _AddItemBottomSheetComponentState
     );
   }
 
-  onChangeSelect(String selected) {}
-
   @override
   Widget build(BuildContext context) {
     return Padding(

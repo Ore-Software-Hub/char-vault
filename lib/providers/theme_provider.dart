@@ -23,23 +23,4 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void toggleTheme(
-  //     {Brightness? brightness = Brightness.dark,
-  //     Color? primary = cores.accentColor}) {
-  //   ThemeData theme = ThemeData(
-  //     brightness: brightness,
-  //     colorScheme: brightness == Brightness.dark
-  //         ? ColorScheme.dark(
-  //             surface: cores.surfaceColorDark,
-  //             primary: primary!,
-  //             secondary: cores.backgroundColorDark,
-  //           )
-  //         : ColorScheme.light(
-  //             surface: cores.surfaceColorLight,
-  //             primary: primary!,
-  //             secondary: cores.backgroundColorLight,
-  //           ),
-  //   );
-  //   themeData = theme;
-  // }
 }

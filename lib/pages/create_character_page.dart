@@ -927,7 +927,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     );
 
     NotificationHelper.showSnackBar(
-        context, charId != null ? "Personagem adicionado!" : "Ocorreu um erro");
+        context, charId != null ? "Personagem adicionado!" : "Ocorreu um erro",
+        level: charId != null ? 1 : 2);
 
     if (charId != null) {
       await showModalBottomSheet(
@@ -952,7 +953,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             }
 
             NotificationHelper.showSnackBar(
-                context, added ? "Itens adicionados!" : "Ocorreu um erro");
+                context, added ? "Itens adicionados!" : "Ocorreu um erro",
+                level: added ? 1 : 2);
 
             Navigator.pop(context, added);
           },
@@ -973,7 +975,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             imageFile == null)) {
       return () {
         NotificationHelper.showSnackBar(
-            context, "Preencha todos os campos para prosseguir");
+          context,
+          "Preencha todos os campos para prosseguir",
+        );
       };
     }
 
@@ -988,7 +992,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             _charisma.isEmpty)) {
       return () {
         NotificationHelper.showSnackBar(
-            context, "Preencha todos os campos para prosseguir");
+          context,
+          "Preencha todos os campos para prosseguir",
+        );
       };
     }
 

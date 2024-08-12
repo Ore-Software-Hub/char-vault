@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +19,20 @@ void main() async {
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
   );
+
+  await _requestPermissions();
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ThemeProvider()),
     ChangeNotifierProvider(create: (context) => LoginProvider()),
   ], child: const MyApp()));
+}
+
+Future<void> _requestPermissions() async {
+  await [
+    Permission.storage, // Para READ_EXTERNAL_STORAGE
+    Permission.photos // Para READ_MEDIA_IMAGES
+  ].request();
 }
 
 class MyApp extends StatelessWidget {

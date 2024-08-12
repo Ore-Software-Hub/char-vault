@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:CharVault/components/button_component.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class DiceBottomSheetComponent extends StatefulWidget {

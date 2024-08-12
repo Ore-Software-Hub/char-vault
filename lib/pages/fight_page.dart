@@ -1,6 +1,7 @@
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
@@ -70,6 +71,8 @@ class _FightPageState extends State<FightPage> {
                     items.remove(item);
                   });
                   await DatabaseService.deleteItemModel(_char!.id, item.id);
+                  NotificationHelper.showSnackBar(
+                      context, "Item [${item.title}] removido");
                 },
                 tipo: 0,
                 icon: PhosphorIconsBold.minus)

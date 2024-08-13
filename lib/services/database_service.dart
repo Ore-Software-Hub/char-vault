@@ -80,20 +80,33 @@ class DatabaseService {
 
   /// Método para obter todos os personagens de um usuário
   static Future<List<CharacterModel>> getUserCharacters(String userId) async {
-    var userCharsRef = _database.ref('$userCollection/$userId/chars');
-    DataSnapshot snapshot = await userCharsRef.get();
+    try {
+      var userCharsRef = _database.ref('$userCollection/$userId/chars');
+      DataSnapshot snapshot = await userCharsRef.get();
 
-    List<CharacterModel> characters = [];
-    for (var charId in snapshot.children) {
-      var charSnapshot =
-          await _database.ref('$charCollection/${charId.key}').get();
-      if (charSnapshot.exists) {
-        var characterData = charSnapshot.value as Map<dynamic, dynamic>;
-        characters.add(CharacterModel.fromMap(characterData));
+      List<Future<CharacterModel?>> characterFutures = [];
+      for (var charId in snapshot.children) {
+        var charSnapshotFuture = _database
+            .ref('$charCollection/${charId.key}')
+            .get()
+            .then((charSnapshot) {
+          if (charSnapshot.exists) {
+            var characterData = charSnapshot.value as Map<dynamic, dynamic>;
+            return CharacterModel.fromMap(characterData);
+          }
+          return null;
+        });
+        characterFutures.add(charSnapshotFuture);
       }
-    }
 
-    return characters;
+      var characters = (await Future.wait(characterFutures))
+          .whereType<CharacterModel>()
+          .toList();
+      return characters;
+    } catch (e) {
+      print('Erro ao buscar personagens para o usuário $userId: $e');
+      return [];
+    }
   }
 
   static Future<bool> addItemModel(

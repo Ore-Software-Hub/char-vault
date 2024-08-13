@@ -871,12 +871,13 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     });
 
     try {
-      imgurl = await StorageService.uploadUserImage(user!.id, imageFile!);
+      imgurl = await StorageService.uploadUserImage(imageFile!);
       NotificationHelper.showSnackBar(context, "Imagem salva!", level: 1);
     } catch (e) {
       NotificationHelper.showSnackBar(
           context, "Erro ao salvar imagem: ${e.toString()}",
           level: 2);
+      changeStep(-1);
       return;
     }
 
@@ -952,13 +953,14 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     });
 
     try {
-      charId = await DatabaseService.addCharacter(user!.id, _char!);
+      charId = await DatabaseService.addCharacter(_char!);
       NotificationHelper.showSnackBar(context, "Personagem adicionado!",
           level: 1);
     } catch (e) {
       NotificationHelper.showSnackBar(
           context, "Erro ao salvar o personagem: ${e.toString()}",
           level: 2);
+      changeStep(-1);
       return;
     }
 
@@ -981,7 +983,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           NotificationHelper.showSnackBar(context, "Itens adicionados!",
               level: 1);
         } catch (e) {
-          NotificationHelper.showSnackBar(context, "Ocorreu um erro", level: 2);
+          NotificationHelper.showSnackBar(
+              context, "Erro ao adicionar itens: ${e.toString()}",
+              level: 2);
+          changeStep(-1);
           return;
         }
       }

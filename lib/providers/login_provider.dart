@@ -16,7 +16,7 @@ class LoginProvider with ChangeNotifier {
   updateUser({CharacterModel? char}) {
     var curUser = AuthService.user;
     UserModel newUserModel =
-        UserModel(curUser!.uid, curUser.photoURL!, curUser.displayName!, char);
+        UserModel(curUser!.photoURL!, curUser.displayName!, char);
     userModel = newUserModel;
   }
 }

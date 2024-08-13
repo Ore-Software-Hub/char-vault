@@ -1,3 +1,4 @@
+import 'package:CharVault/services/auth_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
@@ -6,10 +7,10 @@ class StorageService {
   static const String path = 'users/images/';
 
   /// Salvar imagem de um usuário
-  static Future<String> uploadUserImage(String userId, File file) async {
+  static Future<String> uploadUserImage(File file) async {
     try {
       String uniqueFilename =
-          '${userId}_${DateTime.now().millisecondsSinceEpoch}.png';
+          '${AuthService.user?.uid}_${DateTime.now().millisecondsSinceEpoch}.png';
       var ref = _storage.ref().child('$path$uniqueFilename');
       UploadTask uploadTask = ref.putFile(file);
 

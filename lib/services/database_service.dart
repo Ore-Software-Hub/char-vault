@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -22,8 +25,7 @@ class DatabaseService {
   }
 
   /// Método para adicionar um personagem a um usuário
-  static Future<String?> addCharacter(
-      String userId, CharacterModel newCharacter) async {
+  static Future<String?> addCharacter(CharacterModel newCharacter) async {
     try {
       String charId = await saveData(
           charCollection,
@@ -35,7 +37,7 @@ class DatabaseService {
       await updateCharacter(charId, newCharacter.toMap());
 
       var userCharsRef = _database.ref(
-          '$userCollection/$userId/chars'); // Referência ao nó de personagens do usuário
+          '$userCollection/${AuthService.user?.uid}/chars'); // Referência ao nó de personagens do usuário
 
       await userCharsRef
           .child(charId)
@@ -49,10 +51,9 @@ class DatabaseService {
   }
 
   /// Método para deletar um personagem de um usuário
-  static Future<void> deleteCharacter(
-      String userId, String charId, String charImageId) async {
+  static Future<void> deleteCharacter(String charId, String charImageId) async {
     var userCharsRef = _database.ref(
-        '$userCollection/$userId/chars/$charId'); // Referência ao nó de personagens do usuário
+        '$userCollection/${AuthService.user?.uid}/chars/$charId'); // Referência ao nó de personagens do usuário
 
     await userCharsRef
         .remove(); // Removendo a referência ao personagem no nó do usuário
@@ -79,10 +80,23 @@ class DatabaseService {
   }
 
   /// Método para obter todos os personagens de um usuário
-  static Future<List<CharacterModel>> getUserCharacters(String userId) async {
+  static Future<List<CharacterModel>?> getUserCharacters() async {
+    _database.setLoggingEnabled(true);
     try {
-      var userCharsRef = _database.ref('$userCollection/$userId/chars');
-      DataSnapshot snapshot = await userCharsRef.get();
+      var userCharsRef =
+          _database.ref('$userCollection/${AuthService.user?.uid}/chars');
+
+      // Obtém os IDs dos personagens do usuário
+      DataSnapshot snapshot = await userCharsRef.get().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw TimeoutException('A operação de leitura no Firebase expirou.');
+        },
+      );
+
+      if (!snapshot.exists) {
+        return [];
+      }
 
       List<Future<CharacterModel?>> characterFutures = [];
       for (var charId in snapshot.children) {
@@ -99,13 +113,15 @@ class DatabaseService {
         characterFutures.add(charSnapshotFuture);
       }
 
+      // Espera todas as futuras se resolverem e filtra os nulos
       var characters = (await Future.wait(characterFutures))
           .whereType<CharacterModel>()
           .toList();
+
       return characters;
     } catch (e) {
-      print('Erro ao buscar personagens para o usuário $userId: $e');
-      return [];
+      // Captura e lança a exceção com uma mensagem de erro personalizada
+      throw "Erro ao buscar personagens: ${e.toString()}";
     }
   }
 

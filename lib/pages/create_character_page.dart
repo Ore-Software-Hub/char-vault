@@ -1151,9 +1151,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             if (step == 2)
               ButtonComponent(
                 label: "Finalizar",
-                pressed: () {
-                  finishCharacter();
-                },
+                pressed: nextAvailable(),
               )
           ],
         ),

@@ -37,7 +37,7 @@ class NotificationHelper {
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            height: 90,
+            height: 100,
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: const BorderRadius.all(Radius.circular(20)),

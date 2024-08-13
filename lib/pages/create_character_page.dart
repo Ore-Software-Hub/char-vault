@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
-import 'package:CharVault/components/bottomsheet/loading_component.dart';
 import 'package:CharVault/components/bottomsheet/text_component.dart';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dropdown_component.dart';
@@ -10,6 +9,7 @@ import 'package:CharVault/components/text_field_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -29,15 +30,14 @@ class CreateCharacterPage extends StatefulWidget {
 
 class _CreateCharacterPageState extends State<CreateCharacterPage> {
   int step = 1;
-  String title = '';
-  bool buscando = false;
-  final imagePicker = ImagePicker();
+
+  UserModel? user;
+
+  bool buscando = false, removeImage = false;
+
   File? imageFile;
-  bool removeImage = false;
-  List<ItemModel> _equipments = [],
-      _weapons = [],
-      _inventory = [],
-      _spells = [];
+
+  List<ItemModel> equipments = [], weapons = [], inventory = [], spells = [];
 
   List<ItemDropdown> classes = [
     ItemDropdown(display: "Bárbaro", value: 12),
@@ -64,15 +64,14 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     ItemDropdown(display: "Caótico Mau", value: 0),
   ];
 
-  // Step 1
+  String title = 'Dados Pessoais';
+  String savingTitle = '';
   String _name = "";
   String _age = "";
   String _race = "";
   String _background = "";
   String _alignment = "";
   String _backstory = "";
-
-  // Step 2
   String _classe = "";
   String _level = "";
   String _strength = "";
@@ -84,9 +83,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   CharacterModel? _char;
 
+  final imagePicker = ImagePicker();
+
   @override
   void initState() {
     super.initState();
+    user = Provider.of<LoginProvider>(context, listen: false).userModel;
   }
 
   changeStep(int val) {
@@ -626,10 +628,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      _equipments.isEmpty
+                      equipments.isEmpty
                           ? returnInformation("Nenhum Equipamento adicionado!",
                               "Adicione um novo!")
-                          : returnItemComponent(_equipments)
+                          : returnItemComponent(equipments)
                     ],
                   ),
                 ),
@@ -648,10 +650,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      _inventory.isEmpty
+                      inventory.isEmpty
                           ? returnInformation(
                               "Nenhum item adicionado!", "Adicione um novo!")
-                          : returnItemComponent(_inventory)
+                          : returnItemComponent(inventory)
                     ],
                   ),
                 ),
@@ -670,10 +672,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      _weapons.isEmpty
+                      weapons.isEmpty
                           ? returnInformation(
                               "Nenhuma arma encontrada!", "Adicione uma nova!")
-                          : returnItemComponent(_weapons)
+                          : returnItemComponent(weapons)
                     ],
                   ),
                 ),
@@ -692,10 +694,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      _spells.isEmpty
+                      spells.isEmpty
                           ? returnInformation(
                               "Nenhuma magia adicionada", "Adicione uma nova!")
-                          : returnItemComponent(_spells)
+                          : returnItemComponent(spells)
                     ],
                   ),
                 ),
@@ -706,7 +708,27 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             )
           ],
         );
-
+      case 3:
+        return Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Text(
+                  savingTitle,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 50),
+                const Text(
+                  'Adicionando ao cofre...',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 50),
+                LoadingAnimationWidget.discreteCircle(
+                    color: Theme.of(context).colorScheme.secondary, size: 50)
+              ],
+            ));
       default:
         return const Center();
     }
@@ -842,9 +864,21 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   finishCharacter() async {
-    var user = Provider.of<LoginProvider>(context, listen: false).userModel;
+    changeStep(1);
+    var imgurl = '';
+    setState(() {
+      savingTitle = "Carregando imagem";
+    });
 
-    var imgurl = await StorageService.uploadUserImage(user!.id, imageFile!);
+    try {
+      imgurl = await StorageService.uploadUserImage(user!.id, imageFile!);
+      NotificationHelper.showSnackBar(context, "Imagem salva!", level: 1);
+    } catch (e) {
+      NotificationHelper.showSnackBar(
+          context, "Erro ao salvar imagem: ${e.toString()}",
+          level: 2);
+      return;
+    }
 
     var details =
         CharacterDetails(_age, _race, _background, _alignment, _backstory);
@@ -911,55 +945,46 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     _char = CharacterModel("", imgurl, _name, _classe, _level, life[0], life[1],
         po, pp, pb, '', details, savingThrows, features, skills);
 
-    final charId = await showModalBottomSheet(
-      context: context,
-      isDismissible: false,
-      enableDrag: false,
-      builder: (context) => LoadingBottomSheetComponent(
-        title: "Salvar Personagem",
-        obj: _char!,
-        function: () async {
-          var added = await DatabaseService.addCharacter(user.id, _char!);
+    String? charId;
 
-          Navigator.pop(context, added);
-        },
-      ),
-    );
+    setState(() {
+      savingTitle = "Salvando personagem";
+    });
 
-    NotificationHelper.showSnackBar(
-        context, charId != null ? "Personagem adicionado!" : "Ocorreu um erro",
-        level: charId != null ? 1 : 2);
+    try {
+      charId = await DatabaseService.addCharacter(user!.id, _char!);
+      NotificationHelper.showSnackBar(context, "Personagem adicionado!",
+          level: 1);
+    } catch (e) {
+      NotificationHelper.showSnackBar(
+          context, "Erro ao salvar o personagem: ${e.toString()}",
+          level: 2);
+      return;
+    }
 
     if (charId != null) {
-      await showModalBottomSheet(
-        context: context,
-        isDismissible: false,
-        enableDrag: false,
-        builder: (context) => LoadingBottomSheetComponent(
-          title: "Salvando Items",
-          obj: _char!,
-          function: () async {
-            List<ItemModel> items = [
-              ..._equipments,
-              ..._inventory,
-              ..._weapons,
-              ..._spells
-            ];
+      List<ItemModel> items = [
+        ...equipments,
+        ...inventory,
+        ...weapons,
+        ...spells
+      ];
 
-            bool added = false;
-
-            for (var item in items) {
-              added = await DatabaseService.addItemModel(charId, item);
-            }
-
-            NotificationHelper.showSnackBar(
-                context, added ? "Itens adicionados!" : "Ocorreu um erro",
-                level: added ? 1 : 2);
-
-            Navigator.pop(context, added);
-          },
-        ),
-      );
+      if (items.isNotEmpty) {
+        setState(() {
+          savingTitle = "Salvando itens";
+        });
+        try {
+          for (var item in items) {
+            await DatabaseService.addItemModel(charId, item);
+          }
+          NotificationHelper.showSnackBar(context, "Itens adicionados!",
+              level: 1);
+        } catch (e) {
+          NotificationHelper.showSnackBar(context, "Ocorreu um erro", level: 2);
+          return;
+        }
+      }
     }
 
     Navigator.pop(context);
@@ -1070,24 +1095,24 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 if (item != null) {
                   switch (item.tipo) {
                     case 'Arma':
-                      _weapons.add(item);
+                      weapons.add(item);
                       break;
 
                     case 'Armadura':
                     case 'Equipamento':
                     case 'Item':
-                      _equipments.add(item);
+                      equipments.add(item);
                       break;
 
                     case 'Consumíveis':
                     case 'Item mágico':
                     case 'Objeto':
                     case 'Outros':
-                      _inventory.add(item);
+                      inventory.add(item);
                       break;
 
                     case 'Magia':
-                      _spells.add(item);
+                      spells.add(item);
                       break;
                   }
                 }

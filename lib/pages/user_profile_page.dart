@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/char_details_component.dart';
+import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/create_character_page.dart';
@@ -57,11 +58,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
     setState(() {
       loadingChars = true;
     });
-    var charsLoaded = await DatabaseService.getUserCharacters(_user!.id);
-    setState(() {
-      chars = charsLoaded;
-      loadingChars = false;
-    });
+    try {
+      var charsLoaded = await DatabaseService.getUserCharacters(_user!.id);
+      setState(() {
+        chars = charsLoaded;
+        loadingChars = false;
+      });
+    } catch (e) {
+      NotificationHelper.showSnackBar(context, e.toString(), level: 2);
+      setState(() {
+        loadingChars = false;
+      });
+    }
   }
 
   Widget userProfileCard() {
@@ -110,7 +118,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ),
                   ),
                   const Text(
-                    "v0.1.0-beta",
+                    "v0.1.4-beta",
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 12,

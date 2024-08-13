@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } catch (err) {
       if (!context.mounted) return;
-      NotificationHelper.showSnackBar(context, "Error + $err", level: 2);
+      NotificationHelper.showSnackBar(context, "Error $err", level: 2);
       setState(() {
         _isLoading = false;
       });

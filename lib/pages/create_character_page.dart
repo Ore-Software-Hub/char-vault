@@ -860,13 +860,13 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   finishCharacter() async {
     changeStep(1);
-    var imgurl = '';
+    var imgname = '';
     setState(() {
       savingTitle = "Carregando imagem";
     });
 
     try {
-      imgurl = await StorageService.uploadUserImage(imageFile!);
+      imgname = await StorageService.uploadUserImage(imageFile!);
       NotificationHelper.showSnackBar(context, "Imagem salva!", level: 1);
     } catch (e) {
       NotificationHelper.showSnackBar(
@@ -938,8 +938,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var pp = "0";
     var pb = "0";
 
-    _char = CharacterModel("", imgurl, _name, _classe, _level, life[0], life[1],
-        po, pp, pb, '', details, savingThrows, features, skills);
+    _char = CharacterModel("", imgname, _name, _classe, _level, life[0],
+        life[1], po, pp, pb, '', details, savingThrows, features, skills);
 
     String? charId;
 

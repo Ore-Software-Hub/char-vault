@@ -70,17 +70,35 @@ class DatabaseService {
     await AuthService.reauthenticate();
 
     try {
-      var userCharsRef = _database.ref(
-          '$userCollection/${AuthService.user?.uid}/chars/$charId'); // Referência ao nó de personagens do usuário
+      // Referência ao nó de personagens do usuário
+      var userCharsRef = _database
+          .ref('$userCollection/${AuthService.user?.uid}/chars/$charId');
 
-      await userCharsRef
-          .remove(); // Removendo a referência ao personagem no nó do usuário
+      // Removendo a referência ao personagem no nó do usuário
+      await userCharsRef.remove();
 
-      var charRef = _database.ref(
-          '$charCollection/$charId'); // Referência ao personagem na coleção de personagens
+      // Referência ao personagem na coleção de personagens
+      var charRef = _database.ref('$charCollection/$charId');
 
-      await charRef
-          .remove(); // Removendo o personagem da coleção de personagens
+      // Obtém os dados do personagem antes de remover
+      var charSnapshot = await charRef.get();
+      if (charSnapshot.exists) {
+        var charData = charSnapshot.value as Map;
+
+        // Remove todos os itens relacionados ao personagem
+        if (charData['items'] != null) {
+          var items = charData['items'] as Map;
+          for (var itemId in items.keys) {
+            var itemRef = _database.ref('$itemsCollection/$itemId');
+            await itemRef.remove();
+          }
+        }
+      }
+
+      // Removendo o personagem da coleção de personagens
+      await charRef.remove();
+
+      // Removendo a imagem do personagem
       await StorageService.deleteImageById(charImageId);
     } catch (e) {
       throw 'Erro ao deletar o personagem: $e';

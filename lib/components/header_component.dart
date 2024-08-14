@@ -5,6 +5,7 @@ import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
+import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +20,21 @@ class HeaderComponent extends StatefulWidget {
 class _HeaderComponentState extends State<HeaderComponent> {
   UserModel? _user;
   CharacterModel? _char;
+  String urlImage = "";
 
   @override
   void initState() {
     super.initState();
     _user = Provider.of<LoginProvider>(context, listen: false).userModel!;
     _char = _user!.char;
+    loadImage();
+  }
+
+  loadImage() async {
+    var url = await StorageService.getImageDownloadUrl(_char!.image);
+    setState(() {
+      urlImage = url;
+    });
   }
 
   backgroundGradient(double height) {
@@ -272,8 +282,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
             alignment: Alignment.centerRight,
             height: 250,
             width: MediaQuery.of(context).size.width,
-            child: Image.network("${_char?.image}", fit: BoxFit.cover,
-                errorBuilder: (BuildContext context, Object exception,
+            child: Image.network(urlImage, fit: BoxFit.cover, errorBuilder:
+                (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
               return const Text('😢');
             }),

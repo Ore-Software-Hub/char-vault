@@ -119,7 +119,8 @@ class _InitialPageState extends State<InitialPage> {
                     final added =
                         await DatabaseService.addItemModel(_char!.id, item);
                     NotificationHelper.showSnackBar(context,
-                        "Item ${added ? "Adicionado" : "Não adicionado"}");
+                        "Item ${added ? "Adicionado" : "Não adicionado"}",
+                        level: added ? 1 : 0);
                   }
                 }),
           SpeedDialChild(

@@ -31,7 +31,7 @@ class StorageService {
       var snapshot = await uploadTask.whenComplete(() {});
 
       // Retorna a URL do arquivo
-      return await snapshot.ref.getDownloadURL();
+      return snapshot.ref.name;
     } catch (e) {
       throw 'Erro ao fazer upload do arquivo: $e';
     }
@@ -52,7 +52,7 @@ class StorageService {
       ListResult result = await imageRef.listAll();
 
       final List<Reference> matchingFiles = result.items.where((item) {
-        return item.name.startsWith(imageId);
+        return item.name.compareTo(imageId) == 0;
       }).toList();
 
       for (final Reference file in matchingFiles) {
@@ -74,7 +74,7 @@ class StorageService {
     try {
       var ref = _storage
           .ref()
-          .child("/users/images$imageId"); // Usar o ID da imagem diretamente
+          .child("/users/images/$imageId"); // Usar o ID da imagem diretamente
       return await ref.getDownloadURL();
     } catch (e) {
       throw 'Erro ao obter a URL de download do arquivo: $e';

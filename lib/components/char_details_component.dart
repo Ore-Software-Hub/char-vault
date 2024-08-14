@@ -6,6 +6,7 @@ import 'package:CharVault/pages/initial_page.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
+import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -22,6 +23,20 @@ class CharDetailsComponent extends StatefulWidget {
 
 class _CharDetailsComponentState extends State<CharDetailsComponent> {
   bool deleting = false;
+  String urlImage = "";
+
+  @override
+  void initState() {
+    super.initState();
+    loadImage();
+  }
+
+  loadImage() async {
+    var url = await StorageService.getImageDownloadUrl(widget.char.image);
+    setState(() {
+      urlImage = url;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +72,11 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                       color: Theme.of(context).colorScheme.onSecondary,
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Image.network(
-                      widget.char.image,
-                    ),
+                    child: Image.network(urlImage, errorBuilder:
+                        (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                      return const Text('😢');
+                    }),
                   ),
                   const SizedBox(
                     width: 10,

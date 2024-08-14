@@ -9,8 +9,6 @@ import 'package:CharVault/components/text_field_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
-import 'package:CharVault/models/user_model.dart';
-import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:provider/provider.dart';
 
 class CreateCharacterPage extends StatefulWidget {
   const CreateCharacterPage({super.key});
@@ -30,8 +27,6 @@ class CreateCharacterPage extends StatefulWidget {
 
 class _CreateCharacterPageState extends State<CreateCharacterPage> {
   int step = 1;
-
-  UserModel? user;
 
   bool buscando = false, removeImage = false;
 
@@ -88,7 +83,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   @override
   void initState() {
     super.initState();
-    user = Provider.of<LoginProvider>(context, listen: false).userModel;
   }
 
   changeStep(int val) {
@@ -710,25 +704,26 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         );
       case 3:
         return Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              children: [
-                Text(
-                  savingTitle,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 50),
-                const Text(
-                  'Adicionando ao cofre...',
-                  style: TextStyle(fontSize: 18),
-                ),
-                const SizedBox(height: 50),
-                LoadingAnimationWidget.discreteCircle(
-                    color: Theme.of(context).colorScheme.secondary, size: 50)
-              ],
-            ));
+          alignment: Alignment.center,
+          padding: const EdgeInsets.only(top: 20),
+          child: Column(
+            children: [
+              Text(
+                savingTitle,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                'Adicionando ao cofre...',
+                style: TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 50),
+              LoadingAnimationWidget.discreteCircle(
+                  color: Theme.of(context).colorScheme.secondary, size: 50)
+            ],
+          ),
+        );
       default:
         return const Center();
     }
@@ -1011,23 +1006,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       };
     }
 
-    if (step == 2 &&
-        (_classe.isEmpty ||
-            _level.isEmpty ||
-            _strength.isEmpty ||
-            _dexterity.isEmpty ||
-            _constitution.isEmpty ||
-            _intelligence.isEmpty ||
-            _wisdom.isEmpty ||
-            _charisma.isEmpty)) {
-      return () {
-        NotificationHelper.showSnackBar(
-          context,
-          "Preencha todos os campos para prosseguir",
-        );
-      };
-    }
-
     return () {
       changeStep(1);
     };
@@ -1151,7 +1129,17 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             if (step == 2)
               ButtonComponent(
                 label: "Finalizar",
-                pressed: nextAvailable(),
+                disabled: _classe.isEmpty ||
+                    _level.isEmpty ||
+                    _strength.isEmpty ||
+                    _dexterity.isEmpty ||
+                    _constitution.isEmpty ||
+                    _intelligence.isEmpty ||
+                    _wisdom.isEmpty ||
+                    _charisma.isEmpty,
+                pressed: () {
+                  finishCharacter();
+                },
               )
           ],
         ),

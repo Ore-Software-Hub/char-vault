@@ -7,6 +7,7 @@ import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,8 @@ class CharDetailsComponent extends StatefulWidget {
 }
 
 class _CharDetailsComponentState extends State<CharDetailsComponent> {
+  bool deleting = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,34 +85,47 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                 ],
               ),
             ),
-            ButtonComponent(
-              pressed: () async {
-                bool confirmed = await showDialog(
-                    context: context,
-                    builder: (BuildContext context) => DialogComponent(
-                        message:
-                            'Deseja realmente excluir o pseronsagem ${widget.char.name}'));
+            if (!deleting)
+              ButtonComponent(
+                pressed: () async {
+                  bool confirmed = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => DialogComponent(
+                          message:
+                              'Deseja realmente excluir o pseronsagem ${widget.char.name}'));
 
-                if (confirmed) {
-                  var charId = widget.char.id;
-                  var charImageId = widget.char.image;
+                  if (confirmed) {
+                    setState(() {
+                      deleting = true;
+                    });
+                    var charId = widget.char.id;
+                    var charImageId = widget.char.image;
 
-                  await DatabaseService.deleteCharacter(charId, charImageId);
+                    await DatabaseService.deleteCharacter(charId, charImageId);
 
-                  NotificationHelper.showSnackBar(
-                      context, "Personagem ${widget.char.name} foi removido!");
+                    NotificationHelper.showSnackBar(context,
+                        "Personagem ${widget.char.name} foi removido!");
 
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserProfilePage()),
-                    (route) => false,
-                  );
-                }
-              },
-              tipo: 0,
-              icon: PhosphorIconsBold.trash,
-            )
+                    setState(() {
+                      deleting = false;
+                    });
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserProfilePage()),
+                      (route) => false,
+                    );
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.trash,
+              ),
+            if (deleting)
+              Center(
+                child: LoadingAnimationWidget.waveDots(
+                    color: Theme.of(context).colorScheme.onSecondary, size: 30),
+              )
           ],
         ),
       ),

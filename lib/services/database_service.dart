@@ -15,6 +15,12 @@ class DatabaseService {
 
   /// Método para salvar dados em uma coleção e retornar a chave única gerada
   static Future<String> saveData(String collection, dynamic value) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var ref = _database.ref(collection);
 
     var newRef = ref.push(); // Gerando uma nova chave única
@@ -26,6 +32,12 @@ class DatabaseService {
 
   /// Método para adicionar um personagem a um usuário
   static Future<String?> addCharacter(CharacterModel newCharacter) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     try {
       String charId = await saveData(
           charCollection,
@@ -45,28 +57,44 @@ class DatabaseService {
 
       return charId; // Confirmação de que foi salvo com sucesso
     } catch (e) {
-      print('Erro ao salvar o personagem: $e');
-      return null; // Retorna false em caso de erro
+      throw 'Erro ao salvar o personagem: $e';
     }
   }
 
   /// Método para deletar um personagem de um usuário
   static Future<void> deleteCharacter(String charId, String charImageId) async {
-    var userCharsRef = _database.ref(
-        '$userCollection/${AuthService.user?.uid}/chars/$charId'); // Referência ao nó de personagens do usuário
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
 
-    await userCharsRef
-        .remove(); // Removendo a referência ao personagem no nó do usuário
+    await AuthService.reauthenticate();
 
-    var charRef = _database.ref(
-        '$charCollection/$charId'); // Referência ao personagem na coleção de personagens
+    try {
+      var userCharsRef = _database.ref(
+          '$userCollection/${AuthService.user?.uid}/chars/$charId'); // Referência ao nó de personagens do usuário
 
-    await charRef.remove(); // Removendo o personagem da coleção de personagens
-    await StorageService.deleteImageById(charImageId);
+      await userCharsRef
+          .remove(); // Removendo a referência ao personagem no nó do usuário
+
+      var charRef = _database.ref(
+          '$charCollection/$charId'); // Referência ao personagem na coleção de personagens
+
+      await charRef
+          .remove(); // Removendo o personagem da coleção de personagens
+      await StorageService.deleteImageById(charImageId);
+    } catch (e) {
+      throw 'Erro ao deletar o personagem: $e';
+    }
   }
 
   /// Método para ler os dados de um personagem específico
   static Future<CharacterModel?> getCharacter(String charId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var charRef = _database.ref('$charCollection/$charId');
     DataSnapshot snapshot = await charRef.get();
     return snapshot.exists ? snapshot.value as CharacterModel : null;
@@ -75,13 +103,24 @@ class DatabaseService {
   /// Método para atualizar os dados de um personagem específico
   static Future<void> updateCharacter(
       String charId, Map<String, dynamic> updatedData) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var charRef = _database.ref('$charCollection/$charId');
     await charRef.update(updatedData);
   }
 
   /// Método para obter todos os personagens de um usuário
   static Future<List<CharacterModel>?> getUserCharacters() async {
-    _database.setLoggingEnabled(true);
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     try {
       var userCharsRef =
           _database.ref('$userCollection/${AuthService.user?.uid}/chars');
@@ -127,6 +166,12 @@ class DatabaseService {
 
   static Future<bool> addItemModel(
       String charId, ItemModel newItemModel) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     try {
       String newItemModelId =
           await saveData(itemsCollection, newItemModel.toMap());
@@ -136,13 +181,18 @@ class DatabaseService {
       await userModelsRef.child(newItemModelId).set(true);
       return true;
     } catch (e) {
-      print('Erro ao salvar o novo modelo: $e');
-      return false;
+      throw 'Erro ao salvar o novo modelo: $e';
     }
   }
 
   static Future<void> deleteItemModel(
       String charId, String newItemModelId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var userModelsRef =
         _database.ref('$charCollection/$charId/items/$newItemModelId');
     await userModelsRef.remove();
@@ -151,6 +201,12 @@ class DatabaseService {
   }
 
   static Future<ItemModel?> getItemModel(String newItemModelId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var modelRef = _database.ref('$itemsCollection/$newItemModelId');
     DataSnapshot snapshot = await modelRef.get();
     return snapshot.exists
@@ -160,11 +216,23 @@ class DatabaseService {
 
   static Future<void> updateItemModel(
       String newItemModelId, Map<String, dynamic> updatedData) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var modelRef = _database.ref('$itemsCollection/$newItemModelId');
     await modelRef.update(updatedData);
   }
 
   static Future<List<ItemModel>> getCharItemModels(String charId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
     var charModelsRef = _database.ref('$charCollection/$charId/items');
     DataSnapshot snapshot = await charModelsRef.get();
     List<ItemModel> itemModels = [];

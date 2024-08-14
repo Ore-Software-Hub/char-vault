@@ -40,4 +40,8 @@ class AuthService with ChangeNotifier {
   static Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  static Future<void> reauthenticate() async {
+    await _auth.currentUser?.reload();
+  }
 }

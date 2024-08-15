@@ -118,7 +118,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ),
                   ),
                   const Text(
-                    "v0.1.8-beta",
+                    "v0.1.9-beta",
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 12,

@@ -116,11 +116,11 @@ class _InitialPageState extends State<InitialPage> {
                     ),
                   );
                   if (item != null) {
-                    final added =
-                        await DatabaseService.addItemModel(_char!.id, item);
+                    final itemId =
+                        await DatabaseService.addItem(_char!.id, item);
                     NotificationHelper.showSnackBar(context,
-                        "Item ${added ? "Adicionado" : "Não adicionado"}",
-                        level: added ? 1 : 0);
+                        "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
+                        level: itemId != null ? 1 : 0);
                   }
                 }),
           SpeedDialChild(

@@ -7,9 +7,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class ItemComponent extends StatefulWidget {
-  const ItemComponent({super.key, required this.item, this.icon});
+  const ItemComponent(
+      {super.key, required this.item, required this.charId, this.icon});
 
   final ItemModel item;
+  final String charId;
   final PhosphorIconData? icon;
 
   @override
@@ -54,8 +56,8 @@ class _ItemComponentState extends State<ItemComponent> {
               );
 
               if (item != null) {
-                await DatabaseService.updateItemModel(
-                    widget.item.id, item.toMap());
+                await DatabaseService.updateItem(
+                    widget.charId, widget.item.id, item.toMap());
                 NotificationHelper.showSnackBar(context, "Item atualizado");
               }
             },

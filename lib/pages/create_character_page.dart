@@ -768,6 +768,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           children: [
             Expanded(
               child: ItemComponent(
+                charId: _char!.id,
                 item: item,
               ),
             ),
@@ -866,7 +867,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     });
 
     try {
-      imgname = await StorageService.uploadUserImage(imageFile!);
+      imgname = await StorageService.uploadUserImage(_name, imageFile!);
       NotificationHelper.showSnackBar(context, "Imagem salva!", level: 1);
     } catch (e) {
       NotificationHelper.showSnackBar(
@@ -973,7 +974,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         });
         try {
           for (var item in items) {
-            await DatabaseService.addItemModel(charId, item);
+            await DatabaseService.addItem(charId, item);
           }
           NotificationHelper.showSnackBar(context, "Itens adicionados!",
               level: 1);

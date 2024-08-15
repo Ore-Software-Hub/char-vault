@@ -32,7 +32,7 @@ class _BackPackPageState extends State<BackPackPage> {
   loadItems() async {
     List<ItemModel> equipments = [];
     List<ItemModel> inventory = [];
-    var items = await DatabaseService.getCharItemModels(_char!.id);
+    var items = await DatabaseService.getCharItems(_char!.id);
     for (var item in items) {
       switch (item.tipo) {
         case 'Armadura':
@@ -67,6 +67,7 @@ class _BackPackPageState extends State<BackPackPage> {
           children: [
             Expanded(
               child: ItemComponent(
+                charId: _char!.id,
                 item: item,
               ),
             ),
@@ -75,7 +76,7 @@ class _BackPackPageState extends State<BackPackPage> {
                   setState(() {
                     items.remove(item);
                   });
-                  await DatabaseService.deleteItemModel(_char!.id, item.id);
+                  await DatabaseService.deleteItem(_char!.id, item.id);
                 },
                 tipo: 0,
                 icon: PhosphorIconsBold.minus)

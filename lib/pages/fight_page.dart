@@ -33,7 +33,7 @@ class _FightPageState extends State<FightPage> {
   loadItems() async {
     List<ItemModel> weapons = [];
     List<ItemModel> spells = [];
-    var items = await DatabaseService.getCharItemModels(_char!.id);
+    var items = await DatabaseService.getCharItems(_char!.id);
     for (var item in items) {
       switch (item.tipo) {
         case 'Arma':
@@ -62,6 +62,7 @@ class _FightPageState extends State<FightPage> {
           children: [
             Expanded(
               child: ItemComponent(
+                charId: _char!.id,
                 item: item,
               ),
             ),
@@ -70,7 +71,7 @@ class _FightPageState extends State<FightPage> {
                   setState(() {
                     items.remove(item);
                   });
-                  await DatabaseService.deleteItemModel(_char!.id, item.id);
+                  await DatabaseService.deleteItem(_char!.id, item.id);
                   NotificationHelper.showSnackBar(
                       context, "Item [${item.title}] removido");
                 },

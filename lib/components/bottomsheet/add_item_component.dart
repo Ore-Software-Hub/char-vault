@@ -190,9 +190,7 @@ class _AddItemBottomSheetComponentState
                         tipo);
                     Navigator.pop(context, newItemModel);
                   },
-                  disabled: _controllerTitle.text.isEmpty ||
-                      _controllerValue.text.isEmpty ||
-                      _controllerDescription.text.isEmpty,
+                  disabled: _controllerTitle.text.isEmpty || tipo.isEmpty,
                   label: 'Salvar',
                 ),
               ],

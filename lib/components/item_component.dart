@@ -43,24 +43,27 @@ class _ItemComponentState extends State<ItemComponent> {
           ),
         Expanded(
           child: InkWell(
-            onTap: () async {
-              final item = await showModalBottomSheet<ItemModel?>(
-                backgroundColor: cores.secondaryColor,
-                showDragHandle: true,
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => AddItemBottomSheetComponent(
-                  editing: true,
-                  item: widget.item,
-                ),
-              );
+            onTap: widget.charId.isEmpty
+                ? null
+                : () async {
+                    final item = await showModalBottomSheet<ItemModel?>(
+                      backgroundColor: cores.secondaryColor,
+                      showDragHandle: true,
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => AddItemBottomSheetComponent(
+                        editing: true,
+                        item: widget.item,
+                      ),
+                    );
 
-              if (item != null) {
-                await DatabaseService.updateItem(
-                    widget.charId, widget.item.id, item.toMap());
-                NotificationHelper.showSnackBar(context, "Item atualizado");
-              }
-            },
+                    if (item != null) {
+                      await DatabaseService.updateItem(
+                          widget.charId, widget.item.id, item.toMap());
+                      NotificationHelper.showSnackBar(
+                          context, "Item atualizado");
+                    }
+                  },
             child: Container(
               height: 40,
               padding: const EdgeInsets.only(left: 8, right: 8),

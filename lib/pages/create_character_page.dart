@@ -768,7 +768,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           children: [
             Expanded(
               child: ItemComponent(
-                charId: _char!.id,
+                charId: '',
                 item: item,
               ),
             ),
@@ -1079,24 +1079,40 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 if (item != null) {
                   switch (item.tipo) {
                     case 'Arma':
-                      weapons.add(item);
+                      setState(() {
+                        {
+                          weapons.add(item);
+                        }
+                      });
                       break;
 
                     case 'Armadura':
                     case 'Equipamento':
                     case 'Item':
-                      equipments.add(item);
+                      setState(() {
+                        {
+                          equipments.add(item);
+                        }
+                      });
                       break;
 
                     case 'Consumíveis':
                     case 'Item mágico':
                     case 'Objeto':
                     case 'Outros':
-                      inventory.add(item);
+                      setState(() {
+                        {
+                          inventory.add(item);
+                        }
+                      });
                       break;
 
                     case 'Magia':
-                      spells.add(item);
+                      setState(() {
+                        {
+                          spells.add(item);
+                        }
+                      });
                       break;
                   }
                 }

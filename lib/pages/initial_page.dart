@@ -75,8 +75,10 @@ class _InitialPageState extends State<InitialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: loading
-          ? LoadingAnimationWidget.threeRotatingDots(
-              color: Theme.of(context).colorScheme.primary, size: 40)
+          ? Center(
+              child: LoadingAnimationWidget.threeRotatingDots(
+                  color: Theme.of(context).colorScheme.primary, size: 40),
+            )
           : SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

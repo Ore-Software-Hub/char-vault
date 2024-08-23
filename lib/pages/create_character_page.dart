@@ -11,10 +11,10 @@ import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -77,8 +77,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   String _charisma = "";
 
   CharacterModel? _char;
-
-  final imagePicker = ImagePicker();
 
   @override
   void initState() {
@@ -151,8 +149,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
   }
 
-  pickImage(ImageSource source) async {
-    final pickedFile = await imagePicker.pickImage(source: source);
+  pickImage() async {
+    final pickedFile = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['png']);
 
     if (pickedFile == null) {
       setState(() {
@@ -162,7 +161,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
 
     setState(() {
-      imageFile = File(pickedFile.path);
+      imageFile = File(pickedFile.files.single.path!);
     });
 
     await cropImage();
@@ -198,8 +197,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         ),
                       )),
                   title: const Text("Galeria"),
-                  onTap: () =>
-                      {Navigator.pop(context), pickImage(ImageSource.gallery)},
+                  onTap: () => {Navigator.pop(context), pickImage()},
                 ),
                 ListTile(
                   leading: CircleAvatar(

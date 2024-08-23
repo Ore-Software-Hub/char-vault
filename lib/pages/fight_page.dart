@@ -1,5 +1,4 @@
 import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';

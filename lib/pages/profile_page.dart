@@ -1,5 +1,4 @@
 import 'package:CharVault/components/details_component.dart';
-import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:flutter/material.dart';

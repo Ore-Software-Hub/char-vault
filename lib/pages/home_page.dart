@@ -1,6 +1,5 @@
 import 'package:CharVault/components/features_component.dart';
 import 'package:CharVault/components/bottomsheet/resistence_component.dart';
-import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';

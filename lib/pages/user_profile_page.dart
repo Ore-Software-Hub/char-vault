@@ -99,7 +99,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       height: 75.0,
                       fit: BoxFit.cover, errorBuilder: (BuildContext context,
                           Object exception, StackTrace? stackTrace) {
-                    return const Text('😢');
+                    return LoadingAnimationWidget.beat(
+                        color: Colors.black, size: 40);
                   })),
             ),
             const SizedBox(

@@ -7,6 +7,7 @@ import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
             child: Image.network(image, width: 35, fit: BoxFit.cover,
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
-              return const Text('😢');
+              return LoadingAnimationWidget.beat(
+                          color: Colors.white, size: 40);
             }),
           ),
           onPressed: () {
@@ -285,7 +287,11 @@ class _HeaderComponentState extends State<HeaderComponent> {
             child: Image.network(urlImage, fit: BoxFit.cover, errorBuilder:
                 (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
-              return const Text('😢');
+              return Padding(
+                padding: const EdgeInsets.only(right: 50.0),
+                child:
+                    LoadingAnimationWidget.beat(color: Colors.white, size: 40),
+              );
             }),
           ),
         ),

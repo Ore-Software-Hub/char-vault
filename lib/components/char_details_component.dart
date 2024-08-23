@@ -75,7 +75,8 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                     child: Image.network(urlImage, errorBuilder:
                         (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
-                      return const Text('😢');
+                      return LoadingAnimationWidget.beat(
+                          color: Colors.black, size: 40);
                     }),
                   ),
                   const SizedBox(

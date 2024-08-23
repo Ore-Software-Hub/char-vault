@@ -50,11 +50,13 @@ class _BackPackPageState extends State<BackPackPage> {
       }
     }
 
-    setState(() {
-      _equipments = equipments;
-      _inventory = inventory;
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _equipments = equipments;
+        _inventory = inventory;
+        loading = false;
+      });
+    }
   }
 
   Widget returnItemComponent(List<ItemModel> items) {
@@ -117,74 +119,67 @@ class _BackPackPageState extends State<BackPackPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HeaderComponent(),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Equipamentos",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  loading
-                      ? Center(
-                          child: LoadingAnimationWidget.twistingDots(
-                              leftDotColor:
-                                  Theme.of(context).colorScheme.primary,
-                              rightDotColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              size: 30),
-                        )
-                      : _equipments.isEmpty
-                          ? returnInformation("Nenhum equipamento encontrado!",
-                              "Adicione um novo!")
-                          : returnItemComponent(_equipments)
-                ],
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Equipamentos",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Inventário",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  loading
-                      ? Center(
-                          child: LoadingAnimationWidget.twistingDots(
-                              leftDotColor:
-                                  Theme.of(context).colorScheme.primary,
-                              rightDotColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              size: 30),
-                        )
-                      : _inventory.isEmpty
-                          ? returnInformation(
-                              "Nenhum item encontrado!", "Adicione um novo!")
-                          : returnItemComponent(_inventory)
-                ],
-              ),
-            ),
-          ],
+              loading
+                  ? Center(
+                      child: LoadingAnimationWidget.twistingDots(
+                          leftDotColor: Theme.of(context).colorScheme.primary,
+                          rightDotColor:
+                              Theme.of(context).colorScheme.secondary,
+                          size: 30),
+                    )
+                  : _equipments.isEmpty
+                      ? returnInformation(
+                          "Nenhum equipamento encontrado!", "Adicione um novo!")
+                      : returnItemComponent(_equipments)
+            ],
+          ),
         ),
-      ),
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Inventário",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              loading
+                  ? Center(
+                      child: LoadingAnimationWidget.twistingDots(
+                          leftDotColor: Theme.of(context).colorScheme.primary,
+                          rightDotColor:
+                              Theme.of(context).colorScheme.secondary,
+                          size: 30),
+                    )
+                  : _inventory.isEmpty
+                      ? returnInformation(
+                          "Nenhum item encontrado!", "Adicione um novo!")
+                      : returnItemComponent(_inventory)
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

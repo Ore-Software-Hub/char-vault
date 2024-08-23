@@ -45,11 +45,13 @@ class _FightPageState extends State<FightPage> {
           break;
       }
     }
-    setState(() {
-      _weapons = weapons;
-      _spells = spells;
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _weapons = weapons;
+        _spells = spells;
+        loading = false;
+      });
+    }
   }
 
   Widget returnItemComponent(List<ItemModel> items) {
@@ -114,74 +116,66 @@ class _FightPageState extends State<FightPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HeaderComponent(),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Armas",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  loading
-                      ? Center(
-                          child: LoadingAnimationWidget.twistingDots(
-                              leftDotColor:
-                                  Theme.of(context).colorScheme.primary,
-                              rightDotColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              size: 30),
-                        )
-                      : _weapons.isEmpty
-                          ? returnInformation(
-                              "Nenhuma arma encontrada!", "Adicione uma nova!")
-                          : returnItemComponent(_weapons)
-                ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Armas",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Magias",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  loading
-                      ? Center(
-                          child: LoadingAnimationWidget.twistingDots(
-                              leftDotColor:
-                                  Theme.of(context).colorScheme.primary,
-                              rightDotColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              size: 30),
-                        )
-                      : _spells.isEmpty
-                          ? returnInformation(
-                              "Nenhuma magia encontrada!", "Adicione uma nova!")
-                          : returnItemComponent(_spells)
-                ],
-              ),
-            ),
-          ],
+              loading
+                  ? Center(
+                      child: LoadingAnimationWidget.twistingDots(
+                          leftDotColor: Theme.of(context).colorScheme.primary,
+                          rightDotColor:
+                              Theme.of(context).colorScheme.secondary,
+                          size: 30),
+                    )
+                  : _weapons.isEmpty
+                      ? returnInformation(
+                          "Nenhuma arma encontrada!", "Adicione uma nova!")
+                      : returnItemComponent(_weapons)
+            ],
+          ),
         ),
-      ),
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Magias",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              loading
+                  ? Center(
+                      child: LoadingAnimationWidget.twistingDots(
+                          leftDotColor: Theme.of(context).colorScheme.primary,
+                          rightDotColor:
+                              Theme.of(context).colorScheme.secondary,
+                          size: 30),
+                    )
+                  : _spells.isEmpty
+                      ? returnInformation(
+                          "Nenhuma magia encontrada!", "Adicione uma nova!")
+                      : returnItemComponent(_spells)
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

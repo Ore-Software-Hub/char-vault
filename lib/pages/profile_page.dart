@@ -23,78 +23,68 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HeaderComponent(),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Sobre",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      DetailsComponent(
-                          title: "Idade", value: _char!.details!.age),
-                      DetailsComponent(
-                          title: "Raça", value: _char!.details!.race),
-                      DetailsComponent(
-                          title: "Antecedentes",
-                          value: _char!.details!.background),
-                      DetailsComponent(
-                          title: "Alinhamento",
-                          value: _char!.details!.alignment),
-                    ],
-                  )
-                ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Sobre",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    "História",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent, // Sem preenchimento
-                      borderRadius: BorderRadius.circular(8.0), // Raio da borda
-                      border: Border.all(
-                        color: Colors.black, // Cor da borda
-                        width: 1.0, // Largura da borda
-                      ),
-                    ),
-                    child: Text(_char!.details!.backstory),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  )
+                  DetailsComponent(title: "Idade", value: _char!.details!.age),
+                  DetailsComponent(title: "Raça", value: _char!.details!.race),
+                  DetailsComponent(
+                      title: "Antecedentes", value: _char!.details!.background),
+                  DetailsComponent(
+                      title: "Alinhamento", value: _char!.details!.alignment),
                 ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "História",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.transparent, // Sem preenchimento
+                  borderRadius: BorderRadius.circular(8.0), // Raio da borda
+                  border: Border.all(
+                    color: Colors.black, // Cor da borda
+                    width: 1.0, // Largura da borda
+                  ),
+                ),
+                child: Text(_char!.details!.backstory),
+              ),
+              const SizedBox(
+                height: 30,
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }

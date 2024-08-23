@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
+import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
@@ -73,12 +74,18 @@ class _InitialPageState extends State<InitialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: loading
-            ? LoadingAnimationWidget.threeRotatingDots(
-                color: Theme.of(context).colorScheme.primary, size: 40)
-            : SafeArea(child: tabs[_selectedIndex]),
-      ),
+      body: loading
+          ? LoadingAnimationWidget.threeRotatingDots(
+              color: Theme.of(context).colorScheme.primary, size: 40)
+          : SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const HeaderComponent(),
+                  SafeArea(child: tabs[_selectedIndex]),
+                ],
+              ),
+            ),
       floatingActionButton: SpeedDial(
         backgroundColor: cores.secondaryColor,
         overlayColor: cores.secondaryColor,

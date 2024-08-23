@@ -154,7 +154,8 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
                       backgroundColor:
                           const WidgetStatePropertyAll(cores.primaryColor)),
                   onPressed: () {
-                    Navigator.pop(context, note);
+                    var newNote = _controller.text;
+                    Navigator.pop(context, newNote);
                   },
                   child: const Text('Salvar'),
                 ),

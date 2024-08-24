@@ -2,6 +2,7 @@ import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components/dialog_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/pages/edit_character_page.dart';
 import 'package:CharVault/pages/initial_page.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
@@ -103,47 +104,64 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                 ],
               ),
             ),
-            if (!deleting)
-              ButtonComponent(
-                pressed: () async {
-                  bool confirmed = await showDialog(
-                      context: context,
-                      builder: (BuildContext context) => DialogComponent(
-                          message:
-                              'Deseja realmente excluir o pseronsagem ${widget.char.name}'));
+            Row(
+              children: [
+                ButtonComponent(
+                  pressed: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditCharacterPage(char: widget.char)));
+                  },
+                  tipo: 0,
+                  icon: PhosphorIconsBold.pencilSimple,
+                ),
+                if (!deleting)
+                  ButtonComponent(
+                    pressed: () async {
+                      bool confirmed = await showDialog(
+                          context: context,
+                          builder: (BuildContext context) => DialogComponent(
+                              message:
+                                  'Deseja realmente excluir o personagem ${widget.char.name}'));
 
-                  if (confirmed) {
-                    setState(() {
-                      deleting = true;
-                    });
-                    var charId = widget.char.id;
-                    var charImageId = widget.char.image;
+                      if (confirmed) {
+                        setState(() {
+                          deleting = true;
+                        });
+                        var charId = widget.char.id;
+                        var charImageId = widget.char.image;
 
-                    await DatabaseService.deleteCharacter(charId, charImageId);
+                        await DatabaseService.deleteCharacter(
+                            charId, charImageId);
 
-                    NotificationHelper.showSnackBar(context,
-                        "Personagem ${widget.char.name} foi removido!");
+                        NotificationHelper.showSnackBar(context,
+                            "Personagem ${widget.char.name} foi removido!");
 
-                    setState(() {
-                      deleting = false;
-                    });
+                        setState(() {
+                          deleting = false;
+                        });
 
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserProfilePage()),
-                      (route) => false,
-                    );
-                  }
-                },
-                tipo: 0,
-                icon: PhosphorIconsBold.trash,
-              ),
-            if (deleting)
-              Center(
-                child: LoadingAnimationWidget.waveDots(
-                    color: Theme.of(context).colorScheme.onSecondary, size: 30),
-              )
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserProfilePage()),
+                          (route) => false,
+                        );
+                      }
+                    },
+                    tipo: 0,
+                    icon: PhosphorIconsBold.trash,
+                  ),
+                if (deleting)
+                  Center(
+                    child: LoadingAnimationWidget.waveDots(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        size: 30),
+                  )
+              ],
+            )
           ],
         ),
       ),

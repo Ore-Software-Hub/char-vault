@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -26,12 +27,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
   UserModel? _user;
   bool loading = true;
   bool loadingChars = false;
+  String appVersion = '';
 
   List<CharacterModel> chars = [];
 
   @override
   void initState() {
     super.initState();
+    PackageInfo.fromPlatform()
+        .then((PackageInfo info) => {appVersion = info.version});
     int duration = 1;
     Timer.periodic(
       const Duration(seconds: 1),
@@ -118,10 +122,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    "v0.2.0-beta",
+                  Text(
+                    "v$appVersion",
                     maxLines: 2,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w300,
                     ),

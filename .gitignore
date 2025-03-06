@@ -15,3 +15,4 @@ android/app/.cxx
 /android/app/release
 build/
 .idea/
+/android/keys/

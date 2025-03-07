@@ -4,7 +4,6 @@ import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class ItemComponent extends StatefulWidget {
   const ItemComponent(
@@ -32,7 +31,7 @@ class _ItemComponentState extends State<ItemComponent> {
               width: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: cores.gray, // Sem preenchimento
+                color: Colors.grey, // Sem preenchimento
                 borderRadius: BorderRadius.circular(50.0), // Raio da borda
               ),
               child: PhosphorIcon(
@@ -47,7 +46,7 @@ class _ItemComponentState extends State<ItemComponent> {
                 ? null
                 : () async {
                     final item = await showModalBottomSheet<ItemModel?>(
-                      backgroundColor: cores.secondaryColor,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       showDragHandle: true,
                       context: context,
                       isScrollControlled: true,
@@ -69,7 +68,7 @@ class _ItemComponentState extends State<ItemComponent> {
               padding: const EdgeInsets.only(left: 8, right: 8),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: cores.gray, // Sem preenchimento
+                color: Colors.grey, // Sem preenchimento
                 borderRadius: BorderRadius.circular(8.0), // Raio da borda
               ),
               child: Text(
@@ -94,7 +93,7 @@ class _ItemComponentState extends State<ItemComponent> {
               padding: const EdgeInsets.only(left: 8, right: 8),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: cores.gray, // Sem preenchimento
+                color: Colors.grey, // Sem preenchimento
                 borderRadius: BorderRadius.circular(8.0), // Raio da borda
               ),
               child: Text(

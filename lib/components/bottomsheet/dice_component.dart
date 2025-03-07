@@ -96,8 +96,8 @@ class _DiceBottomSheetComponentState extends State<DiceBottomSheetComponent> {
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Container(
-          decoration: const BoxDecoration(
-              color: cores.secondaryColor,
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
               borderRadius: BorderRadius.all(Radius.circular(15))),
           height: sheetHeight,
           width: double.infinity,

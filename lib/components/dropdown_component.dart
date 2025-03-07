@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
-
 class DropdownComponent extends StatefulWidget {
   const DropdownComponent({
     super.key,
@@ -9,7 +7,7 @@ class DropdownComponent extends StatefulWidget {
     required this.value,
     this.hintText,
     this.backgroundColor = Colors.white,
-    this.foregroundColor = cores.primaryColor,
+    this.foregroundColor,
   });
 
   final Function(String?)? onChanged;

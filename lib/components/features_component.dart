@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:CharVault/constants/cores.constants.dart' as cores;
-
 class FeaturesComponent extends StatefulWidget {
   const FeaturesComponent(
       {super.key,
@@ -28,7 +26,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
           padding: const EdgeInsets.only(top: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
-            color: cores.gray,
+            color: Colors.grey,
           ),
           child: Column(
             children: [
@@ -54,7 +52,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                 padding: const EdgeInsets.only(
                     top: 8, bottom: 8, left: 16, right: 16),
                 decoration: BoxDecoration(
-                  color: cores.primaryColor, // Sem preenchimento
+                  color: Theme.of(context).colorScheme.primary, // Sem preenchimento
                   borderRadius: BorderRadius.circular(8.0), // Raio da borda
                 ),
                 child: Text(

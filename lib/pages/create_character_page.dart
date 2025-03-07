@@ -13,7 +13,6 @@ import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -412,7 +411,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   width: 75,
                   height: 75,
                   decoration: BoxDecoration(
-                    color: cores.gray,
+                    color: Colors.grey,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Container(
@@ -1028,7 +1027,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   height: 30,
                   alignment: AlignmentDirectional.center,
                   decoration: BoxDecoration(
-                      color: cores.primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.circular(50)),
                   child: step == 4
                       ? const PhosphorIcon(
@@ -1065,7 +1064,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ? FloatingActionButton(
               onPressed: () async {
                 final item = await showModalBottomSheet<ItemModel>(
-                  backgroundColor: cores.secondaryColor,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                   showDragHandle: true,
                   context: context,
                   isScrollControlled: true,
@@ -1133,7 +1132,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
               pressed: () {
                 changeStep(-1);
               },
-              color: cores.gray,
+              color: Colors.grey,
             ),
             const Spacer(),
             if (step < 2)

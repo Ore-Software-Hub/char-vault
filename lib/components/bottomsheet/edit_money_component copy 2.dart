@@ -1,6 +1,5 @@
 import 'package:CharVault/models/character_model.dart';
 import 'package:flutter/material.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class EditMoneyBottomSheetComponent extends StatefulWidget {
   const EditMoneyBottomSheetComponent({super.key, required this.char});
@@ -144,16 +143,12 @@ class _EditMoneyBottomSheetComponentState
                       overlayColor: WidgetStateProperty.resolveWith<Color?>(
                         (Set<WidgetState> states) {
                           if (states.contains(WidgetState.pressed)) {
-                            return cores
-                                .secondaryColor; // Altere para a cor desejada
+                            return Theme.of(context).colorScheme.secondary; // Altere para a cor desejada
                           }
                           return null; // Use o valor padrão para outros estados
                         },
                       ),
-                      foregroundColor:
-                          const WidgetStatePropertyAll(cores.primaryColor),
-                      backgroundColor:
-                          const WidgetStatePropertyAll(Colors.white)),
+                      ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -170,16 +165,12 @@ class _EditMoneyBottomSheetComponentState
                       overlayColor: WidgetStateProperty.resolveWith<Color?>(
                         (Set<WidgetState> states) {
                           if (states.contains(WidgetState.pressed)) {
-                            return cores
-                                .secondaryColor; // Altere para a cor desejada
+                            return Theme.of(context).colorScheme.secondary; // Altere para a cor desejada
                           }
                           return null; // Use o valor padrão para outros estados
                         },
                       ),
-                      foregroundColor:
-                          const WidgetStatePropertyAll(Colors.white),
-                      backgroundColor:
-                          const WidgetStatePropertyAll(cores.primaryColor)),
+                      ),
                   onPressed: _controllerGold.text.isEmpty ||
                           _controllerSilver.text.isEmpty ||
                           _controllerBronze.text.isEmpty

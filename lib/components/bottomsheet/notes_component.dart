@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class NotesBottomSheetComponent extends StatefulWidget {
   const NotesBottomSheetComponent({super.key, required this.note});
@@ -108,25 +107,23 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
               children: [
                 ElevatedButton(
                   style: ButtonStyle(
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)), // Torna o botão quadrado
-                        ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(8)), // Torna o botão quadrado
                       ),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return cores
-                                .secondaryColor; // Altere para a cor desejada
-                          }
-                          return null; // Use o valor padrão para outros estados
-                        },
-                      ),
-                      foregroundColor:
-                          const WidgetStatePropertyAll(cores.primaryColor),
-                      backgroundColor:
-                          const WidgetStatePropertyAll(Colors.white)),
+                    ),
+                    overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return Theme.of(context)
+                              .colorScheme
+                              .secondary; // Altere para a cor desejada
+                        }
+                        return null; // Use o valor padrão para outros estados
+                      },
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -134,25 +131,23 @@ class _NotesBottomSheetComponentState extends State<NotesBottomSheetComponent> {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)), // Torna o botão quadrado
-                        ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(8)), // Torna o botão quadrado
                       ),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return cores
-                                .secondaryColor; // Altere para a cor desejada
-                          }
-                          return null; // Use o valor padrão para outros estados
-                        },
-                      ),
-                      foregroundColor:
-                          const WidgetStatePropertyAll(Colors.white),
-                      backgroundColor:
-                          const WidgetStatePropertyAll(cores.primaryColor)),
+                    ),
+                    overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return Theme.of(context)
+                              .colorScheme
+                              .secondary; // Altere para a cor desejada
+                        }
+                        return null; // Use o valor padrão para outros estados
+                      },
+                    ),
+                  ),
                   onPressed: () {
                     var newNote = _controller.text;
                     Navigator.pop(context, newNote);

@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:provider/provider.dart';
 
 class InitialPage extends StatefulWidget {
@@ -89,8 +88,8 @@ class _InitialPageState extends State<InitialPage> {
               ),
             ),
       floatingActionButton: SpeedDial(
-        backgroundColor: cores.secondaryColor,
-        overlayColor: cores.secondaryColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        overlayColor: Theme.of(context).colorScheme.secondary,
         animatedIcon: AnimatedIcons.menu_arrow,
         children: [
           SpeedDialChild(
@@ -100,7 +99,7 @@ class _InitialPageState extends State<InitialPage> {
             label: 'Rolar dados',
             onTap: () {
               showModalBottomSheet(
-                backgroundColor: cores.secondaryColor,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 showDragHandle: true,
                 context: context,
                 isScrollControlled: true,
@@ -116,7 +115,7 @@ class _InitialPageState extends State<InitialPage> {
                 label: 'Adicionar item',
                 onTap: () async {
                   final item = await showModalBottomSheet<ItemModel>(
-                    backgroundColor: cores.secondaryColor,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                     showDragHandle: true,
                     context: context,
                     isScrollControlled: true,
@@ -139,7 +138,7 @@ class _InitialPageState extends State<InitialPage> {
             label: 'Anotações',
             onTap: () async {
               final note = await showModalBottomSheet<String?>(
-                backgroundColor: cores.secondaryColor,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 showDragHandle: true,
                 context: context,
                 isScrollControlled: true,
@@ -164,7 +163,7 @@ class _InitialPageState extends State<InitialPage> {
         height: 50,
         animationDuration: const Duration(milliseconds: 200),
         backgroundColor: Colors.white,
-        color: cores.secondaryColor,
+        color: Theme.of(context).colorScheme.secondary,
         onTap: _onItemTapped,
         items: const [
           PhosphorIcon(

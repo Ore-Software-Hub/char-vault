@@ -11,3 +11,6 @@ const Color secondaryDark = Color(0xFF4CAFA8);
 
 const Color surfaceLight = Color(0xFFF8F9FA);
 const Color surfaceDark = Color(0xFF262626);
+
+const Color tertiaryLight = Color(0xFFf2f2f2);
+const Color tertiaryDark = Color(0xFF1b1b1b);

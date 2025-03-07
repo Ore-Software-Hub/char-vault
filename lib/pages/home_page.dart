@@ -42,20 +42,6 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) =>
-                                ResistenceBottomSheetComponent(
-                                    savingThrows: _char!.savingThrows!));
-                      },
-                      child: Text("Teste de Resistência",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300)))
                 ],
               ),
               Wrap(
@@ -67,6 +53,7 @@ class _HomePageState extends State<HomePage> {
                     title: feature.title,
                     value: feature.value.toString(),
                     modifier: feature.modifier.toString(),
+                    test: feature.modifier.toString(),
                   );
                 }).toList(),
               )

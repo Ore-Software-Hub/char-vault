@@ -5,13 +5,13 @@ ThemeData lightTheme = ThemeData(
   fontFamily: 'Worksans',
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
-    surface: cores.surfaceLight,
-    onSurface: Colors.black,
-    primary: cores.primaryLight,
-    onPrimary: Colors.white,
-    secondary: cores.secondaryLight,
-    onSecondary: Colors.white,
-  ),
+      surface: cores.surfaceLight,
+      onSurface: Colors.black,
+      primary: cores.primaryLight,
+      onPrimary: Colors.white,
+      secondary: cores.secondaryLight,
+      onSecondary: Colors.white,
+      tertiary: cores.tertiaryLight),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -19,11 +19,11 @@ ThemeData darkTheme = ThemeData(
   fontFamily: 'Worksans',
   brightness: Brightness.dark,
   colorScheme: const ColorScheme.dark(
-    surface: cores.surfaceDark,
-    onSurface: Colors.white,
-    primary: cores.primaryDark,
-    onPrimary: Colors.black,
-    secondary: cores.secondaryDark,
-    onSecondary: Colors.black,
-  ),
+      surface: cores.surfaceDark,
+      onSurface: Colors.white,
+      primary: cores.primaryDark,
+      onPrimary: Colors.black,
+      secondary: cores.secondaryDark,
+      onSecondary: Colors.black,
+      tertiary: cores.tertiaryDark),
 );

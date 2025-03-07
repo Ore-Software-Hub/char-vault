@@ -1,5 +1,6 @@
 import 'package:CharVault/components/features_component.dart';
 import 'package:CharVault/components/bottomsheet/skills.component.dart';
+import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
@@ -29,6 +30,9 @@ class _HomePageState extends State<HomePage> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const HeaderComponent(
+          type: 1,
+        ),
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: Column(

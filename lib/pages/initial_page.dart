@@ -84,7 +84,6 @@ class _InitialPageState extends State<InitialPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const HeaderComponent(),
                   SafeArea(child: tabs[_selectedIndex]),
                 ],
               ),

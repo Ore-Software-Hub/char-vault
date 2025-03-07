@@ -1,4 +1,5 @@
 import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
@@ -118,6 +119,9 @@ class _FightPageState extends State<FightPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const HeaderComponent(
+          type: 1,
+        ),
         Padding(
           padding:
               const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),

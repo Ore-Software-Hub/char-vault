@@ -1,4 +1,5 @@
 import 'package:CharVault/components/details_component.dart';
+import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const HeaderComponent(
+          type: 2,
+        ),
         Padding(
           padding:
               const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),

@@ -1,4 +1,5 @@
 import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
@@ -122,6 +123,9 @@ class _BackPackPageState extends State<BackPackPage> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const HeaderComponent(
+          type: 1,
+        ),
         Padding(
           padding:
               const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),

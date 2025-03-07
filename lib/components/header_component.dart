@@ -12,7 +12,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HeaderComponent extends StatefulWidget {
-  const HeaderComponent({super.key});
+  const HeaderComponent({super.key, this.type = 1});
+
+  final int type;
 
   @override
   State<HeaderComponent> createState() => _HeaderComponentState();
@@ -65,8 +67,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
             child: Image.network(image, width: 35, fit: BoxFit.cover,
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
-              return LoadingAnimationWidget.beat(
-                          color: Colors.white, size: 40);
+              return LoadingAnimationWidget.beat(color: Colors.white, size: 40);
             }),
           ),
           onPressed: () {
@@ -256,43 +257,50 @@ class _HeaderComponentState extends State<HeaderComponent> {
       clipBehavior: Clip.none,
       children: [
         // Gradiente de fundo
-        backgroundGradient(350),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              returnText("${_char?.name}", FontWeight.bold, 32),
-              returnText("${_char?.classe}", FontWeight.w100, 24),
-              // returnLevel("${_char?.level}"),
-              returnLevel("${_char?.level}"),
-
-              const SizedBox(
-                height: 5,
-              ),
-              returnLife("${_char?.curLife}", "${_char?.maxLife}"),
-              const SizedBox(
-                height: 5,
-              ),
-              returnMoney("${_char?.po}", "${_char?.pp}", "${_char?.pb}")
-            ],
+        backgroundGradient(widget.type == 1 ? 200 : 350),
+        if (widget.type != 1)
+          Positioned(
+            right: 0,
+            child: Container(
+              alignment: Alignment.center,
+              height: 250,
+              width: MediaQuery.of(context).size.width,
+              child: Image.network(urlImage, fit: BoxFit.cover, errorBuilder:
+                  (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 50.0),
+                  child: LoadingAnimationWidget.beat(
+                      color: Colors.white, size: 40),
+                );
+              }),
+            ),
           ),
-        ),
         Positioned(
-          right: 0,
           child: Container(
-            alignment: Alignment.centerRight,
-            height: 250,
-            width: MediaQuery.of(context).size.width,
-            child: Image.network(urlImage, fit: BoxFit.cover, errorBuilder:
-                (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 50.0),
-                child:
-                    LoadingAnimationWidget.beat(color: Colors.white, size: 40),
-              );
-            }),
+            color: Colors.black26,
+            padding: EdgeInsets.only(left: 12, right: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    returnText("${_char?.name}", FontWeight.bold, 32),
+                    Row(
+                      spacing: 5,
+                      children: [
+                        returnText("${_char?.classe}", FontWeight.w100, 24),
+                        returnText('•', FontWeight.w100, 24),
+                        returnText(
+                            "${_char?.details?.race}", FontWeight.w100, 24),
+                      ],
+                    ),
+                  ],
+                ),
+                returnLevel("${_char?.level}"),
+              ],
+            ),
           ),
         ),
         Positioned(

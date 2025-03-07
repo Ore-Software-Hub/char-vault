@@ -29,6 +29,12 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
         : modifier < 0
             ? '$modifier'
             : modifier.toString();
+    var test = int.parse(widget.test);
+    var textTest = test > 0
+        ? '+$test'
+        : test < 0
+            ? '$test'
+            : test.toString();
     return FlipCard(
       rotateSide: RotateSide.top,
       onTapFlipping: true,
@@ -131,7 +137,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        widget.test,
+                        textTest,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w900,

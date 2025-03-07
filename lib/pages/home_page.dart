@@ -1,8 +1,9 @@
 import 'package:CharVault/components/features_component.dart';
-import 'package:CharVault/components/bottomsheet/resistence_component.dart';
+import 'package:CharVault/components/bottomsheet/skills.component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,18 +30,15 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "Características",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppTextStyles.boldText(context, size: 20),
                   ),
                 ],
               ),
@@ -60,34 +58,45 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 24, left: 16, right: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  "Habilidades",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Habilidades",
+                    style: AppTextStyles.boldText(context, size: 20),
                   ),
-                ),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.center,
-                  spacing: 4.0, // Espaçamento horizontal entre os widgets
-                  runSpacing: 8.0, // Espaçamento vertical entre as linhas
-                  children: _char!.skills!.map<SkillsComponent>((skill) {
-                    return SkillsComponent(
-                      title: skill.title,
-                      value: skill.value.toString(),
-                    );
-                  }).toList(),
-                )
-              ],
-            ),
+                  TextButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            showDragHandle: true,
+                            builder: (context) => SkillsBottomSheetComponent(
+                                skills: _char!.skills!));
+                      },
+                      child: Text("Ver Todos",
+                          style: AppTextStyles.lightText(context, size: 14)))
+                ],
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                spacing: 4.0, // Espaçamento horizontal entre os widgets
+                runSpacing: 8.0, // Espaçamento vertical entre as linhas
+                children: _char!.skills!.take(8).map<SkillsComponent>((skill) {
+                  return SkillsComponent(
+                    title: skill.title,
+                    value: skill.value.toString(),
+                  );
+                }).toList(),
+              )
+            ],
           ),
         ),
         const SizedBox(

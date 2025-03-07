@@ -1132,7 +1132,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
               pressed: () {
                 changeStep(-1);
               },
-              color: Colors.grey,
             ),
             const Spacer(),
             if (step < 2)

@@ -470,7 +470,6 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
               pressed: () {
                 changeStep(-1);
               },
-              color: Colors.grey,
             ),
             const Spacer(),
             ButtonComponent(

@@ -10,14 +10,12 @@ class ButtonComponent extends StatefulWidget {
       this.icon,
       this.label,
       this.loading = false,
-      this.color,
       this.disabled = false});
 
   final Function()? pressed;
   final int tipo;
   final PhosphorFlatIconData? icon;
   final String? label;
-  final Color? color;
   final bool loading;
   final bool disabled;
 
@@ -54,7 +52,7 @@ class _ButtonComponentState extends State<ButtonComponent> {
           if (states.contains(WidgetState.disabled)) {
             return Colors.grey.shade400; // Cor do botão desativado
           }
-          return widget.color;
+          return Theme.of(context).colorScheme.primary;
         },
       ),
     );

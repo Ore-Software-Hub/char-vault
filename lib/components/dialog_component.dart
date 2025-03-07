@@ -31,7 +31,6 @@ class _DialogComponentState extends State<DialogComponent> {
             Navigator.of(context).pop(true); // Dismiss the dialog
           },
           label: "Sim",
-          color: Theme.of(context).colorScheme.secondary,
         ),
       ],
     );

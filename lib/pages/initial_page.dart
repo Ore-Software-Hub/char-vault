@@ -34,11 +34,13 @@ class _InitialPageState extends State<InitialPage> {
 
   List<Widget> tabs = [
     const HomePage(),
-    const BackPackPage(),
+    const ProfilePage(),
     const FightPage(),
-    const ProfilePage()
+    const BackPackPage(),
+    // TODO: Adicionar as outras tabs aqui
+    const FightPage(),
+    const FightPage(),
   ];
-  List<String> tabsNames = ["Início", "Inventário", "Combate", "Perfil"];
 
   @override
   void initState() {
@@ -163,7 +165,7 @@ class _InitialPageState extends State<InitialPage> {
         height: 50,
         animationDuration: const Duration(milliseconds: 200),
         backgroundColor: Colors.white,
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.primary,
         onTap: _onItemTapped,
         items: const [
           PhosphorIcon(
@@ -172,15 +174,23 @@ class _InitialPageState extends State<InitialPage> {
           ),
           PhosphorIcon(
             color: Colors.white,
+            PhosphorIconsThin.user,
+          ),
+          PhosphorIcon(
+            color: Colors.white,
+            PhosphorIconsThin.sword,
+          ),
+          PhosphorIcon(
+            color: Colors.white,
             PhosphorIconsThin.backpack,
           ),
           PhosphorIcon(
             color: Colors.white,
-            PhosphorIconsThin.handFist,
+            PhosphorIconsThin.scroll,
           ),
           PhosphorIcon(
             color: Colors.white,
-            PhosphorIconsThin.user,
+            PhosphorIconsThin.note,
           ),
         ],
       ),

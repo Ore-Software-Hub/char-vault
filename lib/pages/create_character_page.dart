@@ -1,7 +1,4 @@
 import 'dart:io';
-
-import 'package:CharVault/components/bottomsheet/add_item_component.dart';
-import 'package:CharVault/components/bottomsheet/text_component.dart';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components2/dropdown.component.dart';
 import 'package:CharVault/components/item_component.dart';
@@ -484,17 +481,17 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) =>
-                                const TextBottomSheetComponent(
-                              textList: [
-                                "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
-                                "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
-                              ],
-                            ),
-                          );
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   builder: (context) =>
+                          //       const TextBottomSheetComponent(
+                          //     textList: [
+                          //       "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
+                          //       "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
+                          //     ],
+                          //   ),
+                          // );
                         },
                         icon: const PhosphorIcon(PhosphorIconsRegular.info),
                       )
@@ -1063,56 +1060,56 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       floatingActionButton: step == 2
           ? FloatingActionButton(
               onPressed: () async {
-                final item = await showModalBottomSheet<ItemModel>(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  showDragHandle: true,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const AddItemBottomSheetComponent(
-                    editing: false,
-                  ),
-                );
+                // final item = await showModalBottomSheet<ItemModel>(
+                //   backgroundColor: Theme.of(context).colorScheme.secondary,
+                //   showDragHandle: true,
+                //   context: context,
+                //   isScrollControlled: true,
+                //   builder: (context) => const AddItemBottomSheetComponent(
+                //     editing: false,
+                //   ),
+                // );
 
-                if (item != null) {
-                  switch (item.tipo) {
-                    case 'Arma':
-                      setState(() {
-                        {
-                          weapons.add(item);
-                        }
-                      });
-                      break;
+                // if (item != null) {
+                //   switch (item.tipo) {
+                //     case 'Arma':
+                //       setState(() {
+                //         {
+                //           weapons.add(item);
+                //         }
+                //       });
+                //       break;
 
-                    case 'Armadura':
-                    case 'Equipamento':
-                    case 'Item':
-                      setState(() {
-                        {
-                          equipments.add(item);
-                        }
-                      });
-                      break;
+                //     case 'Armadura':
+                //     case 'Equipamento':
+                //     case 'Item':
+                //       setState(() {
+                //         {
+                //           equipments.add(item);
+                //         }
+                //       });
+                //       break;
 
-                    case 'Consumíveis':
-                    case 'Item mágico':
-                    case 'Objeto':
-                    case 'Outros':
-                      setState(() {
-                        {
-                          inventory.add(item);
-                        }
-                      });
-                      break;
+                //     case 'Consumíveis':
+                //     case 'Item mágico':
+                //     case 'Objeto':
+                //     case 'Outros':
+                //       setState(() {
+                //         {
+                //           inventory.add(item);
+                //         }
+                //       });
+                //       break;
 
-                    case 'Magia':
-                      setState(() {
-                        {
-                          spells.add(item);
-                        }
-                      });
-                      break;
-                  }
-                }
+                //     case 'Magia':
+                //       setState(() {
+                //         {
+                //           spells.add(item);
+                //         }
+                //       });
+                //       break;
+                //   }
+                // }
               },
               child: const PhosphorIcon(
                 PhosphorIconsBold.plus,

@@ -1,4 +1,3 @@
-import 'package:CharVault/components/bottomsheet/add_item_component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/services/database_service.dart';
@@ -45,23 +44,23 @@ class _ItemComponentState extends State<ItemComponent> {
             onTap: widget.charId.isEmpty
                 ? null
                 : () async {
-                    final item = await showModalBottomSheet<ItemModel?>(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      showDragHandle: true,
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => AddItemBottomSheetComponent(
-                        editing: true,
-                        item: widget.item,
-                      ),
-                    );
+                    // final item = await showModalBottomSheet<ItemModel?>(
+                    //   backgroundColor: Theme.of(context).colorScheme.secondary,
+                    //   showDragHandle: true,
+                    //   context: context,
+                    //   isScrollControlled: true,
+                    //   builder: (context) => AddItemBottomSheetComponent(
+                    //     editing: true,
+                    //     item: widget.item,
+                    //   ),
+                    // );
 
-                    if (item != null) {
-                      await DatabaseService.updateItem(
-                          widget.charId, widget.item.id, item.toMap());
-                      NotificationHelper.showSnackBar(
-                          context, "Item atualizado");
-                    }
+                    // if (item != null) {
+                    //   await DatabaseService.updateItem(
+                    //       widget.charId, widget.item.id, item.toMap());
+                    //   NotificationHelper.showSnackBar(
+                    //       context, "Item atualizado");
+                    // }
                   },
             child: Container(
               height: 40,

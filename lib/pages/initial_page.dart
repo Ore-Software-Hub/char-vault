@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:CharVault/components/bottomsheet/add_item_component.dart';
 import 'package:CharVault/components2/header.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/backpack_page.dart';
-import 'package:CharVault/components/bottomsheet/dice_component.dart';
-import 'package:CharVault/components/bottomsheet/notes_component.dart';
 import 'package:CharVault/pages/fight_page.dart';
 import 'package:CharVault/pages/home_page.dart';
 import 'package:CharVault/pages/profile_page.dart';
@@ -99,63 +96,13 @@ class _InitialPageState extends State<InitialPage> {
             ),
             label: 'Rolar dados',
             onTap: () {
-              showModalBottomSheet(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                showDragHandle: true,
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => const DiceBottomSheetComponent(),
-              );
-            },
-          ),
-          if (_selectedIndex == 1 || _selectedIndex == 2)
-            SpeedDialChild(
-                child: const PhosphorIcon(
-                  PhosphorIconsBold.plus,
-                ),
-                label: 'Adicionar item',
-                onTap: () async {
-                  final item = await showModalBottomSheet<ItemModel>(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    showDragHandle: true,
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) => const AddItemBottomSheetComponent(
-                      editing: false,
-                    ),
-                  );
-                  if (item != null) {
-                    final itemId =
-                        await DatabaseService.addItem(_char!.id, item);
-                    NotificationHelper.showSnackBar(context,
-                        "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
-                        level: itemId != null ? 1 : 0);
-                  }
-                }),
-          SpeedDialChild(
-            child: const PhosphorIcon(
-              PhosphorIconsBold.note,
-            ),
-            label: 'Anotações',
-            onTap: () async {
-              final note = await showModalBottomSheet<String?>(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                showDragHandle: true,
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => NotesBottomSheetComponent(
-                  note: _char!.notes,
-                ),
-              );
-
-              if (note != null) {
-                setState(() {
-                  _char!.notes = note;
-                });
-                await DatabaseService.updateCharacter(
-                    _char!.id, _char!.toMap());
-                NotificationHelper.showSnackBar(context, "Notas atualizadas");
-              }
+              // showModalBottomSheet(
+              //   backgroundColor: Theme.of(context).colorScheme.secondary,
+              //   showDragHandle: true,
+              //   context: context,
+              //   isScrollControlled: true,
+              //   builder: (context) => const DiceBottomSheetComponent(),
+              // );
             },
           ),
         ],

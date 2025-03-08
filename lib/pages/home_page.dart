@@ -1,7 +1,5 @@
-import 'package:CharVault/components/bottomsheet/edit_life_component%20copy.dart';
 import 'package:CharVault/components2/card.component.dart';
 import 'package:CharVault/components2/features.component.dart';
-import 'package:CharVault/components/bottomsheet/skills.component.dart';
 import 'package:CharVault/components2/header.component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/models/character_model.dart';
@@ -78,13 +76,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                       onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            useSafeArea: true,
-                            isScrollControlled: true,
-                            showDragHandle: true,
-                            builder: (context) => SkillsBottomSheetComponent(
-                                skills: _char!.skills!));
+                        // showModalBottomSheet(
+                        //     context: context,
+                        //     useSafeArea: true,
+                        //     isScrollControlled: true,
+                        //     showDragHandle: true,
+                        //     builder: (context) => SkillsBottomSheetComponent(
+                        //         skills: _char!.skills!));
                       },
                       child: Text("Ver Todos",
                           style: AppTextStyles.lightText(context, size: 14)))
@@ -127,27 +125,27 @@ class _HomePageState extends State<HomePage> {
                   CardComponent(
                       top: InkWell(
                         onTap: () async {
-                          final newLifeVal = await showModalBottomSheet<String>(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                            showDragHandle: true,
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) => EditLifeBottomSheetComponent(
-                              curLife: _char!.curLife,
-                              maxLife: _char!.maxLife,
-                            ),
-                          );
+                          // final newLifeVal = await showModalBottomSheet<String>(
+                          //   backgroundColor:
+                          //       Theme.of(context).colorScheme.secondary,
+                          //   showDragHandle: true,
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   builder: (context) => EditLifeBottomSheetComponent(
+                          //     curLife: _char!.curLife,
+                          //     maxLife: _char!.maxLife,
+                          //   ),
+                          // );
 
-                          if (newLifeVal != null) {
-                            setState(() {
-                              _char!.curLife = newLifeVal;
-                              Provider.of<LoginProvider>(context, listen: false)
-                                  .updateUser(char: _char);
-                            });
-                            await DatabaseService.updateCharacter(
-                                _char!.id, _char!.toMap());
-                          }
+                          // if (newLifeVal != null) {
+                          //   setState(() {
+                          //     _char!.curLife = newLifeVal;
+                          //     Provider.of<LoginProvider>(context, listen: false)
+                          //         .updateUser(char: _char);
+                          //   });
+                          //   await DatabaseService.updateCharacter(
+                          //       _char!.id, _char!.toMap());
+                          // }
                         },
                         child: Text(
                           "${_char!.curLife}/${_char!.maxLife}",

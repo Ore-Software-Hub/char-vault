@@ -113,17 +113,21 @@ class CharacterModel {
 class CharacterDetails {
   String age;
   String race;
+  String height;
+  String weight;
   String background;
   String alignment;
   String backstory;
 
-  CharacterDetails(
-      this.age, this.race, this.background, this.alignment, this.backstory);
+  CharacterDetails(this.age, this.race, this.height, this.weight,
+      this.background, this.alignment, this.backstory);
 
   Map<String, dynamic> toMap() {
     return {
       'age': age,
       'race': race,
+      'height': height,
+      'weight': weight,
       'background': background,
       'alignment': alignment,
       'backstory': backstory,
@@ -134,6 +138,8 @@ class CharacterDetails {
     return CharacterDetails(
       map['age'] ?? '',
       map['race'] ?? '',
+      map['height'] ?? '',
+      map['weight'] ?? '',
       map['background'] ?? '',
       map['alignment'] ?? '',
       map['backstory'] ?? '',

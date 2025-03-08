@@ -60,6 +60,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   String _name = "";
   String _age = "";
   String _race = "";
+  String _height = "";
+  String _weight = "";
   String _background = "";
   String _alignment = "";
   String _backstory = "";
@@ -317,6 +319,40 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         onChanged: (value) => {
                           setState(() {
                             _age = value;
+                          })
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2 - 10,
+                      child: TextFieldComponent(
+                        value: _height,
+                        label: "Altura",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _height = value;
+                          })
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2 - 10,
+                      child: TextFieldComponent(
+                        value: _weight,
+                        label: "Peso",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _weight = value;
                           })
                         },
                       ),
@@ -871,8 +907,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       return;
     }
 
-    var details =
-        CharacterDetails(_age, _race, _background, _alignment, _backstory);
+    var details = CharacterDetails(
+        _age, _race, _height, _weight, _background, _alignment, _backstory);
 
     var strength = FeatureDetails("Força", int.tryParse(_strength)!,
         ((int.tryParse(_strength)! - 10) / 2).floor());

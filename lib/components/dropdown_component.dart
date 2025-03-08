@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
 class DropdownComponent extends StatefulWidget {
   const DropdownComponent({
     super.key,
@@ -6,15 +8,11 @@ class DropdownComponent extends StatefulWidget {
     required this.items,
     required this.value,
     this.hintText,
-    this.backgroundColor = Colors.white,
-    this.foregroundColor,
   });
 
   final Function(String?)? onChanged;
   final String? hintText;
   final List<ItemDropdown> items;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
   final String value;
 
   @override
@@ -36,7 +34,7 @@ class _DropdownComponentState extends State<DropdownComponent> {
       value: selectedValue,
       hint: Text(
         widget.hintText!,
-        style: TextStyle(color: widget.foregroundColor!),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       ),
       onChanged: (String? newValue) {
         setState(() {
@@ -53,22 +51,13 @@ class _DropdownComponentState extends State<DropdownComponent> {
         );
       }).toList(),
       decoration: InputDecoration(
-        filled: true,
-        fillColor: widget.backgroundColor!,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: widget.foregroundColor!, width: 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: widget.foregroundColor!, width: 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: widget.foregroundColor!, width: 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      icon: Icon(Icons.arrow_drop_down, color: widget.foregroundColor!),
+          filled: true,
+          enabledBorder:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          focusedBorder:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+      icon: PhosphorIcon(PhosphorIcons.caretDown(),
+          color: Theme.of(context).colorScheme.onSurface),
     );
   }
 }

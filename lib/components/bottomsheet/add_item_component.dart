@@ -147,8 +147,6 @@ class _AddItemBottomSheetComponentState
                       ItemDropdown(display: "Objeto", value: 0),
                       ItemDropdown(display: "Outros", value: 0),
                     ],
-                    foregroundColor: Colors.white,
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
                   ),
                 )
               ],

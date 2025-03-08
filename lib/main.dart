@@ -1,11 +1,8 @@
 import 'package:CharVault/firebase_options.dart';
-import 'package:CharVault/pages/landing_page.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/providers/theme_provider.dart';
-import 'package:CharVault/services/auth_service.dart';
+import 'package:CharVault/splash_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,21 +45,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Character Vault',
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: StreamBuilder<User?>(
-          stream: AuthService.userStream,
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-                return const Center(child: CircularProgressIndicator());
-              case ConnectionState.active:
-                return snapshot.hasData
-                    ? const UserProfilePage()
-                    : const LandingPage();
-              default:
-                return const LandingPage();
-            }
-          }),
+      home: const SplashScreen()
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:CharVault/components2/card.component.dart';
 import 'package:CharVault/components2/features.component.dart';
 import 'package:CharVault/components2/header.component.dart';
 import 'package:CharVault/components/skills_component.dart';
+import 'package:CharVault/components2/line.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
@@ -93,8 +94,8 @@ class _HomePageState extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 spacing: 4.0, // Espaçamento horizontal entre os widgets
                 runSpacing: 8.0, // Espaçamento vertical entre as linhas
-                children: _char!.skills!.take(8).map<SkillsComponent>((skill) {
-                  return SkillsComponent(
+                children: _char!.skills!.take(8).map<LineComponent>((skill) {
+                  return LineComponent(
                     title: skill.title,
                     value: skill.value.toString(),
                   );

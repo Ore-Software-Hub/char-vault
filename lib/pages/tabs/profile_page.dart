@@ -1,4 +1,4 @@
-import 'package:CharVault/components/details_component.dart';
+import 'package:CharVault/components2/line.component.dart';
 import 'package:CharVault/components2/header.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
@@ -42,15 +42,35 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.spaceBetween,
+                spacing: 4.0, // Espaçamento horizontal entre os widgets
+                runSpacing: 8.0, // Espaçamento vertical entre as linhas
                 children: [
-                  DetailsComponent(title: "Idade", value: _char!.details!.age),
-                  DetailsComponent(title: "Raça", value: _char!.details!.race),
-                  DetailsComponent(
-                      title: "Antecedentes", value: _char!.details!.background),
-                  DetailsComponent(
-                      title: "Alinhamento", value: _char!.details!.alignment),
+                  LineComponent(
+                      line: true,
+                      valueString: true,
+                      title: "Idade",
+                      value: _char!.details!.age),
+                  LineComponent(
+                      line: true,
+                      valueString: true,
+                      title: "Altura",
+                      value: _char!.details!.height),
+                  LineComponent(
+                      line: true,
+                      valueString: true,
+                      title: "Peso",
+                      value: _char!.details!.weight),
+                  LineComponent(
+                      line: true,
+                      title: "Alinhamento",
+                      value: _char!.details!.alignment),
+                  LineComponent(
+                      line: true,
+                      title: "Antecedentes",
+                      value: _char!.details!.background),
                 ],
               )
             ],

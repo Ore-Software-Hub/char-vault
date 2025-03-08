@@ -10,11 +10,12 @@ class AppTextStyles {
     );
   }
 
-  static TextStyle boldText(BuildContext context, {double size = 16}) {
+  static TextStyle boldText(BuildContext context,
+      {double size = 16, Color color = Colors.black}) {
     return GoogleFonts.sarala(
       fontSize: size,
       fontWeight: FontWeight.bold,
-      color: Theme.of(context).colorScheme.onSurface,
+      color: color,
     );
   }
 }

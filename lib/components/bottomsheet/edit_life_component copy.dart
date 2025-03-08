@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class EditLifeBottomSheetComponent extends StatefulWidget {
-  const EditLifeBottomSheetComponent({super.key, required this.curLife});
+  const EditLifeBottomSheetComponent(
+      {super.key, required this.curLife, required this.maxLife});
   final String curLife;
+  final String maxLife;
 
   @override
   _EditLifeBottomSheetComponentState createState() =>
@@ -117,21 +119,23 @@ class _EditLifeBottomSheetComponentState
               children: [
                 ElevatedButton(
                   style: ButtonStyle(
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)), // Torna o botão quadrado
-                        ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(8)), // Torna o botão quadrado
                       ),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return Theme.of(context).colorScheme.secondary; // Altere para a cor desejada
-                          }
-                          return null; // Use o valor padrão para outros estados
-                        },
-                      ),
-                      ),
+                    ),
+                    overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return Theme.of(context)
+                              .colorScheme
+                              .secondary; // Altere para a cor desejada
+                        }
+                        return null; // Use o valor padrão para outros estados
+                      },
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -139,21 +143,23 @@ class _EditLifeBottomSheetComponentState
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)), // Torna o botão quadrado
-                        ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(8)), // Torna o botão quadrado
                       ),
-                      overlayColor: WidgetStateProperty.resolveWith<Color?>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.pressed)) {
-                            return Theme.of(context).colorScheme.secondary; // Altere para a cor desejada
-                          }
-                          return null; // Use o valor padrão para outros estados
-                        },
-                      ),
-                      ),
+                    ),
+                    overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.pressed)) {
+                          return Theme.of(context)
+                              .colorScheme
+                              .secondary; // Altere para a cor desejada
+                        }
+                        return null; // Use o valor padrão para outros estados
+                      },
+                    ),
+                  ),
                   onPressed: _controllerNewLife.text.isEmpty
                       ? null
                       : () {

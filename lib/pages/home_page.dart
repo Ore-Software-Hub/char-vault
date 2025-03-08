@@ -1,9 +1,12 @@
+import 'package:CharVault/components/bottomsheet/edit_life_component%20copy.dart';
+import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/features_component.dart';
 import 'package:CharVault/components/bottomsheet/skills.component.dart';
 import 'package:CharVault/components/header_component.dart';
 import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           type: 1,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               Row(
@@ -63,8 +66,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding:
-              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               Row(
@@ -103,9 +105,111 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        const SizedBox(
-          height: 30,
-        )
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Outras Informações",
+                    style: AppTextStyles.boldText(context, size: 20),
+                  ),
+                ],
+              ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                spacing: 4.0, // Espaçamento horizontal entre os widgets
+                runSpacing: 8.0, // Espaçamento vertical entre as linhas
+                children: [
+                  CardComponent(
+                      top: InkWell(
+                        onTap: () async {
+                          final newLifeVal = await showModalBottomSheet<String>(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => EditLifeBottomSheetComponent(
+                              curLife: _char!.curLife,
+                              maxLife: _char!.maxLife,
+                            ),
+                          );
+
+                          if (newLifeVal != null) {
+                            setState(() {
+                              _char!.curLife = newLifeVal;
+                              Provider.of<LoginProvider>(context, listen: false)
+                                  .updateUser(char: _char);
+                            });
+                            await DatabaseService.updateCharacter(
+                                _char!.id, _char!.toMap());
+                          }
+                        },
+                        child: Text(
+                          "${_char!.curLife}/${_char!.maxLife}",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      bottom: Text(
+                        "PV Atual",
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                  CardComponent(
+                      top: Text(
+                        "1d8",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 22,
+                        ),
+                      ),
+                      bottom: Text(
+                        "Dado PV",
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                  CardComponent(
+                      top: Text(
+                        "+2",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 22,
+                        ),
+                      ),
+                      bottom: Text(
+                        "Proficiência",
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                  CardComponent(
+                      top: Text(
+                        "+1",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 22,
+                        ),
+                      ),
+                      bottom: Text(
+                        "Inspiração",
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                ],
+              )
+            ],
+          ),
+        ),
       ],
     );
   }

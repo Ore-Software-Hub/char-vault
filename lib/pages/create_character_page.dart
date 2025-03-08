@@ -55,6 +55,14 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     ItemDropdown(display: "Caótico Mau", value: 0),
   ];
 
+  List<Papers> missions = [], relationships = [], notes = [];
+
+  List<Map<String, int>> currency = [];
+
+  List<Map<String, String>> status = [], talents = [];
+
+  List<String> languages = [], immunities = [], resistance = [], vulnerabilities = [];
+
   String title = 'Dados Pessoais';
   String savingTitle = '';
   String _name = "";
@@ -816,24 +824,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     );
   }
 
-  List<SkillDetails> createSkill(List<String> items, FeatureDetails feature) {
-    List<SkillDetails> result = [];
-
-    for (var item in items) {
-      var skill = SkillDetails(item, feature.modifier);
-
-      result.add(skill);
-    }
-
-    return result;
-  }
-
   getLife(FeatureDetails cons) {
     List<String> life = [];
     var classe = classes.firstWhere((classe) => classe.display == _classe);
 
     var maxLife = CharacterModel.calculateLife(
-        classe.value, int.parse(_level), cons.modifier);
+        classe.value, int.parse(_level), cons.modifier!);
 
     life.add(maxLife);
     life.add(maxLife);
@@ -842,19 +838,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   int getProficiencyBonus(int level) {
-    if (level >= 1 && level <= 4) {
-      return 2;
-    } else if (level >= 5 && level <= 8) {
-      return 3;
-    } else if (level >= 9 && level <= 12) {
-      return 4;
-    } else if (level >= 13 && level <= 16) {
-      return 5;
-    } else if (level >= 17 && level <= 20) {
-      return 6;
-    } else {
-      return 0; // Valor padrão se o nível estiver fora do intervalo esperado
-    }
+    if (level >= 17) return 6;
+    return ((level - 1) ~/ 4) + 2;
   }
 
   getSavingThrows(List<FeatureDetails> features) {
@@ -875,17 +860,15 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
     var proficiencies = classesProficiencies[classe.display]!;
 
-    List<FeatureDetails> savingThrows = [];
+    List<FeatureDetails> savingThrows = features;
 
-    for (var feat in features) {
+    for (var feat in savingThrows) {
       if (proficiencies.contains(feat.title)) {
-        var saving = FeatureDetails(feat.title, feat.value,
-            feat.modifier + getProficiencyBonus(int.parse(_level)));
-        savingThrows.add(saving);
-      } else {
-        savingThrows.add(feat);
+        feat.savingThrow =
+            feat.modifier! + getProficiencyBonus(int.parse(_level));
       }
     }
+
     return savingThrows;
   }
 
@@ -907,25 +890,48 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       return;
     }
 
-    var details = CharacterDetails(
-        _age, _race, _height, _weight, _background, _alignment, _backstory);
-
-    var strength = FeatureDetails("Força", int.tryParse(_strength)!,
-        ((int.tryParse(_strength)! - 10) / 2).floor());
-    var dexterity = FeatureDetails("Destreza", int.tryParse(_dexterity)!,
-        ((int.tryParse(_dexterity)! - 10) / 2).floor());
+    var strength = FeatureDetails(
+        title: "Força",
+        value: int.tryParse(_strength)!,
+        modifier: ((int.tryParse(_strength)! - 10) / 2).floor(),
+        skill: ["Atletismo"]);
+    var dexterity = FeatureDetails(
+        title: "Destreza",
+        value: int.tryParse(_dexterity)!,
+        modifier: ((int.tryParse(_dexterity)! - 10) / 2).floor(),
+        skill: ["Acrobacia", "Furtividade", "Prestidigitação"]);
     var constitution = FeatureDetails(
-        "Constituição",
-        int.tryParse(_constitution)!,
-        ((int.tryParse(_constitution)! - 10) / 2).floor());
+      title: "Constituição",
+      value: int.tryParse(_constitution)!,
+      modifier: ((int.tryParse(_constitution)! - 10) / 2).floor(),
+    );
     var intelligence = FeatureDetails(
-        "Inteligência",
-        int.tryParse(_intelligence)!,
-        ((int.tryParse(_intelligence)! - 10) / 2).floor());
-    var wisdom = FeatureDetails("Sabedoria", int.tryParse(_wisdom)!,
-        ((int.tryParse(_wisdom)! - 10) / 2).floor());
-    var charisma = FeatureDetails("Carisma", int.tryParse(_charisma)!,
-        ((int.tryParse(_charisma)! - 10) / 2).floor());
+        title: "Inteligência",
+        value: int.tryParse(_intelligence)!,
+        modifier: ((int.tryParse(_intelligence)! - 10) / 2).floor(),
+        skill: [
+          "Arcanismo",
+          "História",
+          "Investigação",
+          "Natureza",
+          "Religião"
+        ]);
+    var wisdom = FeatureDetails(
+        title: "Sabedoria",
+        value: int.tryParse(_wisdom)!,
+        modifier: ((int.tryParse(_wisdom)! - 10) / 2).floor(),
+        skill: [
+          "Intuição",
+          "Medicina",
+          "Lidar com Animais",
+          "Percepção",
+          "Sobrevivência"
+        ]);
+    var charisma = FeatureDetails(
+        title: "Carisma",
+        value: int.tryParse(_charisma)!,
+        modifier: ((int.tryParse(_charisma)! - 10) / 2).floor(),
+        skill: ["Atuação", "Enganação", "Intimidação", "Persuasão"]);
 
     List<FeatureDetails> features = [
       strength,
@@ -936,41 +942,43 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       charisma,
     ];
 
-    List<FeatureDetails> savingThrows = getSavingThrows(features);
-
-    var skillStrength = createSkill(["Atletismo"], strength);
-    var skillDex =
-        createSkill(["Acrobacia", "Furtividade", "Prestidigitação"], dexterity);
-    var skillIntel = createSkill(
-        ["Arcanismo", "Investigação", "Natureza", "Religião"], intelligence);
-    var skillWis = createSkill([
-      "Intuição",
-      "Lidar com Animais",
-      "Medicina",
-      "Percepção",
-      "Sobrevivência"
-    ], wisdom);
-    var skillChar = createSkill(
-        ["Atuação", "Enganação", "Intimidação", "Persuasão"], charisma);
-
-    var skills = [
-      ...skillStrength,
-      ...skillDex,
-      ...skillIntel,
-      ...skillWis,
-      ...skillChar
-    ];
-
-    skills.sort((a, b) => a.title.compareTo(b.title));
+    features = getSavingThrows(features);
 
     var life = getLife(constitution);
 
-    var po = "0";
-    var pp = "0";
-    var pb = "0";
+    var details = CharacterDetails(
+      curLife: life[0],
+      maxLife: life[1],
+      level: _level,
+      classe: _classe,
+      age: _age,
+      race: _race,
+      height: _height,
+      weight: _weight,
+      alignment: _alignment,
+      background: _background,
+      backstory: _backstory,
+      languages: languages,
+      talents: talents,
+      armorClass: '',
+      movement: '9',
+      immunities: immunities,
+      vulnerabilities: vulnerabilities,
+      resistancies: resistance,
+    );
 
-    _char = CharacterModel("", imgname, _name, _classe, _level, life[0],
-        life[1], po, pp, pb, '', details, savingThrows, features, skills);
+    _char = CharacterModel(
+      id: '',
+      image: imgname,
+      name: _name,
+      status: status,
+      currency: currency,
+      notes: notes,
+      missions: missions,
+      relationships: relationships,
+      details: details,
+      features: features,
+    );
 
     String? charId;
 

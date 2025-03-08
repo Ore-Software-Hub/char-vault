@@ -104,8 +104,9 @@ class CharacterDetails {
   List<Map<String, String>> talents;
   String armorClass;
   String movement;
-  List<String> immunity;
-  List<String> resistance;
+  List<String> immunities;
+  List<String> vulnerabilities;
+  List<String> resistancies;
 
   CharacterDetails({
     required this.curLife,
@@ -123,8 +124,9 @@ class CharacterDetails {
     required this.talents,
     required this.armorClass,
     required this.movement,
-    required this.immunity,
-    required this.resistance,
+    required this.immunities,
+    required this.vulnerabilities,
+    required this.resistancies,
   });
 
   Map<String, dynamic> toMap() {
@@ -144,8 +146,9 @@ class CharacterDetails {
       'talents': talents,
       'armorClass': armorClass,
       'movement': movement,
-      'immunity': immunity,
-      'resistance': resistance,
+      'immunity': immunities,
+      'vulnerabilities': vulnerabilities,
+      'resistancies': resistancies,
     };
   }
 
@@ -166,28 +169,29 @@ class CharacterDetails {
       talents: map['talents'] ?? [],
       armorClass: map['armorClass'] ?? '',
       movement: map['movement'] ?? '',
-      immunity: map['immunity'] ?? [],
-      resistance: map['resistance'] ?? [],
+      immunities: map['immunities'] ?? [],
+      vulnerabilities: map['vulnerabilities'] ?? [],
+      resistancies: map['resistancies'] ?? [],
     );
   }
 
   @override
   String toString() {
-    return "age $age, race $race, background $background, alignment $alignment, backstory $backstory, armorClass: $armorClass, movement: $movement, immunity: $immunity, resistance: $resistance";
+    return "age $age, race $race, background $background, alignment $alignment, backstory $backstory, armorClass: $armorClass, movement: $movement, immunities: $immunities, vulnerabilities: $vulnerabilities resistancies: $resistancies";
   }
 }
 
 class FeatureDetails {
   String title;
   int value;
-  bool isFeature;
+  List<String>? skill;
   int? modifier;
   int? savingThrow;
 
   FeatureDetails({
     required this.title,
     required this.value,
-    required this.isFeature,
+    this.skill,
     this.modifier,
     this.savingThrow,
   });
@@ -205,7 +209,7 @@ class FeatureDetails {
     return FeatureDetails(
       title: map['title'] ?? '',
       value: map['value'] ?? 0,
-      isFeature: map['isFeature'] ?? false,
+      skill: map['skill'],
       modifier: map['modifier'],
       savingThrow: map['savingThrow'],
     );
@@ -213,7 +217,7 @@ class FeatureDetails {
 
   @override
   String toString() {
-    return "FeatureDetails(title: $title, value: $value, isFeature: $isFeature, modifier: $modifier, savingThrow: $savingThrow)";
+    return "FeatureDetails(title: $title, value: $value, skill: $skill, modifier: $modifier, savingThrow: $savingThrow)";
   }
 }
 

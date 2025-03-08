@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components2/textfield.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
@@ -358,21 +357,17 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
     }
 
     _char = CharacterModel(
-        widget.char.id,
-        changedImage ? imgname : widget.char.image,
-        _name,
-        widget.char.classe,
-        widget.char.level,
-        widget.char.curLife,
-        widget.char.maxLife,
-        widget.char.po,
-        widget.char.pp,
-        widget.char.pb,
-        _backstory,
-        widget.char.details,
-        widget.char.savingThrows,
-        widget.char.features,
-        widget.char.skills);
+      id: widget.char.id,
+      image: changedImage ? imgname : widget.char.image,
+      name: _name,
+      status: widget.char.status,
+      currency: widget.char.currency,
+      notes: widget.char.notes,
+      missions: widget.char.missions,
+      relationships: widget.char.relationships,
+      details: widget.char.details,
+      features: widget.char.features,
+    );
 
     setState(() {
       savingTitle = "Salvando personagem";

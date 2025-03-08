@@ -1,5 +1,5 @@
 import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components/dropdown_component.dart';
+import 'package:CharVault/components2/dropdown.component.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:CharVault/constants/cores.constants.dart' as cores;

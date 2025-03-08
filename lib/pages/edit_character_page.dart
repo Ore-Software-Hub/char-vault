@@ -2,7 +2,7 @@ import 'dart:io';
 
 
 import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components/text_field_component.dart';
+import 'package:CharVault/components2/textfield.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/services/database_service.dart';

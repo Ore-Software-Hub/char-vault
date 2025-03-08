@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:CharVault/components/bottomsheet/add_item_component.dart';
-import 'package:CharVault/components/header_component.dart';
+import 'package:CharVault/components2/header.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';

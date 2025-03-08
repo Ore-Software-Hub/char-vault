@@ -54,10 +54,7 @@ class _HomePageState extends State<HomePage> {
                 runSpacing: 4.0, // Espaçamento vertical entre as linhas
                 children: _char!.features!.map<FeaturesComponent>((feature) {
                   return FeaturesComponent(
-                    title: feature.title,
-                    value: feature.value.toString(),
-                    modifier: feature.modifier.toString(),
-                    test: feature.modifier.toString(),
+                    feature: feature,
                   );
                 }).toList(),
               )
@@ -94,10 +91,10 @@ class _HomePageState extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 spacing: 4.0, // Espaçamento horizontal entre os widgets
                 runSpacing: 8.0, // Espaçamento vertical entre as linhas
-                children: _char!.skills!.take(8).map<LineComponent>((skill) {
+                children: _char!.features!.take(8).map<LineComponent>((skill) {
                   return LineComponent(
                     title: skill.title,
-                    value: skill.value.toString(),
+                    value: skill.modifier.toString(),
                   );
                 }).toList(),
               )
@@ -149,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                           // }
                         },
                         child: Text(
-                          "${_char!.curLife}/${_char!.maxLife}",
+                          "${_char!.details!.curLife}/${_char!.details!.maxLife}",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,

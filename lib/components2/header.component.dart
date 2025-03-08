@@ -177,7 +177,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
                     Row(
                       spacing: 5,
                       children: [
-                        returnText("${_char?.classe}", FontWeight.w100, 24),
+                        returnText(
+                            "${_char?.details?.classe}", FontWeight.w100, 24),
                         returnText('•', FontWeight.w100, 24),
                         returnText(
                             "${_char?.details?.race}", FontWeight.w100, 24),
@@ -185,7 +186,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
                     ),
                   ],
                 ),
-                returnLevel("${_char?.level}"),
+                returnLevel("${_char?.details?.level}"),
               ],
             ),
           ),

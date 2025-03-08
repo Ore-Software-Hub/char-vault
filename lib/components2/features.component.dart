@@ -1,19 +1,12 @@
+import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:flutter/material.dart';
 
 class FeaturesComponent extends StatefulWidget {
-  const FeaturesComponent(
-      {super.key,
-      required this.title,
-      required this.value,
-      required this.modifier,
-      required this.test});
+  const FeaturesComponent({super.key, required this.feature});
 
-  final String title;
-  final String value;
-  final String modifier;
-  final String test;
+  final FeatureDetails feature;
 
   @override
   State<FeaturesComponent> createState() => _FeaturesComponentState();
@@ -21,20 +14,16 @@ class FeaturesComponent extends StatefulWidget {
 
 class _FeaturesComponentState extends State<FeaturesComponent> {
   final con = FlipCardController();
+
+  String getSign(int value) {
+    var sign = value >= 0 ? '+' : '-';
+    return '$sign$value';
+  }
+
   @override
   Widget build(BuildContext context) {
-    var modifier = int.parse(widget.modifier);
-    var textModifier = modifier > 0
-        ? '+$modifier'
-        : modifier < 0
-            ? '$modifier'
-            : modifier.toString();
-    var test = int.parse(widget.test);
-    var textTest = test > 0
-        ? '+$test'
-        : test < 0
-            ? '$test'
-            : test.toString();
+    var feature = widget.feature;
+
     return FlipCard(
       rotateSide: RotateSide.top,
       onTapFlipping: true,
@@ -62,7 +51,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                       color: Theme.of(context).colorScheme.tertiary),
                   alignment: Alignment.center,
                   child: Text(
-                    widget.value,
+                    getSign(feature.value),
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w900,
@@ -89,7 +78,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                   child: Column(
                     children: [
                       Text(
-                        textModifier,
+                        getSign(feature.modifier!),
                         style: AppTextStyles.boldText(context),
                       ),
                       Divider(
@@ -97,7 +86,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                         endIndent: 20,
                       ),
                       Text(
-                        widget.title,
+                        feature.title,
                         style: AppTextStyles.lightText(context, size: 14),
                         overflow: TextOverflow.ellipsis,
                       )
@@ -137,7 +126,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        textTest,
+                        getSign(feature.savingThrow!),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w900,
@@ -166,7 +155,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                   child: Column(
                     children: [
                       Text(
-                        widget.value,
+                        '${feature.value}',
                         style: AppTextStyles.boldText(context),
                       ),
                       Divider(
@@ -174,7 +163,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                         endIndent: 20,
                       ),
                       Text(
-                        widget.title,
+                        feature.title,
                         style: AppTextStyles.lightText(context, size: 14),
                         overflow: TextOverflow.ellipsis,
                       )

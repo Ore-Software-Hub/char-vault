@@ -34,7 +34,6 @@ class _DropdownComponentState extends State<DropdownComponent> {
       value: selectedValue,
       hint: Text(
         widget.hintText!,
-        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       ),
       onChanged: (String? newValue) {
         setState(() {
@@ -52,12 +51,22 @@ class _DropdownComponentState extends State<DropdownComponent> {
       }).toList(),
       decoration: InputDecoration(
           filled: true,
-          enabledBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          focusedBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primary, // Cor da borda quando focado
+              )),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primary, // Cor da borda quando focado
+              ))),
       icon: PhosphorIcon(PhosphorIcons.caretDown(),
-          color: Theme.of(context).colorScheme.onSurface),
+          color: Theme.of(context).colorScheme.primary),
     );
   }
 }

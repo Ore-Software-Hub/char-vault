@@ -1,11 +1,9 @@
 import 'package:CharVault/components2/card.component.dart';
 import 'package:CharVault/components2/features.component.dart';
 import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components/skills_component.dart';
 import 'package:CharVault/components2/line.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
-import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 spacing: 4.0, // Espaçamento horizontal entre os widgets
                 runSpacing: 4.0, // Espaçamento vertical entre as linhas
-                children: _char!.features!.map<FeaturesComponent>((feature) {
+                children: _char!.features.map<FeaturesComponent>((feature) {
                   return FeaturesComponent(
                     feature: feature,
                   );
@@ -91,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 spacing: 4.0, // Espaçamento horizontal entre os widgets
                 runSpacing: 8.0, // Espaçamento vertical entre as linhas
-                children: _char!.features!.take(8).map<LineComponent>((skill) {
+                children: _char!.features.take(8).map<LineComponent>((skill) {
                   return LineComponent(
                     title: skill.title,
                     value: skill.modifier.toString(),
@@ -146,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                           // }
                         },
                         child: Text(
-                          "${_char!.details!.curLife}/${_char!.details!.maxLife}",
+                          "${_char!.details.curLife}/${_char!.details.maxLife}",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,

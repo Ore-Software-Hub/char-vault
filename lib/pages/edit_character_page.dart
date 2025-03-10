@@ -43,7 +43,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
     setState(() {
       title += "${widget.char.name}'";
       _name = widget.char.name;
-      _backstory = widget.char.details!.backstory;
+      _backstory = widget.char.details.backstory;
     });
     loadImage();
   }

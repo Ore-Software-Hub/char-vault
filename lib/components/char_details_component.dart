@@ -95,7 +95,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text("Nível ${widget.char.details!.level}",
+                      Text("Nível ${widget.char.details.level}",
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onSecondary,
                           )),

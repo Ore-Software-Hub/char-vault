@@ -1,6 +1,4 @@
-import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/item_model.dart';
-import 'package:CharVault/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 

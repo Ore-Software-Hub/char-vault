@@ -1,15 +1,11 @@
 import 'dart:async';
 
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/tabs/backpack_page.dart';
 import 'package:CharVault/pages/tabs/fight_page.dart';
 import 'package:CharVault/pages/tabs/home_page.dart';
 import 'package:CharVault/pages/tabs/profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
-import 'package:CharVault/services/database_service.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';

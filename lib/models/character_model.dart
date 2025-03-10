@@ -34,8 +34,8 @@ class CharacterModel {
       'notes': notes,
       'missions': missions,
       'relationships': relationships,
-      'details': details?.toMap(),
-      'features': features?.map((e) => e.toMap()).toList(),
+      'details': details.toMap(),
+      'features': features.map((e) => e.toMap()).toList(),
     };
   }
 

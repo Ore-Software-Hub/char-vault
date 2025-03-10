@@ -52,25 +52,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       line: true,
                       valueString: true,
                       title: "Idade",
-                      value: _char!.details!.age),
+                      value: _char!.details.age),
                   LineComponent(
                       line: true,
                       valueString: true,
                       title: "Altura",
-                      value: _char!.details!.height),
+                      value: _char!.details.height),
                   LineComponent(
                       line: true,
                       valueString: true,
                       title: "Peso",
-                      value: _char!.details!.weight),
+                      value: _char!.details.weight),
                   LineComponent(
                       line: true,
                       title: "Alinhamento",
-                      value: _char!.details!.alignment),
+                      value: _char!.details.alignment),
                   LineComponent(
                       line: true,
                       title: "Antecedentes",
-                      value: _char!.details!.background),
+                      value: _char!.details.background),
                 ],
               )
             ],
@@ -99,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     width: 1.0, // Largura da borda
                   ),
                 ),
-                child: Text(_char!.details!.backstory),
+                child: Text(_char!.details.backstory),
               ),
               const SizedBox(
                 height: 30,

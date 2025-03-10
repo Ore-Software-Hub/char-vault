@@ -8,13 +8,17 @@ class TextFieldComponent extends StatefulWidget {
       required this.onChanged,
       required this.value,
       this.maxlines = 1,
-      this.keyboardType = TextInputType.text});
+      this.keyboardType = TextInputType.text,
+      this.enabled = true,
+      this.hintText});
 
   final String label;
   final int? maxlines;
   final String value;
   final Function(String) onChanged;
   final TextInputType keyboardType;
+  final bool? enabled;
+  final String? hintText;
 
   @override
   State<TextFieldComponent> createState() => _TextFieldComponentState();
@@ -38,6 +42,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   textFieldDecoration(String title) {
     return InputDecoration(
       labelText: title,
+      hintText: widget.hintText,
+      hintStyle: TextStyle(color: Colors.grey),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(
@@ -66,6 +72,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: widget.enabled,
       controller: _controller,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.keyboardType == TextInputType.number
@@ -77,6 +84,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       cursorColor: Theme.of(context).colorScheme.primary,
       decoration: textFieldDecoration(widget.label),
       maxLines: widget.maxlines,
+      minLines: 1,
     );
   }
 }

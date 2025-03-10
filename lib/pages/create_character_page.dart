@@ -1237,6 +1237,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       NotificationHelper.showSnackBar(
           context, "Erro ao salvar o personagem: ${e.toString()}",
           level: 2);
+      await StorageService.deleteImageById(imgname);
       changeStep(-1);
       return;
     }

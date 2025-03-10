@@ -101,7 +101,7 @@ class CharacterDetails {
   String background;
   String backstory;
   List<String> languages;
-  List<Map<String, String>> talents;
+  List<Papers> talents;
   String armorClass;
   String movement;
   List<String> immunities;
@@ -222,13 +222,11 @@ class FeatureDetails {
 }
 
 class Papers {
-  String id;
   String title;
   String description;
   bool? completed;
 
   Papers({
-    required this.id,
     required this.title,
     required this.description,
     this.completed,
@@ -244,7 +242,6 @@ class Papers {
 
   factory Papers.fromMap(Map<String, dynamic> map) {
     return Papers(
-      id: map['id'] ?? '',
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       completed: map['completed'] ?? false,

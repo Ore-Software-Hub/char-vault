@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components2/dropdown.component.dart';
-import 'package:CharVault/components/item_component.dart';
 import 'package:CharVault/components2/textfield.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/pages/add_item.page.dart';
+import 'package:CharVault/pages/add_paper.page.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
+import 'package:CharVault/styles/font.styles.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -28,59 +30,61 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   File? imageFile;
 
-  List<ItemModel> equipments = [], weapons = [], inventory = [], spells = [];
+  List<ItemModel> inventory = [];
 
   List<ItemDropdown> classes = [
-    ItemDropdown(display: "Bárbaro", value: 12),
-    ItemDropdown(display: "Bardo", value: 8),
-    ItemDropdown(display: "Bruxo", value: 8),
-    ItemDropdown(display: "Clérigo", value: 8),
-    ItemDropdown(display: "Druida", value: 8),
-    ItemDropdown(display: "Feiticeiro", value: 6),
-    ItemDropdown(display: "Guerreiro", value: 10),
-    ItemDropdown(display: "Ladino", value: 8),
-    ItemDropdown(display: "Mago", value: 6),
-    ItemDropdown(display: "Paladino", value: 10),
-  ];
+        ItemDropdown(display: "Bárbaro", value: 12),
+        ItemDropdown(display: "Bardo", value: 8),
+        ItemDropdown(display: "Bruxo", value: 8),
+        ItemDropdown(display: "Clérigo", value: 8),
+        ItemDropdown(display: "Druida", value: 8),
+        ItemDropdown(display: "Feiticeiro", value: 6),
+        ItemDropdown(display: "Guerreiro", value: 10),
+        ItemDropdown(display: "Ladino", value: 8),
+        ItemDropdown(display: "Mago", value: 6),
+        ItemDropdown(display: "Paladino", value: 10),
+      ],
+      alignments = [
+        ItemDropdown(display: "Legal Bom", value: 0),
+        ItemDropdown(display: "Legal Mau", value: 0),
+        ItemDropdown(display: "Legal Neutro", value: 0),
+        ItemDropdown(display: "Neutro Bom", value: 0),
+        ItemDropdown(display: "Neutro", value: 0),
+        ItemDropdown(display: "Neutro Mau", value: 0),
+        ItemDropdown(display: "Caótico Neutro", value: 0),
+        ItemDropdown(display: "Caótico Bom", value: 0),
+        ItemDropdown(display: "Caótico Mau", value: 0),
+      ];
 
-  List<ItemDropdown> alignments = [
-    ItemDropdown(display: "Legal Bom", value: 0),
-    ItemDropdown(display: "Legal Mau", value: 0),
-    ItemDropdown(display: "Legal Neutro", value: 0),
-    ItemDropdown(display: "Neutro Bom", value: 0),
-    ItemDropdown(display: "Neutro", value: 0),
-    ItemDropdown(display: "Neutro Mau", value: 0),
-    ItemDropdown(display: "Caótico Neutro", value: 0),
-    ItemDropdown(display: "Caótico Bom", value: 0),
-    ItemDropdown(display: "Caótico Mau", value: 0),
-  ];
-
-  List<Papers> missions = [], relationships = [], notes = [];
+  List<Papers> talents = [], relationships = [];
 
   List<Map<String, int>> currency = [];
 
-  List<Map<String, String>> status = [], talents = [];
+  List<Map<String, String>> status = [];
 
-  List<String> languages = [], immunities = [], resistance = [], vulnerabilities = [];
+  List<String> languages = [],
+      immunities = [],
+      resistance = [],
+      vulnerabilities = [];
 
-  String title = 'Dados Pessoais';
-  String savingTitle = '';
-  String _name = "";
-  String _age = "";
-  String _race = "";
-  String _height = "";
-  String _weight = "";
-  String _background = "";
-  String _alignment = "";
-  String _backstory = "";
-  String _classe = "";
-  String _level = "";
-  String _strength = "";
-  String _dexterity = "";
-  String _constitution = "";
-  String _intelligence = "";
-  String _wisdom = "";
-  String _charisma = "";
+  String title = 'Dados Pessoais',
+      savingTitle = '',
+      _name = "",
+      _age = "",
+      _race = "",
+      _height = "",
+      _weight = "",
+      _background = "",
+      _alignment = "",
+      _backstory = "",
+      _classe = "",
+      _level = "",
+      _strength = "",
+      _dexterity = "",
+      _constitution = "",
+      _intelligence = "",
+      _wisdom = "",
+      _charisma = "";
 
   CharacterModel? _char;
 
@@ -101,9 +105,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         title = 'Dados Pessoais';
         break;
       case 2:
-        title = 'Características & Inventário';
+        title = 'Características';
         break;
       case 3:
+        title = 'Inventário';
+        break;
+      case 4:
         title = 'Salvar Personagem';
         break;
     }
@@ -234,7 +241,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   Widget returnStep(int step) {
     switch (step) {
-      case 1:
+      case 1: // Dados pessoais
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -333,40 +340,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
-                      child: TextFieldComponent(
-                        value: _height,
-                        label: "Altura",
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) => {
-                          setState(() {
-                            _height = value;
-                          })
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2 - 10,
-                      child: TextFieldComponent(
-                        value: _weight,
-                        label: "Peso",
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) => {
-                          setState(() {
-                            _weight = value;
-                          })
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2 - 10,
                       child: DropdownComponent(
                         value: _race,
                         onChanged: (value) => {
@@ -384,6 +357,40 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         ],
                       ),
                     )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2 - 10,
+                      child: TextFieldComponent(
+                        value: _height,
+                        label: "Altura",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _height = value;
+                          })
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2 - 10,
+                      child: TextFieldComponent(
+                        value: _weight,
+                        label: "Peso",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _weight = value;
+                          })
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -442,7 +449,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             ),
           ],
         );
-      case 2:
+      case 2: // Caracteristicas
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -517,7 +524,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Insira os valores da habilidades",
+                        "Habilidades",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -548,7 +555,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   runSpacing: 4.0, // Espaçamento vertical entre as linhas
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _strength,
@@ -561,7 +568,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _dexterity,
@@ -574,7 +581,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _constitution,
@@ -587,7 +594,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _intelligence,
@@ -600,7 +607,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _wisdom,
@@ -613,7 +620,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _charisma,
@@ -642,105 +649,209 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            const Divider(
-              indent: 20,
-              endIndent: 20,
+            returnSection(
+              "Idiomas",
+              languages,
+              ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        appBarTitle: "Adicionar Idioma",
+                        title: "Idioma",
+                      ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      languages.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
             ),
-            Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Equipamentos",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+            const SizedBox(
+              height: 10,
+            ),
+            returnSection(
+              "Talentos",
+              talents,
+              ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        appBarTitle: "Adicionar Talento",
+                        title: "Talento",
+                        body: "Descrição do talento",
                       ),
-                      equipments.isEmpty
-                          ? returnInformation("Nenhum Equipamento adicionado!",
-                              "Adicione um novo!")
-                          : returnItemComponent(equipments)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Inventário",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      talents.add(Papers(
+                          title: resultado[0], description: resultado[1]));
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            returnSection(
+              "Vulnerabilidades",
+              vulnerabilities,
+              ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        appBarTitle: "Adicionar Vulnerabilidade",
+                        title: "Vulnerabilidade",
                       ),
-                      inventory.isEmpty
-                          ? returnInformation(
-                              "Nenhum item adicionado!", "Adicione um novo!")
-                          : returnItemComponent(inventory)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Armas",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      vulnerabilities.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            returnSection(
+              "Resistências",
+              resistance,
+              ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        appBarTitle: "Adicionar Resistência",
+                        title: "Resistência",
                       ),
-                      weapons.isEmpty
-                          ? returnInformation(
-                              "Nenhuma arma encontrada!", "Adicione uma nova!")
-                          : returnItemComponent(weapons)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Magias",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      spells.isEmpty
-                          ? returnInformation(
-                              "Nenhuma magia adicionada", "Adicione uma nova!")
-                          : returnItemComponent(spells)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            )
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      resistance.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         );
-      case 3:
+      case 3: // Inventário
+        return Column(
+          children: [
+            returnSection(
+              "Dinheiro",
+              currency,
+              ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                          appBarTitle: "Adicionar Moeda",
+                          title: "Moeda",
+                          body: "Valor",
+                          type: 'number'),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      currency.add({resultado[0]: int.parse(resultado[1])});
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            returnSection(
+              "Relacionamentos",
+              relationships,
+              ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        appBarTitle: "Adicionar Relacionamento",
+                        title: "Nome",
+                        body: "Descrição do relacionamento",
+                      ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      relationships.add(Papers(
+                          title: resultado[0], description: resultado[1]));
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            returnSection(
+              "Armas, Itens & Magias",
+              inventory,
+              ButtonComponent(
+                pressed: () async {
+                  ItemModel? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddItemPage(),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      inventory.add(resultado);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+          ],
+        );
+      case 4: // Salvar
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.only(top: 20),
@@ -767,60 +878,199 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
   }
 
-  Widget returnInformation(String text, String subtext) {
-    return Row(
+  Widget returnSection<T>(String title, List<T> list, Widget buttonAdd) {
+    return Column(
       children: [
-        const SizedBox(
-          height: 50,
-          width: 50,
-          child: PhosphorIcon(PhosphorIconsBold.placeholder),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              text,
-              style: const TextStyle(
+              title,
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(subtext),
+            buttonAdd
           ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        if (list.isEmpty)
+          Row(
+            children: [
+              PhosphorIcon(
+                PhosphorIconsBold.placeholder,
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Nenhum item adicionado",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    "Adicione um novo!",
+                  )
+                ],
+              )
+            ],
+          ),
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 4.0, // Espaçamento horizontal entre os widgets
+          runSpacing: 4.0, // Espaçamento vertical entre as linhas
+          children: list.map<Row>((item) {
+            if (item is Papers) {
+              return Row(
+                children: [
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.title,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            item.description,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  ButtonComponent(
+                    pressed: () => {
+                      setState(() {
+                        list.remove(item);
+                      })
+                    },
+                    tipo: 0,
+                    icon: PhosphorIconsBold.minus,
+                  )
+                ],
+              );
+            }
+            if (item is String) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        item,
+                        style: AppTextStyles.lightText(context),
+                      ),
+                    ),
+                  ),
+                  ButtonComponent(
+                    pressed: () => {
+                      setState(() {
+                        list.remove(item);
+                      })
+                    },
+                    tipo: 0,
+                    icon: PhosphorIconsBold.minus,
+                  )
+                ],
+              );
+            }
+            if (item is Map<String, int>) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.keys.first,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            item.values.first.toString(),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  ButtonComponent(
+                    pressed: () => {
+                      setState(() {
+                        list.remove(item);
+                      })
+                    },
+                    tipo: 0,
+                    icon: PhosphorIconsBold.minus,
+                  )
+                ],
+              );
+            }
+            if (item is ItemModel) {
+              return Row(
+                children: [
+                  if (item.quantity.isNotEmpty)
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      child: Text("${item.quantity}x"),
+                    ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                      child: Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        borderRadius: BorderRadius.circular(5)),
+                    padding: EdgeInsets.all(8),
+                    child: Text(item.title),
+                  )),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  if (item.value.isNotEmpty)
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      child: Text(item.value),
+                    ),
+                  ButtonComponent(
+                    pressed: () => {
+                      setState(() {
+                        list.remove(item);
+                      })
+                    },
+                    tipo: 0,
+                    icon: PhosphorIconsBold.minus,
+                  )
+                ],
+              );
+            }
+            return Row();
+          }).toList(),
         )
       ],
-    );
-  }
-
-  Widget returnItemComponent(List<ItemModel> items) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 4.0, // Espaçamento horizontal entre os widgets
-      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-      children: items.map<Row>((item) {
-        return Row(
-          children: [
-            Expanded(
-              child: ItemComponent(
-                charId: '',
-                item: item,
-              ),
-            ),
-            ButtonComponent(
-                pressed: () {
-                  setState(() {
-                    items.remove(item);
-                  });
-                },
-                tipo: 0,
-                icon: PhosphorIconsBold.minus)
-          ],
-        );
-      }).toList(),
     );
   }
 
@@ -973,8 +1223,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       name: _name,
       status: status,
       currency: currency,
-      notes: notes,
-      missions: missions,
+      notes: [],
+      missions: [],
       relationships: relationships,
       details: details,
       features: features,
@@ -999,19 +1249,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
 
     if (charId != null) {
-      List<ItemModel> items = [
-        ...equipments,
-        ...inventory,
-        ...weapons,
-        ...spells
-      ];
-
-      if (items.isNotEmpty) {
+      if (inventory.isNotEmpty) {
         setState(() {
           savingTitle = "Salvando itens";
         });
         try {
-          for (var item in items) {
+          for (var item in inventory) {
             await DatabaseService.addItem(charId, item);
           }
           NotificationHelper.showSnackBar(context, "Itens adicionados!",
@@ -1101,65 +1344,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ],
         )),
       ),
-      floatingActionButton: step == 2
-          ? FloatingActionButton(
-              onPressed: () async {
-                // final item = await showModalBottomSheet<ItemModel>(
-                //   backgroundColor: Theme.of(context).colorScheme.secondary,
-                //   showDragHandle: true,
-                //   context: context,
-                //   isScrollControlled: true,
-                //   builder: (context) => const AddItemBottomSheetComponent(
-                //     editing: false,
-                //   ),
-                // );
-
-                // if (item != null) {
-                //   switch (item.tipo) {
-                //     case 'Arma':
-                //       setState(() {
-                //         {
-                //           weapons.add(item);
-                //         }
-                //       });
-                //       break;
-
-                //     case 'Armadura':
-                //     case 'Equipamento':
-                //     case 'Item':
-                //       setState(() {
-                //         {
-                //           equipments.add(item);
-                //         }
-                //       });
-                //       break;
-
-                //     case 'Consumíveis':
-                //     case 'Item mágico':
-                //     case 'Objeto':
-                //     case 'Outros':
-                //       setState(() {
-                //         {
-                //           inventory.add(item);
-                //         }
-                //       });
-                //       break;
-
-                //     case 'Magia':
-                //       setState(() {
-                //         {
-                //           spells.add(item);
-                //         }
-                //       });
-                //       break;
-                //   }
-                // }
-              },
-              child: const PhosphorIcon(
-                PhosphorIconsBold.plus,
-              ),
-            )
-          : null,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
           left: 16,
@@ -1175,12 +1359,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
               },
             ),
             const Spacer(),
-            if (step < 2)
+            if (step < 3)
               ButtonComponent(
                 label: "Próximo",
                 pressed: nextAvailable(),
               ),
-            if (step == 2)
+            if (step == 3)
               ButtonComponent(
                 label: "Finalizar",
                 disabled: _classe.isEmpty ||

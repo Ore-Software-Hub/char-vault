@@ -6,8 +6,13 @@ class ItemModel {
   String description;
   String tipo;
 
-  ItemModel(this.id, this.title, this.quantity, this.value, this.description,
-      this.tipo);
+  ItemModel(
+      {required this.id,
+      required this.title,
+      required this.quantity,
+      required this.value,
+      required this.description,
+      required this.tipo});
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,7 +26,12 @@ class ItemModel {
   }
 
   static ItemModel fromMap(Map<dynamic, dynamic> map) {
-    return ItemModel(map['id'], map['title'], map['quantity'], map['value'],
-        map['description'], map['tipo']);
+    return ItemModel(
+        id: map['id'],
+        title: map['title'],
+        quantity: map['quantity'],
+        value: map['value'],
+        description: map['description'],
+        tipo: map['tipo']);
   }
 }

@@ -129,7 +129,8 @@ class DatabaseService {
 
       List<CharacterModel> characters = [];
       for (var charSnapshot in snapshot.children) {
-        var characterData = charSnapshot.value as Map<dynamic, dynamic>;
+        var characterData = Map<String, dynamic>.from(
+            charSnapshot.value as Map<dynamic, dynamic>);
         characters.add(CharacterModel.fromMap(characterData));
       }
 

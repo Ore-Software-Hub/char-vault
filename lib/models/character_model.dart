@@ -8,8 +8,8 @@ class CharacterModel {
   List<Papers> missions;
   List<Papers> relationships;
 
-  CharacterDetails? details;
-  List<FeatureDetails>? features;
+  CharacterDetails details;
+  List<FeatureDetails> features;
 
   CharacterModel({
     required this.id,
@@ -40,7 +40,11 @@ class CharacterModel {
   }
 
   factory CharacterModel.fromMap(Map<dynamic, dynamic> map) {
-    return CharacterModel(
+    var details = CharacterDetails.fromMap(map['details']);
+
+    var features = FeatureDetails.fromList(map['features']);
+
+    var character = CharacterModel(
         id: map['id'] ?? '',
         image: map['image'] ?? '',
         name: map['name'] ?? '',
@@ -49,13 +53,9 @@ class CharacterModel {
         notes: map['notes'] ?? [],
         missions: map['missions'] ?? [],
         relationships: map['relationships'] ?? [],
-        details: map['details'] != null
-            ? CharacterDetails.fromMap(map['details'])
-            : null,
-        features: map['features'] != null
-            ? List<FeatureDetails>.from(
-                map['features'].map((x) => FeatureDetails.fromMap(x)))
-            : null);
+        details: details,
+        features: features);
+    return character;
   }
 
   static String calculateLife(int pv, int level, int modifier) {
@@ -153,7 +153,7 @@ class CharacterDetails {
   }
 
   factory CharacterDetails.fromMap(Map<dynamic, dynamic> map) {
-    return CharacterDetails(
+    var details = CharacterDetails(
       curLife: map['curLife'] ?? '',
       maxLife: map['maxLife'] ?? '',
       level: map['level'] ?? '',
@@ -173,6 +173,7 @@ class CharacterDetails {
       vulnerabilities: map['vulnerabilities'] ?? [],
       resistancies: map['resistancies'] ?? [],
     );
+    return details;
   }
 
   @override
@@ -206,13 +207,26 @@ class FeatureDetails {
   }
 
   factory FeatureDetails.fromMap(Map<String, dynamic> map) {
-    return FeatureDetails(
+    var feature = FeatureDetails(
       title: map['title'] ?? '',
       value: map['value'] ?? 0,
       skill: map['skill'],
       modifier: map['modifier'],
       savingThrow: map['savingThrow'],
     );
+
+    return feature;
+  }
+
+  static fromList(List<dynamic> list) {
+    List<FeatureDetails> features = [];
+
+    for (var item in list) {
+      var feat = Map<String, dynamic>.from(item as Map<dynamic, dynamic>);
+      features.add(FeatureDetails.fromMap(feat));
+    }
+
+    return features;
   }
 
   @override
@@ -241,11 +255,12 @@ class Papers {
   }
 
   factory Papers.fromMap(Map<String, dynamic> map) {
-    return Papers(
+    var papers = Papers(
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       completed: map['completed'] ?? false,
     );
+    return papers;
   }
 
   @override

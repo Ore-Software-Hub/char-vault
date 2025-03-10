@@ -15,7 +15,8 @@ class FeaturesComponent extends StatefulWidget {
 class _FeaturesComponentState extends State<FeaturesComponent> {
   final con = FlipCardController();
 
-  String getSign(int value) {
+  String getSign(int? value) {
+    if (value == null) return '';
     var sign = value >= 0 ? '+' : '-';
     return '$sign$value';
   }
@@ -26,7 +27,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
 
     return FlipCard(
       rotateSide: RotateSide.top,
-      onTapFlipping: true,
+      onTapFlipping: feature.savingThrow != null ? true : false,
       axis: FlipAxis.vertical,
       controller: con,
       animationDuration: const Duration(milliseconds: 300),
@@ -51,7 +52,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                       color: Theme.of(context).colorScheme.tertiary),
                   alignment: Alignment.center,
                   child: Text(
-                    getSign(feature.value),
+                    feature.value.toString(),
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w900,
@@ -126,7 +127,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        getSign(feature.savingThrow!),
+                        getSign(feature.savingThrow),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w900,

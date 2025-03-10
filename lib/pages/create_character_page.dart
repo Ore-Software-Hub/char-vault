@@ -4,6 +4,7 @@ import 'package:CharVault/components2/dropdown.component.dart';
 import 'package:CharVault/components2/textfield.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/add_item.page.dart';
 import 'package:CharVault/pages/add_paper.page.dart';
@@ -32,35 +33,23 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   List<ItemModel> inventory = [];
 
-  List<ItemDropdown> classes = [
-        ItemDropdown(display: "Bárbaro", value: 12),
-        ItemDropdown(display: "Bardo", value: 8),
-        ItemDropdown(display: "Bruxo", value: 8),
-        ItemDropdown(display: "Clérigo", value: 8),
-        ItemDropdown(display: "Druida", value: 8),
-        ItemDropdown(display: "Feiticeiro", value: 6),
-        ItemDropdown(display: "Guerreiro", value: 10),
-        ItemDropdown(display: "Ladino", value: 8),
-        ItemDropdown(display: "Mago", value: 6),
-        ItemDropdown(display: "Paladino", value: 10),
-      ],
-      alignments = [
-        ItemDropdown(display: "Legal Bom", value: 0),
-        ItemDropdown(display: "Legal Mau", value: 0),
-        ItemDropdown(display: "Legal Neutro", value: 0),
-        ItemDropdown(display: "Neutro Bom", value: 0),
-        ItemDropdown(display: "Neutro", value: 0),
-        ItemDropdown(display: "Neutro Mau", value: 0),
-        ItemDropdown(display: "Caótico Neutro", value: 0),
-        ItemDropdown(display: "Caótico Bom", value: 0),
-        ItemDropdown(display: "Caótico Mau", value: 0),
-      ];
+  List<ClassModel> classes = [];
+
+  List<ItemDropdown> alignments = [
+    ItemDropdown(display: "Legal Bom", value: 0),
+    ItemDropdown(display: "Legal Mau", value: 0),
+    ItemDropdown(display: "Legal Neutro", value: 0),
+    ItemDropdown(display: "Neutro Bom", value: 0),
+    ItemDropdown(display: "Neutro", value: 0),
+    ItemDropdown(display: "Neutro Mau", value: 0),
+    ItemDropdown(display: "Caótico Neutro", value: 0),
+    ItemDropdown(display: "Caótico Bom", value: 0),
+    ItemDropdown(display: "Caótico Mau", value: 0),
+  ];
 
   List<Papers> talents = [], relationships = [];
 
   List<Map<String, int>> currency = [];
-
-  List<Map<String, String>> status = [];
 
   List<String> languages = [],
       immunities = [],
@@ -91,6 +80,20 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   @override
   void initState() {
     super.initState();
+    loadClasses();
+  }
+
+  loadClasses() async {
+    List<ClassModel> classModel = [];
+    var items = await DatabaseService.getClasses();
+    for (var item in items) {
+      classModel.add(item);
+    }
+    if (mounted) {
+      setState(() {
+        classes = classModel;
+      });
+    }
   }
 
   changeStep(int val) {
@@ -500,7 +503,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                           })
                         },
                         hintText: "Classe",
-                        items: classes,
+                        items: classes
+                            .map<ItemDropdown>((item) => ItemDropdown(
+                                display: item.name, value: item.hp))
+                            .toList(),
                       ),
                     ),
                     SizedBox(
@@ -1076,10 +1082,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   getLife(FeatureDetails cons) {
     List<String> life = [];
-    var classe = classes.firstWhere((classe) => classe.display == _classe);
+    var classe = classes.firstWhere((classe) => classe.name == _classe);
 
     var maxLife = CharacterModel.calculateLife(
-        classe.value, int.parse(_level), cons.modifier!);
+        classe.hp, int.parse(_level), cons.modifier!);
 
     life.add(maxLife);
     life.add(maxLife);
@@ -1093,22 +1099,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   getSavingThrows(List<FeatureDetails> features) {
-    var classesProficiencies = {
-      'Bárbaro': ['Força', 'Constituição'],
-      'Bardo': ['Destreza', 'Carisma'],
-      'Bruxo': ['Sabedoria', 'Carisma'],
-      'Clérigo': ['Sabedoria', 'Carisma'],
-      'Druida': ['Inteligência', 'Sabedoria'],
-      'Feiticeiro': ['Constituição', 'Carisma'],
-      'Guerreiro': ['Força', 'Constituição'],
-      'Ladino': ['Destreza', 'Inteligência'],
-      'Mago': ['Inteligência', 'Sabedoria'],
-      'Paladino': ['Sabedoria', 'Carisma'],
-    };
+    var classe = classes.firstWhere((classe) => classe.name == _classe);
 
-    var classe = classes.firstWhere((classe) => classe.display == _classe);
-
-    var proficiencies = classesProficiencies[classe.display]!;
+    var proficiencies = classe.savingThrows;
 
     List<FeatureDetails> savingThrows = features;
 
@@ -1221,7 +1214,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       id: '',
       image: imgname,
       name: _name,
-      status: status,
+      status: [],
       currency: currency,
       notes: [],
       missions: [],

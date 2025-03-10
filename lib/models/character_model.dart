@@ -153,6 +153,27 @@ class CharacterDetails {
   }
 
   factory CharacterDetails.fromMap(Map<dynamic, dynamic> map) {
+    List<String> languages = (map['languages'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    List<String> resistancies = (map['resistancies'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    List<String> vulnerabilities = (map['vulnerabilities'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    List<String> immunities = (map['immunities'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+
+    List<Papers> talents = map['talents'] == null
+        ? []
+        : List<Papers>.from(map['talents'] as List<Papers>);
+
     var details = CharacterDetails(
       curLife: map['curLife'] ?? '',
       maxLife: map['maxLife'] ?? '',
@@ -165,13 +186,13 @@ class CharacterDetails {
       alignment: map['alignment'] ?? '',
       background: map['background'] ?? '',
       backstory: map['backstory'] ?? '',
-      languages: map['languages'] ?? [],
-      talents: map['talents'] ?? [],
+      languages: languages,
+      talents: talents,
       armorClass: map['armorClass'] ?? '',
       movement: map['movement'] ?? '',
-      immunities: map['immunities'] ?? [],
-      vulnerabilities: map['vulnerabilities'] ?? [],
-      resistancies: map['resistancies'] ?? [],
+      immunities: immunities,
+      vulnerabilities: vulnerabilities,
+      resistancies: resistancies,
     );
     return details;
   }

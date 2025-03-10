@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/services/storage_service.dart';
@@ -9,6 +10,43 @@ class DatabaseService {
   static final _database = FirebaseDatabase.instance;
 
   static const String userCollection = "Users";
+  static const String classCollection = "Classes";
+
+  static Future<List<ClassModel>> getClasses() async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    try {
+      var classModelRef = _database.ref(classCollection);
+
+      // Obtém os personagens do usuário
+      DataSnapshot snapshot = await classModelRef.get().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw TimeoutException('A operação de leitura no Firebase expirou.');
+        },
+      );
+
+      if (!snapshot.exists) {
+        return [];
+      }
+
+      List<ClassModel> classes = [];
+      for (var charSnapshot in snapshot.children) {
+        var classesData = Map<String, dynamic>.from(
+            charSnapshot.value as Map<dynamic, dynamic>);
+        classes.add(ClassModel.fromMap(classesData));
+      }
+
+      return classes;
+    } catch (e) {
+      // Captura e lança a exceção com uma mensagem de erro personalizada
+      throw "Erro ao buscar classes: ${e.toString()}";
+    }
+  }
 
   /// Método para adicionar um personagem a um usuário
   static Future<String?> addCharacter(CharacterModel newCharacter) async {

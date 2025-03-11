@@ -25,7 +25,7 @@ class CharacterModel {
   });
 
   Map<String, dynamic> toMap() {
-    return {
+    var map = {
       'id': id,
       'image': image,
       'name': name,
@@ -33,10 +33,11 @@ class CharacterModel {
       'currency': currency,
       'notes': notes,
       'missions': missions,
-      'relationships': relationships,
+      'relationships': relationships.map((e) => e.toMap()).toList(),
       'details': details.toMap(),
       'features': features.map((e) => e.toMap()).toList(),
     };
+    return map;
   }
 
   factory CharacterModel.fromMap(Map<dynamic, dynamic> map) {
@@ -143,7 +144,7 @@ class CharacterDetails {
       'background': background,
       'backstory': backstory,
       'languages': languages,
-      'talents': talents,
+      'talents': talents.map((e) => e.toMap()).toList(),
       'armorClass': armorClass,
       'movement': movement,
       'immunity': immunities,

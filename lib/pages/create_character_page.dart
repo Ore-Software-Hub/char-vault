@@ -6,6 +6,7 @@ import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/models/paper.model.dart';
 import 'package:CharVault/pages/add_item.page.dart';
 import 'package:CharVault/pages/add_paper.page.dart';
 import 'package:CharVault/services/database_service.dart';
@@ -34,7 +35,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   List<ItemModel> inventory = [];
 
   List<ClassModel> classes = [];
-
+  ClassModel? classChar;
   List<ItemDropdown> alignments = [
     ItemDropdown(display: "Legal Bom", value: 0),
     ItemDropdown(display: "Legal Mau", value: 0),
@@ -47,7 +48,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     ItemDropdown(display: "Caótico Mau", value: 0),
   ];
 
-  List<Papers> talents = [], relationships = [];
+  List<PapersModel> talents = [], relationships = [];
 
   List<Map<String, int>> currency = [];
 
@@ -500,6 +501,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         onChanged: (value) => {
                           setState(() {
                             _classe = value!;
+                            classChar =
+                                classes.firstWhere((cc) => cc.name == value);
                           })
                         },
                         hintText: "Classe",
@@ -701,8 +704,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
                   if (resultado != null) {
                     setState(() {
-                      talents.add(Papers(
-                          title: resultado[0], description: resultado[1]));
+                      talents.add(PapersModel(
+                          id: "",
+                          title: resultado[0],
+                          description: resultado[1],
+                          tipo: "talent"));
                     });
                   }
                 },
@@ -821,8 +827,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
                   if (resultado != null) {
                     setState(() {
-                      relationships.add(Papers(
-                          title: resultado[0], description: resultado[1]));
+                      relationships.add(PapersModel(
+                          id: "",
+                          title: resultado[0],
+                          description: resultado[1],
+                          tipo: "relationship"));
                     });
                   }
                 },
@@ -929,7 +938,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           spacing: 4.0, // Espaçamento horizontal entre os widgets
           runSpacing: 4.0, // Espaçamento vertical entre as linhas
           children: list.map<Row>((item) {
-            if (item is Papers) {
+            if (item is PapersModel) {
               return Row(
                 children: [
                   const SizedBox(width: 10),
@@ -1193,7 +1202,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       curLife: life[0],
       maxLife: life[1],
       level: _level,
-      classe: _classe,
+      classId: classChar!.id,
       age: _age,
       race: _race,
       height: _height,
@@ -1202,7 +1211,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       background: _background,
       backstory: _backstory,
       languages: languages,
-      talents: talents,
       armorClass: '',
       movement: '9',
       immunities: immunities,
@@ -1216,9 +1224,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       name: _name,
       status: [],
       currency: currency,
-      notes: [],
-      missions: [],
-      relationships: relationships,
       details: details,
       features: features,
     );
@@ -1257,7 +1262,43 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           NotificationHelper.showSnackBar(
               context, "Erro ao adicionar itens: ${e.toString()}",
               level: 2);
-          changeStep(-1);
+          return;
+        }
+      }
+
+      if (talents.isNotEmpty) {
+        setState(() {
+          savingTitle = "Salvando talentos";
+        });
+        try {
+          for (var talent in talents) {
+            await DatabaseService.addPaper(charId, talent);
+          }
+          NotificationHelper.showSnackBar(context, "Talentos adicionados!",
+              level: 1);
+        } catch (e) {
+          NotificationHelper.showSnackBar(
+              context, "Erro ao adicionar: ${e.toString()}",
+              level: 2);
+          return;
+        }
+      }
+
+      if (relationships.isNotEmpty) {
+        setState(() {
+          savingTitle = "Salvando itens";
+        });
+        try {
+          for (var relation in relationships) {
+            await DatabaseService.addPaper(charId, relation);
+          }
+          NotificationHelper.showSnackBar(
+              context, "Relacionamentos adicionados!",
+              level: 1);
+        } catch (e) {
+          NotificationHelper.showSnackBar(
+              context, "Erro ao adicionar: ${e.toString()}",
+              level: 2);
           return;
         }
       }

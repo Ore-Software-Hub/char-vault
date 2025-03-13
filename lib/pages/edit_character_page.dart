@@ -362,9 +362,6 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
       name: _name,
       status: widget.char.status,
       currency: widget.char.currency,
-      notes: widget.char.notes,
-      missions: widget.char.missions,
-      relationships: widget.char.relationships,
       details: widget.char.details,
       features: widget.char.features,
     );

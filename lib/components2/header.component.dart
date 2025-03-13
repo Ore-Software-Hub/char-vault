@@ -103,10 +103,10 @@ class _HeaderComponentState extends State<HeaderComponent> {
       text,
       softWrap: wrap,
       style: TextStyle(
-        fontSize: fontSize,
-        color: color,
-        fontWeight: weight,
-      ),
+          fontSize: fontSize,
+          color: color,
+          fontWeight: weight,
+          overflow: TextOverflow.ellipsis),
     );
   }
 

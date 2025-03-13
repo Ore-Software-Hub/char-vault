@@ -29,14 +29,20 @@ class _HeaderComponentState extends State<HeaderComponent> {
     super.initState();
     _user = Provider.of<LoginProvider>(context, listen: false).userModel!;
     _char = _user!.char;
+    loadClass();
     loadImage();
   }
 
   loadImage() async {
     var url = await StorageService.getImageDownloadUrl(_char!.image);
-    var classid = await DatabaseService.getClass(_char!.id);
     setState(() {
       urlImage = url;
+    });
+  }
+
+  loadClass() async {
+    var classid = await DatabaseService.getClass(_char!.details.classId);
+    setState(() {
       classChar = classid;
     });
   }
@@ -182,7 +188,10 @@ class _HeaderComponentState extends State<HeaderComponent> {
                     Row(
                       spacing: 5,
                       children: [
-                        returnText(classChar!.name, FontWeight.w100, 24),
+                        returnText(
+                            classChar != null ? classChar!.name : 'Classe',
+                            FontWeight.w100,
+                            24),
                         returnText('•', FontWeight.w100, 24),
                         returnText(
                             "${_char?.details.race}", FontWeight.w100, 24),

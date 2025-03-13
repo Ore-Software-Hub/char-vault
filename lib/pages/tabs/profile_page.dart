@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       line: true,
                       valueString: true,
                       title: "Idade",
-                      value: _char!.details.age),
+                      value: "${_char!.details.age}"),
                   LineComponent(
                       line: true,
                       valueString: true,

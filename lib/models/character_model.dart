@@ -2,8 +2,8 @@ class CharacterModel {
   String id;
   String image;
   String name;
-  List<Map<String, String>> status;
-  List<Map<String, int>> currency;
+  List<Status> status;
+  List<Currency> currency;
 
   CharacterDetails details;
   List<FeatureDetails> features;
@@ -23,8 +23,8 @@ class CharacterModel {
       'id': id,
       'image': image,
       'name': name,
-      'status': status,
-      'currency': currency,
+      'status': status.map((e) => {e.toMap()}).toList(),
+      'currency': currency.map((e) => {e.toMap()}).toList(),
       'details': details.toMap(),
       'features': features.map((e) => e.toMap()).toList(),
     };
@@ -36,37 +36,24 @@ class CharacterModel {
 
     var features = FeatureDetails.fromList(map['features']);
 
+    var currency = Currency.fromList(map['currency']);
+
     var character = CharacterModel(
         id: map['id'] ?? '',
         image: map['image'] ?? '',
         name: map['name'] ?? '',
         status: map['status'] ?? [],
-        currency: map['currency'] ?? [],
+        currency: currency,
         details: details,
         features: features);
     return character;
   }
 
-  static String calculateLife(int pv, int level, int modifier) {
-    var maxLife = "0";
+  static int calculateLife(int pv, int level, int modifier) {
+    if (level == 1) return pv + modifier;
 
-    if (level == 1) {
-      maxLife = (pv + modifier).toString();
-    } else {
-      int initial = pv + modifier;
-
-      int lifePerLevel = (pv / 2).ceil() + 1 + modifier;
-
-      int totalPerLevel = 0;
-
-      for (var i = 0; i < level - 1; i++) {
-        totalPerLevel += lifePerLevel;
-      }
-
-      maxLife = (initial + totalPerLevel).toString();
-    }
-
-    return maxLife;
+    int lifePerLevel = (pv / 2).ceil() + 1 + modifier;
+    return (pv + modifier) + (lifePerLevel * (level - 1));
   }
 
   @override
@@ -76,11 +63,13 @@ class CharacterModel {
 }
 
 class CharacterDetails {
-  String curLife;
-  String maxLife;
-  String level;
+  int curLife;
+  int maxLife;
+  int level;
+  int armorClass;
+  int movement;
+  int age;
   String classId;
-  String age;
   String race;
   String height;
   String weight;
@@ -88,8 +77,6 @@ class CharacterDetails {
   String background;
   String backstory;
   List<String> languages;
-  String armorClass;
-  String movement;
   List<String> immunities;
   List<String> vulnerabilities;
   List<String> resistancies;
@@ -98,8 +85,10 @@ class CharacterDetails {
     required this.curLife,
     required this.maxLife,
     required this.level,
-    required this.classId,
+    required this.armorClass,
+    required this.movement,
     required this.age,
+    required this.classId,
     required this.race,
     required this.height,
     required this.weight,
@@ -107,8 +96,6 @@ class CharacterDetails {
     required this.background,
     required this.backstory,
     required this.languages,
-    required this.armorClass,
-    required this.movement,
     required this.immunities,
     required this.vulnerabilities,
     required this.resistancies,
@@ -119,8 +106,10 @@ class CharacterDetails {
       'curLife': curLife,
       'maxLife': maxLife,
       'level': level,
-      'classId': classId,
+      'armorClass': armorClass,
+      'movement': movement,
       'age': age,
+      'classId': classId,
       'race': race,
       'height': height,
       'weight': weight,
@@ -128,8 +117,6 @@ class CharacterDetails {
       'background': background,
       'backstory': backstory,
       'languages': languages,
-      'armorClass': armorClass,
-      'movement': movement,
       'immunity': immunities,
       'vulnerabilities': vulnerabilities,
       'resistancies': resistancies,
@@ -155,11 +142,13 @@ class CharacterDetails {
         [];
 
     var details = CharacterDetails(
-      curLife: map['curLife'] ?? '',
-      maxLife: map['maxLife'] ?? '',
-      level: map['level'] ?? '',
+      curLife: map['curLife'] ?? 0,
+      maxLife: map['maxLife'] ?? 0,
+      level: map['level'] ?? 0,
+      armorClass: map['armorClass'] ?? 0,
+      movement: map['movement'] ?? 0,
+      age: map['age'] ?? 0,
       classId: map['classId'] ?? '',
-      age: map['age'] ?? '',
       race: map['race'] ?? '',
       height: map['height'] ?? '',
       weight: map['weight'] ?? '',
@@ -167,8 +156,6 @@ class CharacterDetails {
       background: map['background'] ?? '',
       backstory: map['backstory'] ?? '',
       languages: languages,
-      armorClass: map['armorClass'] ?? '',
-      movement: map['movement'] ?? '',
       immunities: immunities,
       vulnerabilities: vulnerabilities,
       resistancies: resistancies,
@@ -218,7 +205,7 @@ class FeatureDetails {
     return feature;
   }
 
-  static fromList(List<dynamic> list) {
+  static List<FeatureDetails> fromList(List<dynamic> list) {
     List<FeatureDetails> features = [];
 
     for (var item in list) {
@@ -232,5 +219,41 @@ class FeatureDetails {
   @override
   String toString() {
     return "FeatureDetails(title: $title, value: $value, skill: $skill, modifier: $modifier, savingThrow: $savingThrow)";
+  }
+}
+
+class Status {
+  String name;
+  String value;
+
+  Status({required this.name, required this.value});
+
+  Map<String, String> toMap() => {'name': name, 'value': value};
+
+  factory Status.fromMap(Map<String, String> map) =>
+      Status(name: map['name'] ?? '', value: map['value'] ?? '');
+
+  static List<Status> fromList(List<dynamic> list) {
+    return list
+        .map((item) => Status.fromMap(Map<String, String>.from(item)))
+        .toList();
+  }
+}
+
+class Currency {
+  String type;
+  int amount;
+
+  Currency({required this.type, required this.amount});
+
+  Map<String, dynamic> toMap() => {'type': type, 'amount': amount};
+
+  factory Currency.fromMap(Map<String, dynamic> map) =>
+      Currency(type: map['type'] ?? '', amount: map['amount'] ?? 0);
+
+  static List<Currency> fromList(List<dynamic> list) {
+    return list
+        .map((item) => Currency.fromMap(Map<String, dynamic>.from(item)))
+        .toList();
   }
 }

@@ -51,22 +51,20 @@ class DatabaseService {
     }
   }
 
-  static Future<ClassModel?> getClass(String charId) async {
+  static Future<ClassModel?> getClass(String classId) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
     }
 
     await AuthService.reauthenticate();
 
-    var ref =
-        _database.ref('$userCollection/${AuthService.user?.uid}/chars/$charId');
+    var ref = _database.ref('$classCollection/$classId');
     DataSnapshot snapshot = await ref.get();
     if (!snapshot.exists) {
       return null;
     }
-    var classId = (snapshot.value as Map<String, dynamic>)['classId'];
-    var classes = await getClasses();
-    return classes.firstWhere((c) => c.id == classId);
+    var classe = snapshot.value as Map<dynamic, dynamic>;
+    return ClassModel.fromMap(classe);
   }
 
   // ============= CRUD CHARACTERS ====================

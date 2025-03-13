@@ -50,9 +50,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   List<PapersModel> talents = [], relationships = [];
 
-  List<Map<String, int>> currency = [];
+  List<Currency> currency = [];
 
-  List<String> languages = [],
+  List<String> languages = ['Comum'],
       immunities = [],
       resistance = [],
       vulnerabilities = [];
@@ -798,7 +798,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
                   if (resultado != null) {
                     setState(() {
-                      currency.add({resultado[0]: int.parse(resultado[1])});
+                      currency.add(Currency(
+                          type: resultado[0], amount: int.parse(resultado[1])));
                     });
                   }
                 },
@@ -1090,7 +1091,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   getLife(FeatureDetails cons) {
-    List<String> life = [];
+    List<int> life = [];
     var classe = classes.firstWhere((classe) => classe.name == _classe);
 
     var maxLife = CharacterModel.calculateLife(
@@ -1201,9 +1202,9 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     var details = CharacterDetails(
       curLife: life[0],
       maxLife: life[1],
-      level: _level,
+      level: int.parse(_level),
       classId: classChar!.id,
-      age: _age,
+      age: int.parse(_age),
       race: _race,
       height: _height,
       weight: _weight,
@@ -1211,8 +1212,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       background: _background,
       backstory: _backstory,
       languages: languages,
-      armorClass: '',
-      movement: '9',
+      armorClass: 0,
+      movement: 9,
       immunities: immunities,
       vulnerabilities: vulnerabilities,
       resistancies: resistance,

@@ -4,9 +4,6 @@ class CharacterModel {
   String name;
   List<Map<String, String>> status;
   List<Map<String, int>> currency;
-  List<Papers> notes;
-  List<Papers> missions;
-  List<Papers> relationships;
 
   CharacterDetails details;
   List<FeatureDetails> features;
@@ -17,9 +14,6 @@ class CharacterModel {
     required this.name,
     required this.status,
     required this.currency,
-    required this.notes,
-    required this.missions,
-    required this.relationships,
     required this.details,
     required this.features,
   });
@@ -31,9 +25,6 @@ class CharacterModel {
       'name': name,
       'status': status,
       'currency': currency,
-      'notes': notes,
-      'missions': missions,
-      'relationships': relationships.map((e) => e.toMap()).toList(),
       'details': details.toMap(),
       'features': features.map((e) => e.toMap()).toList(),
     };
@@ -51,9 +42,6 @@ class CharacterModel {
         name: map['name'] ?? '',
         status: map['status'] ?? [],
         currency: map['currency'] ?? [],
-        notes: map['notes'] ?? [],
-        missions: map['missions'] ?? [],
-        relationships: map['relationships'] ?? [],
         details: details,
         features: features);
     return character;
@@ -83,9 +71,7 @@ class CharacterModel {
 
   @override
   String toString() {
-    return 'CharacterModel{id: $id, image: $image, name: $name, status: $status, currency: $currency, notes: ${notes.map((note) => {note.title})}, missions: ${missions.map((mission) => {
-          mission.title
-        })}, relationships: ${relationships.map((relation) => {relation.title})}, details: $details, features: $features}';
+    return 'CharacterModel{id: $id, image: $image, name: $name, status: $status, currency: $currency, details: $details, features: $features}';
   }
 }
 
@@ -93,7 +79,7 @@ class CharacterDetails {
   String curLife;
   String maxLife;
   String level;
-  String classe;
+  String classId;
   String age;
   String race;
   String height;
@@ -102,7 +88,6 @@ class CharacterDetails {
   String background;
   String backstory;
   List<String> languages;
-  List<Papers> talents;
   String armorClass;
   String movement;
   List<String> immunities;
@@ -113,7 +98,7 @@ class CharacterDetails {
     required this.curLife,
     required this.maxLife,
     required this.level,
-    required this.classe,
+    required this.classId,
     required this.age,
     required this.race,
     required this.height,
@@ -122,7 +107,6 @@ class CharacterDetails {
     required this.background,
     required this.backstory,
     required this.languages,
-    required this.talents,
     required this.armorClass,
     required this.movement,
     required this.immunities,
@@ -135,7 +119,7 @@ class CharacterDetails {
       'curLife': curLife,
       'maxLife': maxLife,
       'level': level,
-      'classe': classe,
+      'classId': classId,
       'age': age,
       'race': race,
       'height': height,
@@ -144,7 +128,6 @@ class CharacterDetails {
       'background': background,
       'backstory': backstory,
       'languages': languages,
-      'talents': talents.map((e) => e.toMap()).toList(),
       'armorClass': armorClass,
       'movement': movement,
       'immunity': immunities,
@@ -171,15 +154,11 @@ class CharacterDetails {
             .toList() ??
         [];
 
-    List<Papers> talents = map['talents'] == null
-        ? []
-        : List<Papers>.from(map['talents'] as List<Papers>);
-
     var details = CharacterDetails(
       curLife: map['curLife'] ?? '',
       maxLife: map['maxLife'] ?? '',
       level: map['level'] ?? '',
-      classe: map['classe'] ?? '',
+      classId: map['classId'] ?? '',
       age: map['age'] ?? '',
       race: map['race'] ?? '',
       height: map['height'] ?? '',
@@ -188,7 +167,6 @@ class CharacterDetails {
       background: map['background'] ?? '',
       backstory: map['backstory'] ?? '',
       languages: languages,
-      talents: talents,
       armorClass: map['armorClass'] ?? '',
       movement: map['movement'] ?? '',
       immunities: immunities,
@@ -254,39 +232,5 @@ class FeatureDetails {
   @override
   String toString() {
     return "FeatureDetails(title: $title, value: $value, skill: $skill, modifier: $modifier, savingThrow: $savingThrow)";
-  }
-}
-
-class Papers {
-  String title;
-  String description;
-  bool? completed;
-
-  Papers({
-    required this.title,
-    required this.description,
-    this.completed,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'description': description,
-      'completed': completed,
-    };
-  }
-
-  factory Papers.fromMap(Map<String, dynamic> map) {
-    var papers = Papers(
-      title: map['title'] ?? '',
-      description: map['description'] ?? '',
-      completed: map['completed'] ?? false,
-    );
-    return papers;
-  }
-
-  @override
-  String toString() {
-    return "Papers(title: $title, description: $description, completed: $completed)";
   }
 }

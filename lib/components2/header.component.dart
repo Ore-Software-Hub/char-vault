@@ -1,7 +1,9 @@
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -20,6 +22,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
   UserModel? _user;
   CharacterModel? _char;
   String urlImage = "";
+  ClassModel? classChar;
 
   @override
   void initState() {
@@ -31,8 +34,10 @@ class _HeaderComponentState extends State<HeaderComponent> {
 
   loadImage() async {
     var url = await StorageService.getImageDownloadUrl(_char!.image);
+    var classid = await DatabaseService.getClass(_char!.id);
     setState(() {
       urlImage = url;
+      classChar = classid;
     });
   }
 
@@ -177,8 +182,7 @@ class _HeaderComponentState extends State<HeaderComponent> {
                     Row(
                       spacing: 5,
                       children: [
-                        returnText(
-                            "${_char?.details.classe}", FontWeight.w100, 24),
+                        returnText(classChar!.name, FontWeight.w100, 24),
                         returnText('•', FontWeight.w100, 24),
                         returnText(
                             "${_char?.details.race}", FontWeight.w100, 24),

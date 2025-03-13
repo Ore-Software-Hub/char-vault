@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/models/paper.model.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,6 +12,8 @@ class DatabaseService {
 
   static const String userCollection = "Users";
   static const String classCollection = "Classes";
+
+  // ============= CRUD CLASSES ====================
 
   static Future<List<ClassModel>> getClasses() async {
     if (AuthService.user == null) {
@@ -48,7 +51,26 @@ class DatabaseService {
     }
   }
 
-  /// Método para adicionar um personagem a um usuário
+  static Future<ClassModel?> getClass(String charId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    var ref =
+        _database.ref('$userCollection/${AuthService.user?.uid}/chars/$charId');
+    DataSnapshot snapshot = await ref.get();
+    if (!snapshot.exists) {
+      return null;
+    }
+    var classId = (snapshot.value as Map<String, dynamic>)['classId'];
+    var classes = await getClasses();
+    return classes.firstWhere((c) => c.id == classId);
+  }
+
+  // ============= CRUD CHARACTERS ====================
+
   static Future<String?> addCharacter(CharacterModel newCharacter) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -73,7 +95,6 @@ class DatabaseService {
     }
   }
 
-  /// Método para deletar um personagem de um usuário
   static Future<void> deleteCharacter(String charId, String charImageId) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -111,7 +132,6 @@ class DatabaseService {
     }
   }
 
-  /// Método para ler os dados de um personagem específico
   static Future<CharacterModel?> getCharacter(String charId) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -127,7 +147,6 @@ class DatabaseService {
         : null;
   }
 
-  /// Método para atualizar os dados de um personagem específico
   static Future<void> updateCharacter(
       String charId, Map<String, dynamic> updatedData) async {
     if (AuthService.user == null) {
@@ -141,7 +160,6 @@ class DatabaseService {
     await charRef.update(updatedData);
   }
 
-  /// Método para obter todos os personagens de um usuário
   static Future<List<CharacterModel>?> getUserCharacters() async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -179,7 +197,8 @@ class DatabaseService {
     }
   }
 
-  /// Método para adicionar um item a um personagem
+// ============= CRUD ITEMS ====================
+
   static Future<String?> addItem(String charId, ItemModel newItem) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -203,7 +222,6 @@ class DatabaseService {
     }
   }
 
-  /// Método para deletar um item de um personagem
   static Future<void> deleteItem(String charId, String itemId) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -216,7 +234,6 @@ class DatabaseService {
     await itemRef.remove();
   }
 
-  /// Método para obter todos os itens de um personagem
   static Future<List<ItemModel>> getCharItems(String charId) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -237,7 +254,6 @@ class DatabaseService {
     return items;
   }
 
-  /// Método para ler os dados de um item específico
   static Future<ItemModel?> getItem(String charId, String itemId) async {
     if (AuthService.user == null) {
       throw 'Usuário não autenticado';
@@ -253,7 +269,6 @@ class DatabaseService {
         : null;
   }
 
-  /// Método para atualizar os dados de um item específico
   static Future<void> updateItem(
       String charId, String itemId, Map<String, dynamic> updatedData) async {
     if (AuthService.user == null) {
@@ -265,5 +280,89 @@ class DatabaseService {
     var itemRef = _database.ref(
         '$userCollection/${AuthService.user?.uid}/chars/$charId/items/$itemId');
     await itemRef.update(updatedData);
+  }
+
+// ============= CRUD PAPERS ====================
+
+  static Future<String?> addPaper(String charId, PapersModel newPaper) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    try {
+      var ref = _database
+          .ref('$userCollection/${AuthService.user?.uid}/chars/$charId/papers');
+
+      var newPaperRef = ref.push(); // Gerando uma nova chave única para o item
+      newPaper.id = newPaperRef.key!;
+
+      await newPaperRef.set(newPaper.toMap()); // Salvando os dados do item
+
+      return newPaper.id;
+    } catch (e) {
+      throw 'Erro ao salvar o Paper: $e';
+    }
+  }
+
+  static Future<void> deletePaper(String charId, String paperId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    var ref = _database.ref(
+        '$userCollection/${AuthService.user?.uid}/chars/$charId/papers/$paperId');
+    await ref.remove();
+  }
+
+  static Future<List<PapersModel>> getCharPapers(String charId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    var ref = _database
+        .ref('$userCollection/${AuthService.user?.uid}/chars/$charId/papers');
+    DataSnapshot snapshot = await ref.get();
+
+    List<PapersModel> array = [];
+    for (var itemSnapshot in snapshot.children) {
+      var itemData = itemSnapshot.value as Map<String, dynamic>;
+      array.add(PapersModel.fromMap(itemData));
+    }
+
+    return array;
+  }
+
+  static Future<PapersModel?> getPaper(String charId, String paperId) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    var ref = _database.ref(
+        '$userCollection/${AuthService.user?.uid}/chars/$charId/papers/$paperId');
+    DataSnapshot snapshot = await ref.get();
+    return snapshot.exists
+        ? PapersModel.fromMap(snapshot.value as Map<String, dynamic>)
+        : null;
+  }
+
+  static Future<void> updatePaper(
+      String charId, String paperId, Map<String, dynamic> updatedData) async {
+    if (AuthService.user == null) {
+      throw 'Usuário não autenticado';
+    }
+
+    await AuthService.reauthenticate();
+
+    var ref = _database.ref(
+        '$userCollection/${AuthService.user?.uid}/chars/$charId/papers/$paperId');
+    await ref.update(updatedData);
   }
 }

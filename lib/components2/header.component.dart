@@ -5,6 +5,8 @@ import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
+import 'package:CharVault/styles/font.styles.dart';
+import 'package:auto_scroll_text/auto_scroll_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -99,9 +101,12 @@ class _HeaderComponentState extends State<HeaderComponent> {
     Color color = Colors.white,
     bool wrap = false,
   }) {
-    return Text(
+    return AutoScrollText(
+      delayBefore: Duration(seconds: 5),
+      pauseBetween: Duration(seconds: 5),
+      mode: AutoScrollTextMode.bouncing,
+      velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
       text,
-      softWrap: wrap,
       style: TextStyle(
           fontSize: fontSize,
           color: color,
@@ -181,23 +186,33 @@ class _HeaderComponentState extends State<HeaderComponent> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    returnText("${_char?.name}", FontWeight.bold, 32),
-                    Row(
-                      spacing: 5,
-                      children: [
-                        returnText(
-                            classChar != null ? classChar!.name : 'Classe',
-                            FontWeight.w100,
-                            24),
-                        returnText('•', FontWeight.w100, 24),
-                        returnText(
-                            "${_char?.details.race}", FontWeight.w100, 24),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoScrollText(
+                        delayBefore: Duration(seconds: 5),
+                        pauseBetween: Duration(seconds: 5),
+                        mode: AutoScrollTextMode.bouncing,
+                        velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
+                        "${_char?.name}",
+                        style: AppTextStyles.boldText(context,
+                            size: 28, color: Colors.white),
+                      ),
+                      Row(
+                        spacing: 5,
+                        children: [
+                          returnText(
+                              classChar != null ? classChar!.name : 'Classe',
+                              FontWeight.w100,
+                              20),
+                          returnText('•', FontWeight.w100, 24),
+                          returnText(
+                              "${_char?.details.race}", FontWeight.w100, 20),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 returnLevel("${_char?.details.level}"),
               ],

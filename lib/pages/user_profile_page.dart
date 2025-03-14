@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components/char_details_component.dart';
+import 'package:CharVault/components2/char_details.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';

@@ -17,7 +17,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
 
   String getSign(int? value) {
     if (value == null) return '';
-    var sign = value >= 0 ? '+' : '-';
+    var sign = value >= 0 ? '+' : '';
     return '$sign$value';
   }
 
@@ -79,7 +79,7 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                   child: Column(
                     children: [
                       Text(
-                        getSign(feature.modifier!),
+                        getSign(feature.savingThrow ?? feature.modifier!),
                         style: AppTextStyles.boldText(context),
                       ),
                       Divider(

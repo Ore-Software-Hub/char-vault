@@ -1,9 +1,7 @@
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
-import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:auto_scroll_text/auto_scroll_text.dart';
@@ -24,14 +22,12 @@ class _HeaderComponentState extends State<HeaderComponent> {
   UserModel? _user;
   CharacterModel? _char;
   String urlImage = "";
-  ClassModel? classChar;
 
   @override
   void initState() {
     super.initState();
     _user = Provider.of<LoginProvider>(context, listen: false).userModel!;
     _char = _user!.char;
-    loadClass();
     loadImage();
   }
 
@@ -39,13 +35,6 @@ class _HeaderComponentState extends State<HeaderComponent> {
     var url = await StorageService.getImageDownloadUrl(_char!.image);
     setState(() {
       urlImage = url;
-    });
-  }
-
-  loadClass() async {
-    var classid = await DatabaseService.getClass(_char!.details.classId);
-    setState(() {
-      classChar = classid;
     });
   }
 
@@ -202,10 +191,8 @@ class _HeaderComponentState extends State<HeaderComponent> {
                       Row(
                         spacing: 5,
                         children: [
-                          returnText(
-                              classChar != null ? classChar!.name : 'Classe',
-                              FontWeight.w100,
-                              20),
+                          returnText("${_char?.details.classModel.name}",
+                              FontWeight.w100, 20),
                           returnText('•', FontWeight.w100, 24),
                           returnText(
                               "${_char?.details.race}", FontWeight.w100, 20),

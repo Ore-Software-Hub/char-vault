@@ -1,3 +1,5 @@
+import 'package:CharVault/models/class.model.dart';
+
 class CharacterModel {
   String id;
   String image;
@@ -24,7 +26,7 @@ class CharacterModel {
       'image': image,
       'name': name,
       'status': status.map((e) => {e.toMap()}).toList(),
-      'currency': currency.map((e) => {e.toMap()}).toList(),
+      'currency': currency.map((e) => e.toMap()).toList(),
       'details': details.toMap(),
       'features': features.map((e) => e.toMap()).toList(),
     };
@@ -69,7 +71,7 @@ class CharacterDetails {
   int armorClass;
   int movement;
   int age;
-  String classId;
+  ClassModel classModel;
   String race;
   String height;
   String weight;
@@ -88,7 +90,7 @@ class CharacterDetails {
     required this.armorClass,
     required this.movement,
     required this.age,
-    required this.classId,
+    required this.classModel,
     required this.race,
     required this.height,
     required this.weight,
@@ -109,7 +111,7 @@ class CharacterDetails {
       'armorClass': armorClass,
       'movement': movement,
       'age': age,
-      'classId': classId,
+      'classModel': classModel.toMap(),
       'race': race,
       'height': height,
       'weight': weight,
@@ -148,7 +150,8 @@ class CharacterDetails {
       armorClass: map['armorClass'] ?? 0,
       movement: map['movement'] ?? 0,
       age: map['age'] ?? 0,
-      classId: map['classId'] ?? '',
+      classModel: map['classModel'] ??
+          ClassModel(id: '', name: 'name', hp: 0, savingThrows: []),
       race: map['race'] ?? '',
       height: map['height'] ?? '',
       weight: map['weight'] ?? '',
@@ -172,14 +175,14 @@ class CharacterDetails {
 class FeatureDetails {
   String title;
   int value;
-  List<String>? skill;
+  List<SkillDetails>? skills;
   int? modifier;
   int? savingThrow;
 
   FeatureDetails({
     required this.title,
     required this.value,
-    this.skill,
+    this.skills,
     this.modifier,
     this.savingThrow,
   });
@@ -190,35 +193,65 @@ class FeatureDetails {
       'value': value,
       'modifier': modifier,
       'savingThrow': savingThrow,
+      'skills': skills?.map((e) => e.toMap()).toList(),
     };
   }
 
   factory FeatureDetails.fromMap(Map<String, dynamic> map) {
+    var skills = SkillDetails.fromList(map['skills']);
+
     var feature = FeatureDetails(
       title: map['title'] ?? '',
       value: map['value'] ?? 0,
-      skill: map['skill'],
       modifier: map['modifier'],
       savingThrow: map['savingThrow'],
+      skills: skills,
     );
 
     return feature;
   }
 
   static List<FeatureDetails> fromList(List<dynamic> list) {
-    List<FeatureDetails> features = [];
-
-    for (var item in list) {
-      var feat = Map<String, dynamic>.from(item as Map<dynamic, dynamic>);
-      features.add(FeatureDetails.fromMap(feat));
-    }
-
-    return features;
+    return list
+        .map((item) => FeatureDetails.fromMap(Map<String, dynamic>.from(item)))
+        .toList();
   }
 
   @override
   String toString() {
-    return "FeatureDetails(title: $title, value: $value, skill: $skill, modifier: $modifier, savingThrow: $savingThrow)";
+    return "FeatureDetails(title: $title, value: $value, skills: $skills, modifier: $modifier, savingThrow: $savingThrow)";
+  }
+}
+
+class SkillDetails {
+  String title;
+  int value;
+
+  SkillDetails(this.title, this.value);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'value': value,
+    };
+  }
+
+  factory SkillDetails.fromMap(Map<dynamic, dynamic> map) {
+    return SkillDetails(
+      map['title'] ?? '',
+      map['value'] ?? 0,
+    );
+  }
+
+  static List<SkillDetails> fromList(List<dynamic> list) {
+    return list
+        .map((item) => SkillDetails.fromMap(Map<String, dynamic>.from(item)))
+        .toList();
+  }
+
+  @override
+  String toString() {
+    return "title $title, value $value,";
   }
 }
 
@@ -246,7 +279,9 @@ class Currency {
 
   Currency({required this.type, required this.amount});
 
-  Map<String, dynamic> toMap() => {'type': type, 'amount': amount};
+  Map<String, dynamic> toMap() {
+    return {'type': type, 'amount': amount};
+  }
 
   factory Currency.fromMap(Map<String, dynamic> map) =>
       Currency(type: map['type'] ?? '', amount: map['amount'] ?? 0);

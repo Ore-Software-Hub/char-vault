@@ -1003,7 +1003,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                 ],
               );
             }
-            if (item is Map<String, int>) {
+            if (item is Currency) {
               return Row(
                 children: [
                   Expanded(
@@ -1016,11 +1016,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item.keys.first,
+                            item.type,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            item.values.first.toString(),
+                            item.amount.toString(),
                           )
                         ],
                       ),
@@ -1125,6 +1125,21 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     return savingThrows;
   }
 
+  FeatureDetails getFeatureDetails(
+      String title, int value, int modifier, List<String> skills) {
+    var newskills =
+        skills.map((skill) => SkillDetails(skill, modifier)).toList();
+
+    var feat = FeatureDetails(
+      title: title,
+      value: value,
+      modifier: modifier,
+      skills: newskills,
+      savingThrow: null,
+    );
+    return feat;
+  }
+
   finishCharacter() async {
     changeStep(1);
     var imgname = '';
@@ -1143,48 +1158,35 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       return;
     }
 
-    var strength = FeatureDetails(
-        title: "Força",
-        value: int.tryParse(_strength)!,
-        modifier: ((int.tryParse(_strength)! - 10) / 2).floor(),
-        skill: ["Atletismo"]);
-    var dexterity = FeatureDetails(
-        title: "Destreza",
-        value: int.tryParse(_dexterity)!,
-        modifier: ((int.tryParse(_dexterity)! - 10) / 2).floor(),
-        skill: ["Acrobacia", "Furtividade", "Prestidigitação"]);
-    var constitution = FeatureDetails(
-      title: "Constituição",
-      value: int.tryParse(_constitution)!,
-      modifier: ((int.tryParse(_constitution)! - 10) / 2).floor(),
-    );
-    var intelligence = FeatureDetails(
-        title: "Inteligência",
-        value: int.tryParse(_intelligence)!,
-        modifier: ((int.tryParse(_intelligence)! - 10) / 2).floor(),
-        skill: [
-          "Arcanismo",
-          "História",
-          "Investigação",
-          "Natureza",
-          "Religião"
-        ]);
-    var wisdom = FeatureDetails(
-        title: "Sabedoria",
-        value: int.tryParse(_wisdom)!,
-        modifier: ((int.tryParse(_wisdom)! - 10) / 2).floor(),
-        skill: [
-          "Intuição",
-          "Medicina",
-          "Lidar com Animais",
-          "Percepção",
-          "Sobrevivência"
-        ]);
-    var charisma = FeatureDetails(
-        title: "Carisma",
-        value: int.tryParse(_charisma)!,
-        modifier: ((int.tryParse(_charisma)! - 10) / 2).floor(),
-        skill: ["Atuação", "Enganação", "Intimidação", "Persuasão"]);
+    var strength = getFeatureDetails("Força", int.tryParse(_strength)!,
+        ((int.tryParse(_strength)! - 10) / 2).floor(), ["Atletismo"]);
+    var dexterity = getFeatureDetails(
+        "Destreza",
+        int.tryParse(_dexterity)!,
+        ((int.tryParse(_dexterity)! - 10) / 2).floor(),
+        ["Acrobacia", "Furtividade", "Prestidigitação"]);
+    var constitution = getFeatureDetails(
+        "Constituição",
+        int.tryParse(_constitution)!,
+        ((int.tryParse(_constitution)! - 10) / 2).floor(), []);
+    var intelligence = getFeatureDetails(
+        "Inteligência",
+        int.tryParse(_intelligence)!,
+        ((int.tryParse(_intelligence)! - 10) / 2).floor(),
+        ["Arcanismo", "História", "Investigação", "Natureza", "Religião"]);
+    var wisdom = getFeatureDetails("Sabedoria", int.tryParse(_wisdom)!,
+        ((int.tryParse(_wisdom)! - 10) / 2).floor(), [
+      "Intuição",
+      "Medicina",
+      "Lidar com Animais",
+      "Percepção",
+      "Sobrevivência"
+    ]);
+    var charisma = getFeatureDetails(
+        "Carisma",
+        int.tryParse(_charisma)!,
+        ((int.tryParse(_charisma)! - 10) / 2).floor(),
+        ["Atuação", "Enganação", "Intimidação", "Persuasão"]);
 
     List<FeatureDetails> features = [
       strength,
@@ -1203,7 +1205,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       curLife: life[0],
       maxLife: life[1],
       level: int.parse(_level),
-      classId: classChar!.id,
+      classModel: classChar!,
       age: int.parse(_age),
       race: _race,
       height: _height,

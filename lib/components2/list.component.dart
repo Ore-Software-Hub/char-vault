@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class ListComponent extends StatefulWidget {
   const ListComponent({
     super.key,
-    required this.title,
     required this.list,
+    this.title,
   });
 
-  final String title;
+  final String? title;
   final List<dynamic> list;
 
   @override
@@ -22,29 +22,39 @@ class _ListComponentState extends State<ListComponent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiary),
-                child: Text(
-                  widget.title,
-                  style: AppTextStyles.boldText(context),
+        if (widget.title != null)
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.tertiary),
+                  child: Text(
+                    widget.title!,
+                    style: AppTextStyles.boldText(context),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
         if (widget.list is List<String>)
           Wrap(
             direction: Axis.vertical,
             spacing: 4.0, // Espaçamento horizontal entre os widgets
             runSpacing: 8.0, // Espaçamento vertical entre as linhas
-            children: widget.list.map<Text>((text) {
-              return Text(
-                text,
-                style: AppTextStyles.lightText(context, size: 14),
+            children: widget.list.map<Row>((text) {
+              return Row(
+                spacing: 10,
+                children: [
+                  Text(
+                    '•',
+                    style: AppTextStyles.boldText(context),
+                  ),
+                  Text(
+                    text,
+                    style: AppTextStyles.lightText(context, size: 14),
+                  ),
+                ],
               );
             }).toList(),
           ),

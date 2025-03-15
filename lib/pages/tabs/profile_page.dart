@@ -149,13 +149,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 10,
               ),
               ListComponent(title: "Talentos", list: _talents),
-              // ListComponent(
-              //     title: "Vulnerabilidades",
-              //     list: _char!.details.vulnerabilities),
-              // ListComponent(
-              //     title: "Resistências", list: _char!.details.resistancies),
-              // ListComponent(
-              //     title: "Imunidades", list: _char!.details.immunities)
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:CharVault/components/button_component.dart';
 import 'package:CharVault/components2/dropdown.component.dart';
+import 'package:CharVault/components2/section.component.dart';
 import 'package:CharVault/components2/textfield.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
@@ -658,10 +659,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            returnSection(
-              "Idiomas",
-              languages,
-              ButtonComponent(
+            SectionComponent(
+              title: "Idiomas",
+              list: languages,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
@@ -686,10 +687,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            returnSection(
-              "Talentos",
-              talents,
-              ButtonComponent(
+            SectionComponent(
+              title: "Talentos",
+              list: talents,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
@@ -719,10 +720,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            returnSection(
-              "Vulnerabilidades",
-              vulnerabilities,
-              ButtonComponent(
+            SectionComponent(
+              title: "Vulnerabilidades",
+              list: vulnerabilities,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
@@ -747,10 +748,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            returnSection(
-              "Resistências",
-              resistance,
-              ButtonComponent(
+            SectionComponent(
+              title: "Resistências",
+              list: resistance,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
@@ -780,10 +781,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       case 3: // Inventário
         return Column(
           children: [
-            returnSection(
-              "Dinheiro",
-              currency,
-              ButtonComponent(
+            SectionComponent(
+              title: "Dinheiro",
+              list: currency,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
@@ -810,10 +811,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            returnSection(
-              "Relacionamentos",
-              relationships,
-              ButtonComponent(
+            SectionComponent(
+              title: "Relacionamentos",
+              list: relationships,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
@@ -843,10 +844,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            returnSection(
-              "Armas, Itens & Magias",
-              inventory,
-              ButtonComponent(
+            SectionComponent(
+              title: "Armas, Itens & Magias",
+              list: inventory,
+              buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(
                     context,
@@ -892,202 +893,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       default:
         return const Center();
     }
-  }
-
-  Widget returnSection<T>(String title, List<T> list, Widget buttonAdd) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            buttonAdd
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        if (list.isEmpty)
-          Row(
-            children: [
-              PhosphorIcon(
-                PhosphorIconsBold.placeholder,
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Nenhum item adicionado",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    "Adicione um novo!",
-                  )
-                ],
-              )
-            ],
-          ),
-        Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 4.0, // Espaçamento horizontal entre os widgets
-          runSpacing: 4.0, // Espaçamento vertical entre as linhas
-          children: list.map<Row>((item) {
-            if (item is PapersModel) {
-              return Row(
-                children: [
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.title,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            item.description,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  ButtonComponent(
-                    pressed: () => {
-                      setState(() {
-                        list.remove(item);
-                      })
-                    },
-                    tipo: 0,
-                    icon: PhosphorIconsBold.minus,
-                  )
-                ],
-              );
-            }
-            if (item is String) {
-              return Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        item,
-                        style: AppTextStyles.lightText(context),
-                      ),
-                    ),
-                  ),
-                  ButtonComponent(
-                    pressed: () => {
-                      setState(() {
-                        list.remove(item);
-                      })
-                    },
-                    tipo: 0,
-                    icon: PhosphorIconsBold.minus,
-                  )
-                ],
-              );
-            }
-            if (item is Currency) {
-              return Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.type,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            item.amount.toString(),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  ButtonComponent(
-                    pressed: () => {
-                      setState(() {
-                        list.remove(item);
-                      })
-                    },
-                    tipo: 0,
-                    icon: PhosphorIconsBold.minus,
-                  )
-                ],
-              );
-            }
-            if (item is ItemModel) {
-              return Row(
-                children: [
-                  if (item.quantity.isNotEmpty)
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Text("${item.quantity}x"),
-                    ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                      child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        borderRadius: BorderRadius.circular(5)),
-                    padding: EdgeInsets.all(8),
-                    child: Text(item.title),
-                  )),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  if (item.value.isNotEmpty)
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Text(item.value),
-                    ),
-                  ButtonComponent(
-                    pressed: () => {
-                      setState(() {
-                        list.remove(item);
-                      })
-                    },
-                    tipo: 0,
-                    icon: PhosphorIconsBold.minus,
-                  )
-                ],
-              );
-            }
-            return Row();
-          }).toList(),
-        )
-      ],
-    );
   }
 
   getLife(FeatureDetails cons) {

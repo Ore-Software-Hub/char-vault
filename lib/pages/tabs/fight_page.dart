@@ -1,11 +1,16 @@
 import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components2/card.component.dart';
 import 'package:CharVault/components2/header.component.dart';
 import 'package:CharVault/components/item_component.dart';
+import 'package:CharVault/components2/list.component.dart';
+import 'package:CharVault/components2/section.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/pages/add_item.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
+import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -19,7 +24,7 @@ class FightPage extends StatefulWidget {
 }
 
 class _FightPageState extends State<FightPage> {
-  List<ItemModel> _weapons = [], _spells = [];
+  List<ItemModel> _weapons = [];
   CharacterModel? _char;
   bool loading = true;
 
@@ -32,86 +37,20 @@ class _FightPageState extends State<FightPage> {
 
   loadItems() async {
     List<ItemModel> weapons = [];
-    List<ItemModel> spells = [];
     var items = await DatabaseService.getCharItems(_char!.id);
     for (var item in items) {
       switch (item.tipo) {
         case 'Arma':
           weapons.add(item);
           break;
-
-        case 'Magia':
-          spells.add(item);
-          break;
       }
     }
     if (mounted) {
       setState(() {
         _weapons = weapons;
-        _spells = spells;
         loading = false;
       });
     }
-  }
-
-  Widget returnItemComponent(List<ItemModel> items) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 4.0, // Espaçamento horizontal entre os widgets
-      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-      children: items.map<Row>((item) {
-        return Row(
-          children: [
-            Expanded(
-              child: ItemComponent(
-                charId: _char!.id,
-                item: item,
-              ),
-            ),
-            ButtonComponent(
-                pressed: () async {
-                  setState(() {
-                    items.remove(item);
-                  });
-                  await DatabaseService.deleteItem(_char!.id, item.id);
-                  NotificationHelper.showSnackBar(
-                      context, "Item [${item.title}] removido");
-                },
-                tipo: 0,
-                icon: PhosphorIconsBold.minus)
-          ],
-        );
-      }).toList(),
-    );
-  }
-
-  Widget returnInformation(String text, String subtext) {
-    return Row(
-      children: [
-        const SizedBox(
-          height: 50,
-          width: 50,
-          child: PhosphorIcon(PhosphorIconsBold.placeholder),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(subtext),
-          ],
-        )
-      ],
-    );
   }
 
   @override
@@ -123,61 +62,274 @@ class _FightPageState extends State<FightPage> {
           type: 1,
         ),
         Padding(
-          padding:
-              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Armas",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Informações",
+                    style: AppTextStyles.boldText(context, size: 20),
+                  ),
+                ],
               ),
-              loading
-                  ? Center(
-                      child: LoadingAnimationWidget.twistingDots(
-                          leftDotColor: Theme.of(context).colorScheme.primary,
-                          rightDotColor:
-                              Theme.of(context).colorScheme.secondary,
-                          size: 30),
-                    )
-                  : _weapons.isEmpty
-                      ? returnInformation(
-                          "Nenhuma arma encontrada!", "Adicione uma nova!")
-                      : returnItemComponent(_weapons)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                spacing: 4.0, // Espaçamento horizontal entre os widgets
+                runSpacing: 8.0, // Espaçamento vertical entre as linhas
+                children: [
+                  CardComponent(
+                      top: InkWell(
+                        onTap: () async {
+                          // final newLifeVal = await showModalBottomSheet<String>(
+                          //   backgroundColor:
+                          //       Theme.of(context).colorScheme.secondary,
+                          //   showDragHandle: true,
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   builder: (context) => EditLifeBottomSheetComponent(
+                          //     curLife: _char!.curLife,
+                          //     maxLife: _char!.maxLife,
+                          //   ),
+                          // );
+
+                          // if (newLifeVal != null) {
+                          //   setState(() {
+                          //     _char!.curLife = newLifeVal;
+                          //     Provider.of<LoginProvider>(context, listen: false)
+                          //         .updateUser(char: _char);
+                          //   });
+                          //   await DatabaseService.updateCharacter(
+                          //       _char!.id, _char!.toMap());
+                          // }
+                        },
+                        child: Text(
+                          "${_char!.details.armorClass}",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      bottom: Text(
+                        "Armadura",
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                  CardComponent(
+                      top: InkWell(
+                        onTap: () async {
+                          // final newLifeVal = await showModalBottomSheet<String>(
+                          //   backgroundColor:
+                          //       Theme.of(context).colorScheme.secondary,
+                          //   showDragHandle: true,
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   builder: (context) => EditLifeBottomSheetComponent(
+                          //     curLife: _char!.curLife,
+                          //     maxLife: _char!.maxLife,
+                          //   ),
+                          // );
+
+                          // if (newLifeVal != null) {
+                          //   setState(() {
+                          //     _char!.curLife = newLifeVal;
+                          //     Provider.of<LoginProvider>(context, listen: false)
+                          //         .updateUser(char: _char);
+                          //   });
+                          //   await DatabaseService.updateCharacter(
+                          //       _char!.id, _char!.toMap());
+                          // }
+                        },
+                        child: Text(
+                          "1",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      bottom: Text(
+                        "Iniciativa",
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                  CardComponent(
+                    top: InkWell(
+                      onTap: () async {
+                        // final newLifeVal = await showModalBottomSheet<String>(
+                        //   backgroundColor:
+                        //       Theme.of(context).colorScheme.secondary,
+                        //   showDragHandle: true,
+                        //   context: context,
+                        //   isScrollControlled: true,
+                        //   builder: (context) => EditLifeBottomSheetComponent(
+                        //     curLife: _char!.curLife,
+                        //     maxLife: _char!.maxLife,
+                        //   ),
+                        // );
+
+                        // if (newLifeVal != null) {
+                        //   setState(() {
+                        //     _char!.curLife = newLifeVal;
+                        //     Provider.of<LoginProvider>(context, listen: false)
+                        //         .updateUser(char: _char);
+                        //   });
+                        //   await DatabaseService.updateCharacter(
+                        //       _char!.id, _char!.toMap());
+                        // }
+                      },
+                      child: Text(
+                        "${_char!.details.movement}mt",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 22,
+                        ),
+                      ),
+                    ),
+                    bottom: Text(
+                      "Deslocamento",
+                      style: AppTextStyles.lightText(context, size: 12),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
         Padding(
-          padding:
-              const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+          padding: const EdgeInsets.all(16),
+          child: SectionComponent(
+              title: 'Armas',
+              list: _weapons,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  ItemModel? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddItemPage(),
+                    ),
+                  );
+
+                  String? itemId;
+
+                  if (resultado != null) {
+                    try {
+                      itemId =
+                          await DatabaseService.addItem(_char!.id, resultado);
+                      _weapons.add(resultado);
+                    } catch (e) {
+                      NotificationHelper.showSnackBar(context,
+                          "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
+                          level: itemId != null ? 1 : 0);
+                    }
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 10,
             children: [
-              const Text(
-                "Magias",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Resistências & Imunidades",
+                    style: AppTextStyles.boldText(context, size: 20),
+                  ),
+                ],
               ),
-              loading
-                  ? Center(
-                      child: LoadingAnimationWidget.twistingDots(
-                          leftDotColor: Theme.of(context).colorScheme.primary,
-                          rightDotColor:
-                              Theme.of(context).colorScheme.secondary,
-                          size: 30),
-                    )
-                  : _spells.isEmpty
-                      ? returnInformation(
-                          "Nenhuma magia encontrada!", "Adicione uma nova!")
-                      : returnItemComponent(_spells)
+              ListComponent(
+                  title: "Resistências", list: _char!.details.resistancies),
+              ListComponent(
+                  title: "Vulnerabilidades",
+                  list: _char!.details.vulnerabilities),
+              ListComponent(
+                  title: "Imunidades", list: _char!.details.immunities),
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Status",
+                    style: AppTextStyles.boldText(context, size: 20),
+                  ),
+                  ButtonComponent(
+                    pressed: () => {},
+                    tipo: 0,
+                    icon: PhosphorIconsBold.plus,
+                  )
+                ],
+              ),
+              Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
+                  spacing: 4.0, // Espaçamento horizontal entre os widgets
+                  runSpacing: 8.0, // Espaçamento vertical entre as linhas
+                  children: _char!.status.map<CardComponent>((stat) {
+                    return CardComponent(
+                      top: InkWell(
+                        onTap: () async {
+                          // final newLifeVal = await showModalBottomSheet<String>(
+                          //   backgroundColor:
+                          //       Theme.of(context).colorScheme.secondary,
+                          //   showDragHandle: true,
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   builder: (context) => EditLifeBottomSheetComponent(
+                          //     curLife: _char!.curLife,
+                          //     maxLife: _char!.maxLife,
+                          //   ),
+                          // );
+
+                          // if (newLifeVal != null) {
+                          //   setState(() {
+                          //     _char!.curLife = newLifeVal;
+                          //     Provider.of<LoginProvider>(context, listen: false)
+                          //         .updateUser(char: _char);
+                          //   });
+                          //   await DatabaseService.updateCharacter(
+                          //       _char!.id, _char!.toMap());
+                          // }
+                        },
+                        child: Text(
+                          "${stat.value}x",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      bottom: Text(
+                        stat.name,
+                        style: AppTextStyles.lightText(context, size: 12),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+                  }).toList())
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 100,
+        )
       ],
     );
   }

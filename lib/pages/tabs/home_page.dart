@@ -26,6 +26,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    List<SkillDetails> skills = [];
+    for (var feat in _char!.features) {
+      if (feat.skills == null) continue;
+      for (var skill in feat.skills!) {
+        skills.add(skill);
+      }
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,10 +96,10 @@ class _HomePageState extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 spacing: 4.0, // Espaçamento horizontal entre os widgets
                 runSpacing: 8.0, // Espaçamento vertical entre as linhas
-                children: _char!.features.take(8).map<LineComponent>((skill) {
+                children: skills.take(8).map<LineComponent>((skill) {
                   return LineComponent(
                     title: skill.title,
-                    value: skill.modifier.toString(),
+                    value: skill.value.toString(),
                   );
                 }).toList(),
               )
@@ -159,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                       )),
                   CardComponent(
                       top: Text(
-                        "1d8",
+                        "1d${_char!.details.classModel.hp}",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w900,

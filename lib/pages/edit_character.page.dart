@@ -171,8 +171,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
                           Icons.image,
                           color: Theme.of(context)
                               .colorScheme
-                              .surface
-                              .withOpacity(.6),
+                              .surface,
                         ),
                       )),
                   title: const Text("Galeria"),
@@ -186,8 +185,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
                           Icons.delete_forever_outlined,
                           color: Theme.of(context)
                               .colorScheme
-                              .surface
-                              .withOpacity(.6),
+                              .surface,
                         ),
                       )),
                   title: const Text("Remover"),

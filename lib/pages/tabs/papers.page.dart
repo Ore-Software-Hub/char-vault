@@ -4,7 +4,6 @@ import 'package:CharVault/components/section.component.dart';
 import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/paper.model.dart';
-import 'package:CharVault/pages/add_item.page.dart';
 import 'package:CharVault/pages/add_paper.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';

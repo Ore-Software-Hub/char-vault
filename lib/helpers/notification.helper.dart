@@ -79,7 +79,9 @@ class NotificationHelper {
               borderRadius:
                   const BorderRadius.only(bottomLeft: Radius.circular(20)),
               child: SvgPicture.asset("assets/img/bubbles.svg",
-                  height: 48, width: 40, color: iconColor),
+                  height: 48,
+                  width: 40,
+                  colorFilter: ColorFilter.mode(iconColor!, BlendMode.srcIn)),
             ),
           ),
           Positioned(
@@ -94,7 +96,7 @@ class NotificationHelper {
                   SvgPicture.asset(
                     "assets/img/fail.svg",
                     height: 40,
-                    color: iconColor,
+                    colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
                   ),
                   Positioned(
                     top: 5,

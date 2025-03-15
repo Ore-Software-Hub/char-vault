@@ -25,7 +25,7 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 0;
   bool loading = true;
-  CharacterModel? _char;
+  CharacterModel? char;
 
   List<Widget> tabs = [
     const HomePage(),
@@ -48,7 +48,7 @@ class _InitialPageState extends State<InitialPage> {
           setState(() {
             timer.cancel();
             loading = false;
-            _char = Provider.of<LoginProvider>(context, listen: false)
+            char = Provider.of<LoginProvider>(context, listen: false)
                 .userModel!
                 .char;
           });

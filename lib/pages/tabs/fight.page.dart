@@ -1,7 +1,6 @@
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
-import 'package:CharVault/components/item.component.dart';
 import 'package:CharVault/components/list.component.dart';
 import 'package:CharVault/components/section.component.dart';
 import 'package:CharVault/helpers/notification.helper.dart';
@@ -12,7 +11,6 @@ import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 

@@ -205,13 +205,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   leading: CircleAvatar(
                       backgroundColor: Theme.of(context).colorScheme.onSurface,
                       child: Center(
-                        child: Icon(
-                          Icons.image,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(.6),
-                        ),
+                        child: Icon(Icons.image,
+                            color: Theme.of(context).colorScheme.surface),
                       )),
                   title: const Text("Galeria"),
                   onTap: () => {Navigator.pop(context), pickImage()},
@@ -220,13 +215,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   leading: CircleAvatar(
                       backgroundColor: Theme.of(context).colorScheme.onSurface,
                       child: Center(
-                        child: Icon(
-                          Icons.delete_forever_outlined,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(.6),
-                        ),
+                        child: Icon(Icons.delete_forever_outlined,
+                            color: Theme.of(context).colorScheme.surface),
                       )),
                   title: const Text("Remover"),
                   onTap: () => {
@@ -271,7 +261,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.black,
                           borderRadius:
                               BorderRadius.circular(10), //<-- SEE HERE
                         ),

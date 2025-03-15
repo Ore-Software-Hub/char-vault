@@ -7,7 +7,7 @@ class DialogComponent extends StatefulWidget {
   const DialogComponent({super.key, required this.message});
   final String message;
   @override
-  _DialogComponentState createState() => _DialogComponentState();
+  State<DialogComponent> createState() => _DialogComponentState();
 }
 
 class _DialogComponentState extends State<DialogComponent>

@@ -1,4 +1,3 @@
-import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/line.component.dart';
 import 'package:CharVault/components/header.component.dart';
 import 'package:CharVault/components/list.component.dart';

@@ -22,7 +22,7 @@ class MagicPage extends StatefulWidget {
 
 class _MagicPageState extends State<MagicPage> {
   List<ItemModel> _inventory = [];
-  List<ItemModel> _selectedMagic = [];
+  final List<ItemModel> _selectedMagic = [];
   CharacterModel? _char;
   bool loading = true;
 

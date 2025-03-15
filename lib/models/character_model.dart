@@ -33,7 +33,7 @@ class CharacterModel {
     return map;
   }
 
-  factory CharacterModel.fromMap(Map<dynamic, dynamic> map) {
+  factory CharacterModel.fromMap(Map<String, dynamic> map) {
     var details = CharacterDetails.fromMap(map['details']);
 
     var features = FeatureDetails.fromList(map['features']);
@@ -150,8 +150,7 @@ class CharacterDetails {
       armorClass: map['armorClass'] ?? 0,
       movement: map['movement'] ?? 0,
       age: map['age'] ?? 0,
-      classModel: map['classModel'] ??
-          ClassModel(id: '', name: 'name', hp: 0, savingThrows: []),
+      classModel: ClassModel.fromMap(map['classModel']),
       race: map['race'] ?? '',
       height: map['height'] ?? '',
       weight: map['weight'] ?? '',
@@ -198,7 +197,8 @@ class FeatureDetails {
   }
 
   factory FeatureDetails.fromMap(Map<String, dynamic> map) {
-    var skills = SkillDetails.fromList(map['skills']);
+    var skills =
+        map['skills'] == null ? null : SkillDetails.fromList(map['skills']);
 
     var feature = FeatureDetails(
       title: map['title'] ?? '',

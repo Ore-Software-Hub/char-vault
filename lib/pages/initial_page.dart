@@ -4,6 +4,7 @@ import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/pages/tabs/backpack_page.dart';
 import 'package:CharVault/pages/tabs/fight_page.dart';
 import 'package:CharVault/pages/tabs/home_page.dart';
+import 'package:CharVault/pages/tabs/magic.page.dart';
 import 'package:CharVault/pages/tabs/profile_page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -31,7 +32,7 @@ class _InitialPageState extends State<InitialPage> {
     const FightPage(),
     const BackPackPage(),
     // TODO: Adicionar as outras tabs aqui
-    const FightPage(),
+    const MagicPage(),
     const FightPage(),
   ];
 

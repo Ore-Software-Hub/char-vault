@@ -12,11 +12,13 @@ class SectionComponent extends StatefulWidget {
     required this.title,
     required this.list,
     required this.buttonAdd,
+    this.pressed,
   });
 
   final String title;
   final List<dynamic> list;
   final Widget buttonAdd;
+  final Function(int index)? pressed;
 
   @override
   State<SectionComponent> createState() => _SectionComponentState();
@@ -68,29 +70,37 @@ class _SectionComponentState extends State<SectionComponent> {
           alignment: WrapAlignment.center,
           spacing: 4.0, // Espaçamento horizontal entre os widgets
           runSpacing: 4.0, // Espaçamento vertical entre as linhas
-          children: widget.list.map<Row>((item) {
+          children: widget.list.asMap().entries.map<Row>((entry) {
+            int index = entry.key;
+            var item = entry.value;
+
             if (item is PapersModel) {
               return Row(
                 children: [
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.title,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            item.description,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
+                    child: InkWell(
+                      onTap: () {
+                        widget.pressed!(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.title,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              item.description,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -110,14 +120,19 @@ class _SectionComponentState extends State<SectionComponent> {
               return Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        item,
-                        style: AppTextStyles.lightText(context),
+                    child: InkWell(
+                      onTap: () {
+                        widget.pressed!(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          item,
+                          style: AppTextStyles.lightText(context),
+                        ),
                       ),
                     ),
                   ),
@@ -137,22 +152,27 @@ class _SectionComponentState extends State<SectionComponent> {
               return Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.type,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            item.amount.toString(),
-                          )
-                        ],
+                    child: InkWell(
+                      onTap: () {
+                        widget.pressed!(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.type,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              item.amount.toString(),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -183,12 +203,17 @@ class _SectionComponentState extends State<SectionComponent> {
                     width: 5,
                   ),
                   Expanded(
-                      child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        borderRadius: BorderRadius.circular(5)),
-                    padding: EdgeInsets.all(8),
-                    child: Text(item.title),
+                      child: InkWell(
+                    onTap: () {
+                      widget.pressed!(index);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(8),
+                      child: Text(item.title),
+                    ),
                   )),
                   const SizedBox(
                     width: 5,

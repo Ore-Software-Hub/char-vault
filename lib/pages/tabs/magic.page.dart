@@ -13,15 +13,16 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
-class BackPackPage extends StatefulWidget {
-  const BackPackPage({super.key});
+class MagicPage extends StatefulWidget {
+  const MagicPage({super.key});
 
   @override
-  State<BackPackPage> createState() => _BackPackPageState();
+  State<MagicPage> createState() => _MagicPageState();
 }
 
-class _BackPackPageState extends State<BackPackPage> {
+class _MagicPageState extends State<MagicPage> {
   List<ItemModel> _inventory = [];
+  List<ItemModel> _selectedMagic = [];
   CharacterModel? _char;
   bool loading = true;
 
@@ -37,7 +38,7 @@ class _BackPackPageState extends State<BackPackPage> {
     var charItems = await DatabaseService.getCharItems(_char!.id);
 
     for (var item in charItems) {
-      if (item.tipo != 'Arma' && item.tipo != 'Magia') {
+      if (item.tipo != 'Arma') {
         items.add(item);
       }
     }
@@ -65,7 +66,7 @@ class _BackPackPageState extends State<BackPackPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Dinheiro",
+                    "Espaços de Magias",
                     style: AppTextStyles.boldText(context, size: 20),
                   ),
                   ButtonComponent(
@@ -80,56 +81,51 @@ class _BackPackPageState extends State<BackPackPage> {
                   alignment: WrapAlignment.center,
                   spacing: 4.0, // Espaçamento horizontal entre os widgets
                   runSpacing: 8.0, // Espaçamento vertical entre as linhas
-                  children: _char!.currency.map<CardComponent>((curr) {
-                    return CardComponent(
-                      top: InkWell(
-                        onTap: () async {
-                          // final newLifeVal = await showModalBottomSheet<String>(
-                          //   backgroundColor:
-                          //       Theme.of(context).colorScheme.secondary,
-                          //   showDragHandle: true,
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => EditLifeBottomSheetComponent(
-                          //     curLife: _char!.curLife,
-                          //     maxLife: _char!.maxLife,
-                          //   ),
-                          // );
-
-                          // if (newLifeVal != null) {
-                          //   setState(() {
-                          //     _char!.curLife = newLifeVal;
-                          //     Provider.of<LoginProvider>(context, listen: false)
-                          //         .updateUser(char: _char);
-                          //   });
-                          //   await DatabaseService.updateCharacter(
-                          //       _char!.id, _char!.toMap());
-                          // }
-                        },
-                        child: Text(
-                          "${curr.amount}pç",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 22,
+                  children: List.generate(4, (index) {
+                    if (index < _selectedMagic.length) {
+                      return CardComponent(
+                        top: InkWell(
+                          onTap: () async {
+                            setState(() {
+                              _selectedMagic.removeAt(index);
+                            });
+                          },
+                          child: Text(
+                            _selectedMagic[index].quantity,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 22,
+                            ),
                           ),
                         ),
-                      ),
-                      bottom: Text(
-                        curr.type,
-                        style: AppTextStyles.lightText(context, size: 12),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    );
-                  }).toList())
+                        bottom: Text(
+                          _selectedMagic[index].title,
+                          style: AppTextStyles.lightText(context, size: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    } else {
+                      return CardComponent(
+                          top: Container(), bottom: Container());
+                    }
+                  }))
             ],
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(16),
           child: SectionComponent(
-              title: 'Itens',
+              title: 'Magias',
               list: _inventory,
+              pressed: (index) {
+                setState(() {
+                  var magic = _inventory[index];
+                  if (!_selectedMagic.contains(magic)) {
+                    _selectedMagic.add(magic);
+                  }
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(

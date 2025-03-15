@@ -23,7 +23,7 @@ class PapersModel {
     };
   }
 
-  factory PapersModel.fromMap(Map<String, dynamic> map) {
+  factory PapersModel.fromMap(Map<dynamic, dynamic> map) {
     var papers = PapersModel(
       id: map['id'] ?? '',
       title: map['title'] ?? '',

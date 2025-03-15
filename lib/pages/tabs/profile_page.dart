@@ -1,7 +1,12 @@
+import 'package:CharVault/components2/card.component.dart';
 import 'package:CharVault/components2/line.component.dart';
 import 'package:CharVault/components2/header.component.dart';
+import 'package:CharVault/components2/list.component.dart';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/models/paper.model.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
+import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +19,30 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   CharacterModel? _char;
+  List<PapersModel> _talents = [];
 
   @override
   void initState() {
     super.initState();
     _char = Provider.of<LoginProvider>(context, listen: false).userModel!.char;
+    loadTalents();
+  }
+
+  loadTalents() async {
+    List<PapersModel> talents = [];
+    var papers = await DatabaseService.getCharPapers(_char!.id);
+    for (var paper in papers) {
+      switch (paper.tipo) {
+        case 'talent':
+          talents.add(paper);
+          break;
+      }
+    }
+    if (mounted) {
+      setState(() {
+        _talents = talents;
+      });
+    }
   }
 
   @override
@@ -106,6 +130,37 @@ class _ProfilePageState extends State<ProfilePage> {
               )
             ],
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Outras Informações",
+                    style: AppTextStyles.boldText(context, size: 20),
+                  ),
+                ],
+              ),
+              ListComponent(title: "Idiomas", list: _char!.details.languages),
+              SizedBox(
+                height: 10,
+              ),
+              ListComponent(title: "Talentos", list: _talents),
+              // ListComponent(
+              //     title: "Vulnerabilidades",
+              //     list: _char!.details.vulnerabilities),
+              // ListComponent(
+              //     title: "Resistências", list: _char!.details.resistancies),
+              // ListComponent(
+              //     title: "Imunidades", list: _char!.details.immunities)
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 100,
         )
       ],
     );

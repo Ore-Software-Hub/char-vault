@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyles {
+  static TextStyle italicText(BuildContext context, {double size = 16}) {
+    return GoogleFonts.inter(
+      fontSize: size,
+      fontWeight: FontWeight.w200,
+      fontStyle: FontStyle.italic,
+      color: Theme.of(context).colorScheme.onSurface,
+    );
+  }
+
   static TextStyle lightText(BuildContext context, {double size = 16}) {
     return GoogleFonts.inter(
       fontSize: size,

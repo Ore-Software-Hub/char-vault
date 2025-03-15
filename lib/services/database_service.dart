@@ -329,7 +329,7 @@ class DatabaseService {
 
     List<PapersModel> array = [];
     for (var itemSnapshot in snapshot.children) {
-      var itemData = itemSnapshot.value as Map<String, dynamic>;
+      var itemData = itemSnapshot.value as Map<dynamic, dynamic>;
       array.add(PapersModel.fromMap(itemData));
     }
 

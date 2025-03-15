@@ -6,15 +6,13 @@ import 'package:flutter/material.dart';
 class AddPaperPage extends StatefulWidget {
   const AddPaperPage(
       {super.key,
-      required this.appBarTitle,
       required this.title,
-      this.body,
-      this.type = "String"});
+      this.body = false,
+      this.keyboardType = 'String'});
 
-  final String appBarTitle;
   final String title;
-  final String? body;
-  final String type;
+  final String keyboardType;
+  final bool body;
 
   @override
   State<AddPaperPage> createState() => _CreateCharacterPageState();
@@ -33,7 +31,7 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.appBarTitle),
+        title: Text('Adicionar ${widget.title}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -54,11 +52,11 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
             const SizedBox(
               height: 10,
             ),
-            if (widget.body != null)
+            if (widget.body)
               TextFieldComponent(
-                  label: widget.body!,
-                  maxlines: widget.type == 'String' ? 20 : null,
-                  keyboardType: widget.type == 'String'
+                  label: 'Descrição',
+                  maxlines: widget.keyboardType == 'String' ? 20 : null,
+                  keyboardType: widget.keyboardType == 'String'
                       ? TextInputType.text
                       : TextInputType.number,
                   onChanged: (value) => {
@@ -88,9 +86,9 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
             ButtonComponent(
               label: "Adicionar",
               pressed: () {
-                if (_title.isEmpty || (widget.body != null && _body.isEmpty)) {
+                if (_title.isEmpty || (widget.body && _body.isEmpty)) {
                   NotificationHelper.showSnackBar(context,
-                      "Informe ${widget.title}${widget.body != null ? ' e ${widget.body}' : ''}",
+                      "Informe ${widget.title}${widget.body ? ' e ${widget.body}' : ''}",
                       level: 2);
                 } else {
                   Navigator.pop(context, [_title, _body]);

@@ -12,7 +12,6 @@ import 'package:CharVault/pages/add_item.page.dart';
 import 'package:CharVault/pages/add_paper.page.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
-import 'package:CharVault/styles/font.styles.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -668,7 +667,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
-                        appBarTitle: "Adicionar Idioma",
                         title: "Idioma",
                       ),
                     ),
@@ -696,9 +694,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
-                        appBarTitle: "Adicionar Talento",
                         title: "Talento",
-                        body: "Descrição do talento",
                       ),
                     ),
                   );
@@ -729,7 +725,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
-                        appBarTitle: "Adicionar Vulnerabilidade",
                         title: "Vulnerabilidade",
                       ),
                     ),
@@ -757,7 +752,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
-                        appBarTitle: "Adicionar Resistência",
                         title: "Resistência",
                       ),
                     ),
@@ -789,11 +783,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   List<String>? resultado = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddPaperPage(
-                          appBarTitle: "Adicionar Moeda",
-                          title: "Moeda",
-                          body: "Valor",
-                          type: 'number'),
+                      builder: (context) =>
+                          AddPaperPage(title: "Moeda", keyboardType: 'number'),
                     ),
                   );
 
@@ -820,9 +811,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
-                        appBarTitle: "Adicionar Relacionamento",
-                        title: "Nome",
-                        body: "Descrição do relacionamento",
+                        title: "Relacionamento",
                       ),
                     ),
                   );

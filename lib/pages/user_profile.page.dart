@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/char_details.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/char_details.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
-import 'package:CharVault/pages/create_character_page.dart';
-import 'package:CharVault/pages/landing_page.dart';
+import 'package:CharVault/pages/create_character.page.dart';
+import 'package:CharVault/pages/landing.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/services/database_service.dart';

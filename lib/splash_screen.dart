@@ -1,5 +1,5 @@
-import 'package:CharVault/pages/landing_page.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
+import 'package:CharVault/pages/landing.page.dart';
+import 'package:CharVault/pages/user_profile.page.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';

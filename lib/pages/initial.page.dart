@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/pages/tabs/backpack_page.dart';
-import 'package:CharVault/pages/tabs/fight_page.dart';
-import 'package:CharVault/pages/tabs/home_page.dart';
+import 'package:CharVault/pages/tabs/backpack.page.dart';
+import 'package:CharVault/pages/tabs/fight.page.dart';
+import 'package:CharVault/pages/tabs/home.page.dart';
 import 'package:CharVault/pages/tabs/magic.page.dart';
 import 'package:CharVault/pages/tabs/papers.page.dart';
-import 'package:CharVault/pages/tabs/profile_page.dart';
+import 'package:CharVault/pages/tabs/profile.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';

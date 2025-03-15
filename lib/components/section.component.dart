@@ -1,4 +1,4 @@
-import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/models/paper.model.dart';

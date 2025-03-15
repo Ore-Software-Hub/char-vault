@@ -1,6 +1,6 @@
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
+import 'package:CharVault/pages/user_profile.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:CharVault/styles/font.styles.dart';

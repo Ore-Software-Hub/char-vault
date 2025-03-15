@@ -1,4 +1,4 @@
-import 'package:CharVault/components/button_component.dart';
+import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';

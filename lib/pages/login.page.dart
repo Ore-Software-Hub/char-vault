@@ -1,6 +1,6 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
+import 'package:CharVault/pages/user_profile.page.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

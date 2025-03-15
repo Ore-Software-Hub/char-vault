@@ -1,10 +1,10 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/dialog.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/dialog.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/pages/edit_character_page.dart';
-import 'package:CharVault/pages/initial_page.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
+import 'package:CharVault/pages/edit_character.page.dart';
+import 'package:CharVault/pages/initial.page.dart';
+import 'package:CharVault/pages/user_profile.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';

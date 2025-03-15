@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/textfield.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/textfield.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';

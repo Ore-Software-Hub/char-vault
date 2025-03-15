@@ -1,7 +1,7 @@
-import 'package:CharVault/components2/card.component.dart';
-import 'package:CharVault/components2/features.component.dart';
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components2/line.component.dart';
+import 'package:CharVault/components/card.component.dart';
+import 'package:CharVault/components/features.component.dart';
+import 'package:CharVault/components/header.component.dart';
+import 'package:CharVault/components/line.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/styles/font.styles.dart';

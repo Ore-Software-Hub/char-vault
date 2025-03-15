@@ -1,7 +1,7 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/dropdown.component.dart';
-import 'package:CharVault/components2/textfield.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/dropdown.component.dart';
+import 'package:CharVault/components/textfield.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 

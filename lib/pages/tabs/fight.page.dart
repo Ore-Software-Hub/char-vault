@@ -1,10 +1,10 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/card.component.dart';
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components/item_component.dart';
-import 'package:CharVault/components2/list.component.dart';
-import 'package:CharVault/components2/section.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/card.component.dart';
+import 'package:CharVault/components/header.component.dart';
+import 'package:CharVault/components/item.component.dart';
+import 'package:CharVault/components/list.component.dart';
+import 'package:CharVault/components/section.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/add_item.page.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 
 class ButtonComponent extends StatefulWidget {
   const ButtonComponent(
@@ -11,14 +10,12 @@ class ButtonComponent extends StatefulWidget {
       this.icon,
       this.label,
       this.loading = false,
-      this.color = cores.primaryColor,
       this.disabled = false});
 
   final Function()? pressed;
   final int tipo;
   final PhosphorFlatIconData? icon;
   final String? label;
-  final Color? color;
   final bool loading;
   final bool disabled;
 
@@ -42,7 +39,7 @@ class _ButtonComponentState extends State<ButtonComponent> {
       overlayColor: WidgetStateProperty.resolveWith<Color?>(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.pressed)) {
-            return cores.secondaryColor;
+            return Theme.of(context).colorScheme.secondary;
           }
           return null;
         },
@@ -55,7 +52,7 @@ class _ButtonComponentState extends State<ButtonComponent> {
           if (states.contains(WidgetState.disabled)) {
             return Colors.grey.shade400; // Cor do botão desativado
           }
-          return widget.color;
+          return Theme.of(context).colorScheme.primary;
         },
       ),
     );

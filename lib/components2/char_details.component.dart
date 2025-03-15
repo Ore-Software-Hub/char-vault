@@ -1,5 +1,5 @@
 import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components/dialog_component.dart';
+import 'package:CharVault/components2/dialog.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/pages/edit_character_page.dart';
@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_scroll_text/auto_scroll_text.dart';
 
 class CharDetailsComponent extends StatefulWidget {
   const CharDetailsComponent({super.key, required this.char});
@@ -42,69 +43,85 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Container(
-        height: 55,
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary, // Sem preenchimento
-          borderRadius: BorderRadius.circular(10.0), // Raio da borda
-        ),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          spacing: 5,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            InkWell(
-              onTap: () {
-                Provider.of<LoginProvider>(context, listen: false)
-                    .updateUser(char: widget.char);
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const InitialPage()),
-                  (route) => false,
-                );
-              },
-              child: Row(
-                children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Image.network(urlImage, errorBuilder:
-                        (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                      return LoadingAnimationWidget.beat(
-                          color: Colors.black, size: 40);
-                    }),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+            Expanded(
+              // Faz o container ocupar o espaço restante
+              child: Container(
+                height: 55,
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Provider.of<LoginProvider>(context, listen: false)
+                        .updateUser(char: widget.char);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const InitialPage()),
+                      (route) => false,
+                    );
+                  },
+                  child: Row(
+                    spacing: 5,
                     children: [
-                      Text(
-                        widget.char.name,
-                        style: TextStyle(
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Image.network(urlImage, errorBuilder:
+                            (BuildContext context, Object exception,
+                                StackTrace? stackTrace) {
+                          return LoadingAnimationWidget.beat(
+                              color: Colors.black, size: 40);
+                        }),
+                      ),
+                      Expanded(
+                        // Garante que o Column ocupe todo o espaço restante
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AutoScrollText(
+                              delayBefore: Duration(seconds: 5),
+                              pauseBetween: Duration(seconds: 5),
+                              mode: AutoScrollTextMode.bouncing,
+                              velocity:
+                                  Velocity(pixelsPerSecond: Offset(30, 0)),
+                              widget.char.name,
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Nível ${widget.char.details.level}",
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Text("Nível ${widget.char.level}",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                          )),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 ButtonComponent(
                   pressed: () async {
@@ -161,10 +178,8 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                         size: 30),
                   )
               ],
-            )
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

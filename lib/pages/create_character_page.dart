@@ -1,19 +1,19 @@
 import 'dart:io';
-
-import 'package:CharVault/components/bottomsheet/add_item_component.dart';
-import 'package:CharVault/components/bottomsheet/text_component.dart';
 import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components/dropdown_component.dart';
-import 'package:CharVault/components/item_component.dart';
-import 'package:CharVault/components/text_field_component.dart';
+import 'package:CharVault/components2/dropdown.component.dart';
+import 'package:CharVault/components2/section.component.dart';
+import 'package:CharVault/components2/textfield.component.dart';
 import 'package:CharVault/helpers/notification_helper.dart';
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/item_model.dart';
+import 'package:CharVault/models/paper.model.dart';
+import 'package:CharVault/pages/add_item.page.dart';
+import 'package:CharVault/pages/add_paper.page.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:CharVault/constants/cores.constants.dart' as cores;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -32,21 +32,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   File? imageFile;
 
-  List<ItemModel> equipments = [], weapons = [], inventory = [], spells = [];
+  List<ItemModel> inventory = [];
 
-  List<ItemDropdown> classes = [
-    ItemDropdown(display: "Bárbaro", value: 12),
-    ItemDropdown(display: "Bardo", value: 8),
-    ItemDropdown(display: "Bruxo", value: 8),
-    ItemDropdown(display: "Clérigo", value: 8),
-    ItemDropdown(display: "Druida", value: 8),
-    ItemDropdown(display: "Feiticeiro", value: 6),
-    ItemDropdown(display: "Guerreiro", value: 10),
-    ItemDropdown(display: "Ladino", value: 8),
-    ItemDropdown(display: "Mago", value: 6),
-    ItemDropdown(display: "Paladino", value: 10),
-  ];
-
+  List<ClassModel> classes = [];
+  ClassModel? classChar;
   List<ItemDropdown> alignments = [
     ItemDropdown(display: "Legal Bom", value: 0),
     ItemDropdown(display: "Legal Mau", value: 0),
@@ -59,28 +48,53 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     ItemDropdown(display: "Caótico Mau", value: 0),
   ];
 
-  String title = 'Dados Pessoais';
-  String savingTitle = '';
-  String _name = "";
-  String _age = "";
-  String _race = "";
-  String _background = "";
-  String _alignment = "";
-  String _backstory = "";
-  String _classe = "";
-  String _level = "";
-  String _strength = "";
-  String _dexterity = "";
-  String _constitution = "";
-  String _intelligence = "";
-  String _wisdom = "";
-  String _charisma = "";
+  List<PapersModel> talents = [], relationships = [];
+
+  List<Currency> currency = [];
+
+  List<String> languages = ['Comum'],
+      immunities = [],
+      resistance = [],
+      vulnerabilities = [];
+
+  String title = 'Dados Pessoais',
+      savingTitle = '',
+      _name = "",
+      _age = "",
+      _race = "",
+      _height = "",
+      _weight = "",
+      _background = "",
+      _alignment = "",
+      _backstory = "",
+      _classe = "",
+      _level = "",
+      _strength = "",
+      _dexterity = "",
+      _constitution = "",
+      _intelligence = "",
+      _wisdom = "",
+      _charisma = "";
 
   CharacterModel? _char;
 
   @override
   void initState() {
     super.initState();
+    loadClasses();
+  }
+
+  loadClasses() async {
+    List<ClassModel> classModel = [];
+    var items = await DatabaseService.getClasses();
+    for (var item in items) {
+      classModel.add(item);
+    }
+    if (mounted) {
+      setState(() {
+        classes = classModel;
+      });
+    }
   }
 
   changeStep(int val) {
@@ -95,9 +109,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
         title = 'Dados Pessoais';
         break;
       case 2:
-        title = 'Características & Inventário';
+        title = 'Características';
         break;
       case 3:
+        title = 'Inventário';
+        break;
+      case 4:
         title = 'Salvar Personagem';
         break;
     }
@@ -228,7 +245,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
   Widget returnStep(int step) {
     switch (step) {
-      case 1:
+      case 1: // Dados pessoais
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -355,6 +372,40 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2 - 10,
                       child: TextFieldComponent(
+                        value: _height,
+                        label: "Altura",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _height = value;
+                          })
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2 - 10,
+                      child: TextFieldComponent(
+                        value: _weight,
+                        label: "Peso",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                          setState(() {
+                            _weight = value;
+                          })
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2 - 10,
+                      child: TextFieldComponent(
                         value: _background,
                         label: "Antecedente",
                         onChanged: (value) => {
@@ -402,7 +453,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             ),
           ],
         );
-      case 2:
+      case 2: // Caracteristicas
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -412,7 +463,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   width: 75,
                   height: 75,
                   decoration: BoxDecoration(
-                    color: cores.gray,
+                    color: Colors.grey,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Container(
@@ -450,10 +501,15 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         onChanged: (value) => {
                           setState(() {
                             _classe = value!;
+                            classChar =
+                                classes.firstWhere((cc) => cc.name == value);
                           })
                         },
                         hintText: "Classe",
-                        items: classes,
+                        items: classes
+                            .map<ItemDropdown>((item) => ItemDropdown(
+                                display: item.name, value: item.hp))
+                            .toList(),
                       ),
                     ),
                     SizedBox(
@@ -477,7 +533,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Insira os valores da habilidades",
+                        "Habilidades",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -485,17 +541,17 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) =>
-                                const TextBottomSheetComponent(
-                              textList: [
-                                "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
-                                "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
-                              ],
-                            ),
-                          );
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   isScrollControlled: true,
+                          //   builder: (context) =>
+                          //       const TextBottomSheetComponent(
+                          //     textList: [
+                          //       "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
+                          //       "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
+                          //     ],
+                          //   ),
+                          // );
                         },
                         icon: const PhosphorIcon(PhosphorIconsRegular.info),
                       )
@@ -508,7 +564,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   runSpacing: 4.0, // Espaçamento vertical entre as linhas
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _strength,
@@ -521,7 +577,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _dexterity,
@@ -534,7 +590,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _constitution,
@@ -547,7 +603,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _intelligence,
@@ -560,7 +616,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _wisdom,
@@ -573,7 +629,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
+                      width: MediaQuery.of(context).size.width / 3,
                       child: TextFieldComponent(
                         keyboardType: TextInputType.number,
                         value: _charisma,
@@ -602,105 +658,206 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
-            const Divider(
-              indent: 20,
-              endIndent: 20,
+            SectionComponent(
+              title: "Idiomas",
+              list: languages,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Idioma",
+                      ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      languages.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
             ),
-            Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Equipamentos",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+            const SizedBox(
+              height: 10,
+            ),
+            SectionComponent(
+              title: "Talentos",
+              list: talents,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Talento",
                       ),
-                      equipments.isEmpty
-                          ? returnInformation("Nenhum Equipamento adicionado!",
-                              "Adicione um novo!")
-                          : returnItemComponent(equipments)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Inventário",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      talents.add(PapersModel(
+                          id: "",
+                          title: resultado[0],
+                          description: resultado[1],
+                          tipo: "talent"));
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SectionComponent(
+              title: "Vulnerabilidades",
+              list: vulnerabilities,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Vulnerabilidade",
                       ),
-                      inventory.isEmpty
-                          ? returnInformation(
-                              "Nenhum item adicionado!", "Adicione um novo!")
-                          : returnItemComponent(inventory)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Armas",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      vulnerabilities.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SectionComponent(
+              title: "Resistências",
+              list: resistance,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Resistência",
                       ),
-                      weapons.isEmpty
-                          ? returnInformation(
-                              "Nenhuma arma encontrada!", "Adicione uma nova!")
-                          : returnItemComponent(weapons)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Magias",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      spells.isEmpty
-                          ? returnInformation(
-                              "Nenhuma magia adicionada", "Adicione uma nova!")
-                          : returnItemComponent(spells)
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            )
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      resistance.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
           ],
         );
-      case 3:
+      case 3: // Inventário
+        return Column(
+          children: [
+            SectionComponent(
+              title: "Dinheiro",
+              list: currency,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AddPaperPage(title: "Moeda", keyboardType: 'number'),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      currency.add(Currency(
+                          type: resultado[0], amount: int.parse(resultado[1])));
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SectionComponent(
+              title: "Relacionamentos",
+              list: relationships,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Relacionamento",
+                      ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      relationships.add(PapersModel(
+                          id: "",
+                          title: resultado[0],
+                          description: resultado[1],
+                          tipo: "relationship"));
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SectionComponent(
+              title: "Armas, Itens & Magias",
+              list: inventory,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  ItemModel? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddItemPage(),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      inventory.add(resultado);
+                    });
+                  }
+                },
+                tipo: 0,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
+          ],
+        );
+      case 4: // Salvar
         return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.only(top: 20),
@@ -727,81 +884,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     }
   }
 
-  Widget returnInformation(String text, String subtext) {
-    return Row(
-      children: [
-        const SizedBox(
-          height: 50,
-          width: 50,
-          child: PhosphorIcon(PhosphorIconsBold.placeholder),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(subtext),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget returnItemComponent(List<ItemModel> items) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 4.0, // Espaçamento horizontal entre os widgets
-      runSpacing: 4.0, // Espaçamento vertical entre as linhas
-      children: items.map<Row>((item) {
-        return Row(
-          children: [
-            Expanded(
-              child: ItemComponent(
-                charId: '',
-                item: item,
-              ),
-            ),
-            ButtonComponent(
-                pressed: () {
-                  setState(() {
-                    items.remove(item);
-                  });
-                },
-                tipo: 0,
-                icon: PhosphorIconsBold.minus)
-          ],
-        );
-      }).toList(),
-    );
-  }
-
-  List<SkillDetails> createSkill(List<String> items, FeatureDetails feature) {
-    List<SkillDetails> result = [];
-
-    for (var item in items) {
-      var skill = SkillDetails(item, feature.modifier);
-
-      result.add(skill);
-    }
-
-    return result;
-  }
-
   getLife(FeatureDetails cons) {
-    List<String> life = [];
-    var classe = classes.firstWhere((classe) => classe.display == _classe);
+    List<int> life = [];
+    var classe = classes.firstWhere((classe) => classe.name == _classe);
 
     var maxLife = CharacterModel.calculateLife(
-        classe.value, int.parse(_level), cons.modifier);
+        classe.hp, int.parse(_level), cons.modifier!);
 
     life.add(maxLife);
     life.add(maxLife);
@@ -810,51 +898,40 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
   }
 
   int getProficiencyBonus(int level) {
-    if (level >= 1 && level <= 4) {
-      return 2;
-    } else if (level >= 5 && level <= 8) {
-      return 3;
-    } else if (level >= 9 && level <= 12) {
-      return 4;
-    } else if (level >= 13 && level <= 16) {
-      return 5;
-    } else if (level >= 17 && level <= 20) {
-      return 6;
-    } else {
-      return 0; // Valor padrão se o nível estiver fora do intervalo esperado
-    }
+    if (level >= 17) return 6;
+    return ((level - 1) ~/ 4) + 2;
   }
 
   getSavingThrows(List<FeatureDetails> features) {
-    var classesProficiencies = {
-      'Bárbaro': ['Força', 'Constituição'],
-      'Bardo': ['Destreza', 'Carisma'],
-      'Bruxo': ['Sabedoria', 'Carisma'],
-      'Clérigo': ['Sabedoria', 'Carisma'],
-      'Druida': ['Inteligência', 'Sabedoria'],
-      'Feiticeiro': ['Constituição', 'Carisma'],
-      'Guerreiro': ['Força', 'Constituição'],
-      'Ladino': ['Destreza', 'Inteligência'],
-      'Mago': ['Inteligência', 'Sabedoria'],
-      'Paladino': ['Sabedoria', 'Carisma'],
-    };
+    var classe = classes.firstWhere((classe) => classe.name == _classe);
 
-    var classe = classes.firstWhere((classe) => classe.display == _classe);
+    var proficiencies = classe.savingThrows;
 
-    var proficiencies = classesProficiencies[classe.display]!;
+    List<FeatureDetails> savingThrows = features;
 
-    List<FeatureDetails> savingThrows = [];
-
-    for (var feat in features) {
+    for (var feat in savingThrows) {
       if (proficiencies.contains(feat.title)) {
-        var saving = FeatureDetails(feat.title, feat.value,
-            feat.modifier + getProficiencyBonus(int.parse(_level)));
-        savingThrows.add(saving);
-      } else {
-        savingThrows.add(feat);
+        feat.savingThrow =
+            feat.modifier! + getProficiencyBonus(int.parse(_level));
       }
     }
+
     return savingThrows;
+  }
+
+  FeatureDetails getFeatureDetails(
+      String title, int value, int modifier, List<String> skills) {
+    var newskills =
+        skills.map((skill) => SkillDetails(skill, modifier)).toList();
+
+    var feat = FeatureDetails(
+      title: title,
+      value: value,
+      modifier: modifier,
+      skills: newskills,
+      savingThrow: null,
+    );
+    return feat;
   }
 
   finishCharacter() async {
@@ -875,25 +952,35 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       return;
     }
 
-    var details =
-        CharacterDetails(_age, _race, _background, _alignment, _backstory);
-
-    var strength = FeatureDetails("Força", int.tryParse(_strength)!,
-        ((int.tryParse(_strength)! - 10) / 2).floor());
-    var dexterity = FeatureDetails("Destreza", int.tryParse(_dexterity)!,
-        ((int.tryParse(_dexterity)! - 10) / 2).floor());
-    var constitution = FeatureDetails(
+    var strength = getFeatureDetails("Força", int.tryParse(_strength)!,
+        ((int.tryParse(_strength)! - 10) / 2).floor(), ["Atletismo"]);
+    var dexterity = getFeatureDetails(
+        "Destreza",
+        int.tryParse(_dexterity)!,
+        ((int.tryParse(_dexterity)! - 10) / 2).floor(),
+        ["Acrobacia", "Furtividade", "Prestidigitação"]);
+    var constitution = getFeatureDetails(
         "Constituição",
         int.tryParse(_constitution)!,
-        ((int.tryParse(_constitution)! - 10) / 2).floor());
-    var intelligence = FeatureDetails(
+        ((int.tryParse(_constitution)! - 10) / 2).floor(), []);
+    var intelligence = getFeatureDetails(
         "Inteligência",
         int.tryParse(_intelligence)!,
-        ((int.tryParse(_intelligence)! - 10) / 2).floor());
-    var wisdom = FeatureDetails("Sabedoria", int.tryParse(_wisdom)!,
-        ((int.tryParse(_wisdom)! - 10) / 2).floor());
-    var charisma = FeatureDetails("Carisma", int.tryParse(_charisma)!,
-        ((int.tryParse(_charisma)! - 10) / 2).floor());
+        ((int.tryParse(_intelligence)! - 10) / 2).floor(),
+        ["Arcanismo", "História", "Investigação", "Natureza", "Religião"]);
+    var wisdom = getFeatureDetails("Sabedoria", int.tryParse(_wisdom)!,
+        ((int.tryParse(_wisdom)! - 10) / 2).floor(), [
+      "Intuição",
+      "Medicina",
+      "Lidar com Animais",
+      "Percepção",
+      "Sobrevivência"
+    ]);
+    var charisma = getFeatureDetails(
+        "Carisma",
+        int.tryParse(_charisma)!,
+        ((int.tryParse(_charisma)! - 10) / 2).floor(),
+        ["Atuação", "Enganação", "Intimidação", "Persuasão"]);
 
     List<FeatureDetails> features = [
       strength,
@@ -904,41 +991,39 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       charisma,
     ];
 
-    List<FeatureDetails> savingThrows = getSavingThrows(features);
-
-    var skillStrength = createSkill(["Atletismo"], strength);
-    var skillDex =
-        createSkill(["Acrobacia", "Furtividade", "Prestidigitação"], dexterity);
-    var skillIntel = createSkill(
-        ["Arcanismo", "Investigação", "Natureza", "Religião"], intelligence);
-    var skillWis = createSkill([
-      "Intuição",
-      "Lidar com Animais",
-      "Medicina",
-      "Percepção",
-      "Sobrevivência"
-    ], wisdom);
-    var skillChar = createSkill(
-        ["Atuação", "Enganação", "Intimidação", "Persuasão"], charisma);
-
-    var skills = [
-      ...skillStrength,
-      ...skillDex,
-      ...skillIntel,
-      ...skillWis,
-      ...skillChar
-    ];
-
-    skills.sort((a, b) => a.title.compareTo(b.title));
+    features = getSavingThrows(features);
 
     var life = getLife(constitution);
 
-    var po = "0";
-    var pp = "0";
-    var pb = "0";
+    var details = CharacterDetails(
+      curLife: life[0],
+      maxLife: life[1],
+      level: int.parse(_level),
+      classModel: classChar!,
+      age: int.parse(_age),
+      race: _race,
+      height: _height,
+      weight: _weight,
+      alignment: _alignment,
+      background: _background,
+      backstory: _backstory,
+      languages: languages,
+      armorClass: 0,
+      movement: 9,
+      immunities: immunities,
+      vulnerabilities: vulnerabilities,
+      resistancies: resistance,
+    );
 
-    _char = CharacterModel("", imgname, _name, _classe, _level, life[0],
-        life[1], po, pp, pb, '', details, savingThrows, features, skills);
+    _char = CharacterModel(
+      id: '',
+      image: imgname,
+      name: _name,
+      status: [],
+      currency: currency,
+      details: details,
+      features: features,
+    );
 
     String? charId;
 
@@ -954,24 +1039,18 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       NotificationHelper.showSnackBar(
           context, "Erro ao salvar o personagem: ${e.toString()}",
           level: 2);
+      await StorageService.deleteImageById(imgname);
       changeStep(-1);
       return;
     }
 
     if (charId != null) {
-      List<ItemModel> items = [
-        ...equipments,
-        ...inventory,
-        ...weapons,
-        ...spells
-      ];
-
-      if (items.isNotEmpty) {
+      if (inventory.isNotEmpty) {
         setState(() {
           savingTitle = "Salvando itens";
         });
         try {
-          for (var item in items) {
+          for (var item in inventory) {
             await DatabaseService.addItem(charId, item);
           }
           NotificationHelper.showSnackBar(context, "Itens adicionados!",
@@ -980,7 +1059,43 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           NotificationHelper.showSnackBar(
               context, "Erro ao adicionar itens: ${e.toString()}",
               level: 2);
-          changeStep(-1);
+          return;
+        }
+      }
+
+      if (talents.isNotEmpty) {
+        setState(() {
+          savingTitle = "Salvando talentos";
+        });
+        try {
+          for (var talent in talents) {
+            await DatabaseService.addPaper(charId, talent);
+          }
+          NotificationHelper.showSnackBar(context, "Talentos adicionados!",
+              level: 1);
+        } catch (e) {
+          NotificationHelper.showSnackBar(
+              context, "Erro ao adicionar: ${e.toString()}",
+              level: 2);
+          return;
+        }
+      }
+
+      if (relationships.isNotEmpty) {
+        setState(() {
+          savingTitle = "Salvando itens";
+        });
+        try {
+          for (var relation in relationships) {
+            await DatabaseService.addPaper(charId, relation);
+          }
+          NotificationHelper.showSnackBar(
+              context, "Relacionamentos adicionados!",
+              level: 1);
+        } catch (e) {
+          NotificationHelper.showSnackBar(
+              context, "Erro ao adicionar: ${e.toString()}",
+              level: 2);
           return;
         }
       }
@@ -1028,7 +1143,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   height: 30,
                   alignment: AlignmentDirectional.center,
                   decoration: BoxDecoration(
-                      color: cores.primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.circular(50)),
                   child: step == 4
                       ? const PhosphorIcon(
@@ -1061,65 +1176,6 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           ],
         )),
       ),
-      floatingActionButton: step == 2
-          ? FloatingActionButton(
-              onPressed: () async {
-                final item = await showModalBottomSheet<ItemModel>(
-                  backgroundColor: cores.secondaryColor,
-                  showDragHandle: true,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const AddItemBottomSheetComponent(
-                    editing: false,
-                  ),
-                );
-
-                if (item != null) {
-                  switch (item.tipo) {
-                    case 'Arma':
-                      setState(() {
-                        {
-                          weapons.add(item);
-                        }
-                      });
-                      break;
-
-                    case 'Armadura':
-                    case 'Equipamento':
-                    case 'Item':
-                      setState(() {
-                        {
-                          equipments.add(item);
-                        }
-                      });
-                      break;
-
-                    case 'Consumíveis':
-                    case 'Item mágico':
-                    case 'Objeto':
-                    case 'Outros':
-                      setState(() {
-                        {
-                          inventory.add(item);
-                        }
-                      });
-                      break;
-
-                    case 'Magia':
-                      setState(() {
-                        {
-                          spells.add(item);
-                        }
-                      });
-                      break;
-                  }
-                }
-              },
-              child: const PhosphorIcon(
-                PhosphorIconsBold.plus,
-              ),
-            )
-          : null,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
           left: 16,
@@ -1133,15 +1189,14 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
               pressed: () {
                 changeStep(-1);
               },
-              color: cores.gray,
             ),
             const Spacer(),
-            if (step < 2)
+            if (step < 3)
               ButtonComponent(
                 label: "Próximo",
                 pressed: nextAvailable(),
               ),
-            if (step == 2)
+            if (step == 3)
               ButtonComponent(
                 label: "Finalizar",
                 disabled: _classe.isEmpty ||

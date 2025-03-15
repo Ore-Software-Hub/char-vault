@@ -7,16 +7,18 @@ class TextFieldComponent extends StatefulWidget {
       required this.label,
       required this.onChanged,
       required this.value,
-      this.color,
       this.maxlines = 1,
-      this.keyboardType = TextInputType.text});
+      this.keyboardType = TextInputType.text,
+      this.enabled = true,
+      this.hintText});
 
   final String label;
-  final Color? color;
   final int? maxlines;
   final String value;
   final Function(String) onChanged;
   final TextInputType keyboardType;
+  final bool? enabled;
+  final String? hintText;
 
   @override
   State<TextFieldComponent> createState() => _TextFieldComponentState();
@@ -40,38 +42,28 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   textFieldDecoration(String title) {
     return InputDecoration(
       labelText: title,
-      labelStyle: TextStyle(
-          color: widget.color != null
-              ? widget.color!
-              : Theme.of(context)
-                  .colorScheme
-                  .primary), // Cor do rótulo do TextField
+      hintText: widget.hintText,
+      hintStyle: TextStyle(color: Colors.grey),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(
-          color: widget.color != null
-              ? widget.color!
-              : Theme.of(context).colorScheme.primary, // Cor da borda
+          color: Theme.of(context).colorScheme.primary, // Cor da borda
         ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(
-          color: widget.color != null
-              ? widget.color!
-              : Theme.of(context)
-                  .colorScheme
-                  .primary, // Cor da borda quando habilitado
+          color: Theme.of(context)
+              .colorScheme
+              .primary, // Cor da borda quando habilitado
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(
-          color: widget.color != null
-              ? widget.color!
-              : Theme.of(context)
-                  .colorScheme
-                  .primary, // Cor da borda quando focado
+          color: Theme.of(context)
+              .colorScheme
+              .primary, // Cor da borda quando focado
         ),
       ),
     );
@@ -80,6 +72,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: widget.enabled,
       controller: _controller,
       keyboardType: widget.keyboardType,
       inputFormatters: widget.keyboardType == TextInputType.number
@@ -88,16 +81,10 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       onChanged: (value) {
         widget.onChanged(value);
       },
-      style: TextStyle(
-        color: widget.color != null
-            ? widget.color!
-            : Theme.of(context).colorScheme.primary,
-      ),
-      cursorColor: widget.color != null
-          ? widget.color!
-          : Theme.of(context).colorScheme.primary,
+      cursorColor: Theme.of(context).colorScheme.primary,
       decoration: textFieldDecoration(widget.label),
       maxLines: widget.maxlines,
+      minLines: 1,
     );
   }
 }

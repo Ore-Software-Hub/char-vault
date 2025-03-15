@@ -1,177 +1,225 @@
+import 'package:CharVault/models/class.model.dart';
+
 class CharacterModel {
   String id;
   String image;
   String name;
-  String classe;
-  String level;
-  String curLife;
-  String maxLife;
-  String po;
-  String pp;
-  String pb;
-  String notes;
+  List<Status> status;
+  List<Currency> currency;
 
-  CharacterDetails? details;
-  List<FeatureDetails>? savingThrows;
-  List<FeatureDetails>? features;
-  List<SkillDetails>? skills;
+  CharacterDetails details;
+  List<FeatureDetails> features;
 
-  CharacterModel(
-      this.id,
-      this.image,
-      this.name,
-      this.classe,
-      this.level,
-      this.curLife,
-      this.maxLife,
-      this.po,
-      this.pp,
-      this.pb,
-      this.notes,
-      this.details,
-      this.savingThrows,
-      this.features,
-      this.skills);
+  CharacterModel({
+    required this.id,
+    required this.image,
+    required this.name,
+    required this.status,
+    required this.currency,
+    required this.details,
+    required this.features,
+  });
 
   Map<String, dynamic> toMap() {
-    return {
+    var map = {
       'id': id,
       'image': image,
       'name': name,
-      'classe': classe,
-      'level': level,
-      'curLife': curLife,
-      'maxLife': maxLife,
-      'po': po,
-      'pp': pp,
-      'pb': pb,
-      'notes': notes,
-      'details': details?.toMap(),
-      'savingThrows': savingThrows?.map((e) => e.toMap()).toList(),
-      'features': features?.map((e) => e.toMap()).toList(),
-      'skills': skills?.map((e) => e.toMap()).toList(),
+      'status': status.map((e) => {e.toMap()}).toList(),
+      'currency': currency.map((e) => e.toMap()).toList(),
+      'details': details.toMap(),
+      'features': features.map((e) => e.toMap()).toList(),
     };
+    return map;
   }
 
-  factory CharacterModel.fromMap(Map<dynamic, dynamic> map) {
-    return CharacterModel(
-      map['id'] ?? '',
-      map['image'] ?? '',
-      map['name'] ?? '',
-      map['classe'] ?? '',
-      map['level'] ?? '',
-      map['curLife'] ?? '',
-      map['maxLife'] ?? '',
-      map['po'] ?? '',
-      map['pp'] ?? '',
-      map['pb'] ?? '',
-      map['notes'] ?? '',
-      map['details'] != null ? CharacterDetails.fromMap(map['details']) : null,
-      map['savingThrows'] != null
-          ? List<FeatureDetails>.from(
-              map['savingThrows'].map((x) => FeatureDetails.fromMap(x)))
-          : null,
-      map['features'] != null
-          ? List<FeatureDetails>.from(
-              map['features'].map((x) => FeatureDetails.fromMap(x)))
-          : null,
-      map['skills'] != null
-          ? List<SkillDetails>.from(
-              map['skills'].map((x) => SkillDetails.fromMap(x)))
-          : null,
-    );
+  factory CharacterModel.fromMap(Map<String, dynamic> map) {
+    var details = CharacterDetails.fromMap(map['details']);
+
+    var features = FeatureDetails.fromList(map['features']);
+
+    var currency = Currency.fromList(map['currency']);
+
+    var character = CharacterModel(
+        id: map['id'] ?? '',
+        image: map['image'] ?? '',
+        name: map['name'] ?? '',
+        status: map['status'] ?? [],
+        currency: currency,
+        details: details,
+        features: features);
+    return character;
   }
 
-  static String calculateLife(int pv, int level, int modifier) {
-    var maxLife = "0";
+  static int calculateLife(int pv, int level, int modifier) {
+    if (level == 1) return pv + modifier;
 
-    if (level == 1) {
-      maxLife = (pv + modifier).toString();
-    } else {
-      int initial = pv + modifier;
-
-      int lifePerLevel = (pv / 2).ceil() + 1 + modifier;
-
-      int totalPerLevel = 0;
-
-      for (var i = 0; i < level - 1; i++) {
-        totalPerLevel += lifePerLevel;
-      }
-
-      maxLife = (initial + totalPerLevel).toString();
-    }
-
-    return maxLife;
+    int lifePerLevel = (pv / 2).ceil() + 1 + modifier;
+    return (pv + modifier) + (lifePerLevel * (level - 1));
   }
 
   @override
   String toString() {
-    return "image $image, name $name, classe $classe, level $level, curLife $curLife, maxLife $maxLife, po $po, pp $pp, pb $pb, details ${details.toString()}, features ${features.toString()}, savingThrows ${savingThrows.toString()}, skills ${skills.toString()},";
+    return 'CharacterModel{id: $id, image: $image, name: $name, status: $status, currency: $currency, details: $details, features: $features}';
   }
 }
 
 class CharacterDetails {
-  String age;
+  int curLife;
+  int maxLife;
+  int level;
+  int armorClass;
+  int movement;
+  int age;
+  ClassModel classModel;
   String race;
-  String background;
+  String height;
+  String weight;
   String alignment;
+  String background;
   String backstory;
+  List<String> languages;
+  List<String> immunities;
+  List<String> vulnerabilities;
+  List<String> resistancies;
 
-  CharacterDetails(
-      this.age, this.race, this.background, this.alignment, this.backstory);
+  CharacterDetails({
+    required this.curLife,
+    required this.maxLife,
+    required this.level,
+    required this.armorClass,
+    required this.movement,
+    required this.age,
+    required this.classModel,
+    required this.race,
+    required this.height,
+    required this.weight,
+    required this.alignment,
+    required this.background,
+    required this.backstory,
+    required this.languages,
+    required this.immunities,
+    required this.vulnerabilities,
+    required this.resistancies,
+  });
 
   Map<String, dynamic> toMap() {
     return {
+      'curLife': curLife,
+      'maxLife': maxLife,
+      'level': level,
+      'armorClass': armorClass,
+      'movement': movement,
       'age': age,
+      'classModel': classModel.toMap(),
       'race': race,
-      'background': background,
+      'height': height,
+      'weight': weight,
       'alignment': alignment,
+      'background': background,
       'backstory': backstory,
+      'languages': languages,
+      'immunity': immunities,
+      'vulnerabilities': vulnerabilities,
+      'resistancies': resistancies,
     };
   }
 
   factory CharacterDetails.fromMap(Map<dynamic, dynamic> map) {
-    return CharacterDetails(
-      map['age'] ?? '',
-      map['race'] ?? '',
-      map['background'] ?? '',
-      map['alignment'] ?? '',
-      map['backstory'] ?? '',
+    List<String> languages = (map['languages'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    List<String> resistancies = (map['resistancies'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    List<String> vulnerabilities = (map['vulnerabilities'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+    List<String> immunities = (map['immunities'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        [];
+
+    var details = CharacterDetails(
+      curLife: map['curLife'] ?? 0,
+      maxLife: map['maxLife'] ?? 0,
+      level: map['level'] ?? 0,
+      armorClass: map['armorClass'] ?? 0,
+      movement: map['movement'] ?? 0,
+      age: map['age'] ?? 0,
+      classModel: ClassModel.fromMap(map['classModel']),
+      race: map['race'] ?? '',
+      height: map['height'] ?? '',
+      weight: map['weight'] ?? '',
+      alignment: map['alignment'] ?? '',
+      background: map['background'] ?? '',
+      backstory: map['backstory'] ?? '',
+      languages: languages,
+      immunities: immunities,
+      vulnerabilities: vulnerabilities,
+      resistancies: resistancies,
     );
+    return details;
   }
 
   @override
   String toString() {
-    return "age $age, race $race, background $background, alignment $alignment, backstory $backstory,";
+    return "age $age, race $race, background $background, alignment $alignment, backstory $backstory, armorClass: $armorClass, movement: $movement, immunities: $immunities, vulnerabilities: $vulnerabilities resistancies: $resistancies";
   }
 }
 
 class FeatureDetails {
   String title;
   int value;
-  int modifier;
+  List<SkillDetails>? skills;
+  int? modifier;
+  int? savingThrow;
 
-  FeatureDetails(this.title, this.value, this.modifier);
+  FeatureDetails({
+    required this.title,
+    required this.value,
+    this.skills,
+    this.modifier,
+    this.savingThrow,
+  });
 
   Map<String, dynamic> toMap() {
     return {
       'title': title,
       'value': value,
       'modifier': modifier,
+      'savingThrow': savingThrow,
+      'skills': skills?.map((e) => e.toMap()).toList(),
     };
   }
 
-  factory FeatureDetails.fromMap(Map<dynamic, dynamic> map) {
-    return FeatureDetails(
-      map['title'] ?? '',
-      map['value'] ?? 0,
-      map['modifier'] ?? 0,
+  factory FeatureDetails.fromMap(Map<String, dynamic> map) {
+    var skills =
+        map['skills'] == null ? null : SkillDetails.fromList(map['skills']);
+
+    var feature = FeatureDetails(
+      title: map['title'] ?? '',
+      value: map['value'] ?? 0,
+      modifier: map['modifier'],
+      savingThrow: map['savingThrow'],
+      skills: skills,
     );
+
+    return feature;
+  }
+
+  static List<FeatureDetails> fromList(List<dynamic> list) {
+    return list
+        .map((item) => FeatureDetails.fromMap(Map<String, dynamic>.from(item)))
+        .toList();
   }
 
   @override
   String toString() {
-    return "title $title, value $value, modifier $modifier,";
+    return "FeatureDetails(title: $title, value: $value, skills: $skills, modifier: $modifier, savingThrow: $savingThrow)";
   }
 }
 
@@ -195,8 +243,52 @@ class SkillDetails {
     );
   }
 
+  static List<SkillDetails> fromList(List<dynamic> list) {
+    return list
+        .map((item) => SkillDetails.fromMap(Map<String, dynamic>.from(item)))
+        .toList();
+  }
+
   @override
   String toString() {
     return "title $title, value $value,";
+  }
+}
+
+class Status {
+  String name;
+  String value;
+
+  Status({required this.name, required this.value});
+
+  Map<String, String> toMap() => {'name': name, 'value': value};
+
+  factory Status.fromMap(Map<String, String> map) =>
+      Status(name: map['name'] ?? '', value: map['value'] ?? '');
+
+  static List<Status> fromList(List<dynamic> list) {
+    return list
+        .map((item) => Status.fromMap(Map<String, String>.from(item)))
+        .toList();
+  }
+}
+
+class Currency {
+  String type;
+  int amount;
+
+  Currency({required this.type, required this.amount});
+
+  Map<String, dynamic> toMap() {
+    return {'type': type, 'amount': amount};
+  }
+
+  factory Currency.fromMap(Map<String, dynamic> map) =>
+      Currency(type: map['type'] ?? '', amount: map['amount'] ?? 0);
+
+  static List<Currency> fromList(List<dynamic> list) {
+    return list
+        .map((item) => Currency.fromMap(Map<String, dynamic>.from(item)))
+        .toList();
   }
 }

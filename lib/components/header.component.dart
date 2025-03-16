@@ -69,10 +69,11 @@ class _HeaderComponentState extends State<HeaderComponent> {
             }),
           ),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UserProfilePage()));
+                    builder: (context) => const UserProfilePage()),
+                (route) => false);
           },
         ),
         Text(

@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ButtonComponent extends StatefulWidget {
+  /// Tipo: '0: Normal', '1: Normal com icone', '2: textButton', '3: iconButton'
   const ButtonComponent(
       {super.key,
       required this.pressed,

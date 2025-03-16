@@ -205,9 +205,8 @@ class _SectionComponentState extends State<SectionComponent> {
                   ),
                   Expanded(
                       child: InkWell(
-                    onTap: () {
-                      widget.pressed!(index);
-                    },
+                    onTap: () =>
+                        widget.pressed != null ? widget.pressed!(index) : null,
                     child: Container(
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.tertiary,

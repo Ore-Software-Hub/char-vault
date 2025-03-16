@@ -46,6 +46,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           setState(() {
             timer.cancel();
             loading = false;
+            Provider.of<LoginProvider>(context, listen: false).updateUser();
             _user =
                 Provider.of<LoginProvider>(context, listen: false).userModel;
             loadChars();

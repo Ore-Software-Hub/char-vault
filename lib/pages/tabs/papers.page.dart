@@ -1,3 +1,4 @@
+import 'package:CharVault/components/bottomsheet/papers.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/header.component.dart';
 import 'package:CharVault/components/section.component.dart';
@@ -67,7 +68,17 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: 'Missões',
               list: _missions,
-              pressed: (index) {},
+              pressed: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      PapersBSComponent(paper: _missions[index]),
+                );
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -107,7 +118,17 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: "NPC's & Relacionamentos",
               list: _relationships,
-              pressed: (index) {},
+              pressed: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      PapersBSComponent(paper: _relationships[index]),
+                );
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -147,7 +168,16 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: 'Anotações',
               list: _notes,
-              pressed: (index) {},
+              pressed: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) => PapersBSComponent(paper: _notes[index]),
+                );
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(

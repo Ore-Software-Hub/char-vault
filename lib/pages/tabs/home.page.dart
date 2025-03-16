@@ -1,3 +1,4 @@
+import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/features.component.dart';
 import 'package:CharVault/components/header.component.dart';
@@ -49,7 +50,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Características",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -75,10 +78,13 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Habilidades",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
-                  TextButton(
-                      onPressed: () {
+                  ButtonComponent(
+                      tipo: 2,
+                      pressed: () {
                         // showModalBottomSheet(
                         //     context: context,
                         //     useSafeArea: true,
@@ -87,8 +93,7 @@ class _HomePageState extends State<HomePage> {
                         //     builder: (context) => SkillsBottomSheetComponent(
                         //         skills: _char!.skills!));
                       },
-                      child: Text("Ver Todos",
-                          style: AppTextStyles.lightText(context, size: 14)))
+                      label: "Ver Todos")
                 ],
               ),
               Wrap(
@@ -115,7 +120,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Outras Informações",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -161,7 +168,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "PV Atual",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -175,7 +184,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "Dado PV",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -189,7 +200,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "Proficiência",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -203,7 +216,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "Inspiração",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                 ],

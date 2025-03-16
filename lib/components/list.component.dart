@@ -27,11 +27,13 @@ class _ListComponentState extends State<ListComponent> {
             children: [
               Expanded(
                 child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.tertiary),
                   child: Text(
                     widget.title!,
-                    style: AppTextStyles.boldText(context),
+                    style: AppTextStyles.boldText(context,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ),
               ),
@@ -48,11 +50,14 @@ class _ListComponentState extends State<ListComponent> {
                 children: [
                   Text(
                     '•',
-                    style: AppTextStyles.boldText(context),
+                    style: AppTextStyles.boldText(context,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                   Text(
                     text,
-                    style: AppTextStyles.lightText(context, size: 14),
+                    style: AppTextStyles.lightText(context,
+                        size: 14,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               );
@@ -68,10 +73,14 @@ class _ListComponentState extends State<ListComponent> {
                 spacing: 10,
                 children: [
                   Text("${paper.title}:",
-                      style: AppTextStyles.boldText(context, size: 14)),
+                      style: AppTextStyles.boldText(context,
+                          size: 14,
+                          color: Theme.of(context).colorScheme.onSurface)),
                   Text(
                     paper.description,
-                    style: AppTextStyles.italicText(context, size: 14),
+                    style: AppTextStyles.italicText(context,
+                        size: 14,
+                        color: Theme.of(context).colorScheme.onSurface),
                   )
                 ],
               );

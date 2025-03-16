@@ -131,7 +131,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                             builder: (context) =>
                                 EditCharacterPage(char: widget.char)));
                   },
-                  tipo: 0,
+                  tipo: 3,
                   icon: PhosphorIconsBold.pencilSimple,
                 ),
                 if (!deleting)
@@ -168,7 +168,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                         );
                       }
                     },
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.trash,
                   ),
                 if (deleting)

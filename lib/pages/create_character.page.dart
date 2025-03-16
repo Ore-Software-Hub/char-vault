@@ -668,7 +668,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -699,7 +699,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -726,7 +726,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -753,7 +753,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -785,7 +785,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -816,7 +816,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -841,7 +841,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),

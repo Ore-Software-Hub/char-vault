@@ -68,7 +68,9 @@ class _FightPageState extends State<FightPage> {
                 children: [
                   Text(
                     "Informações",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -114,7 +116,9 @@ class _FightPageState extends State<FightPage> {
                       ),
                       bottom: Text(
                         "Armadura",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -153,7 +157,9 @@ class _FightPageState extends State<FightPage> {
                       ),
                       bottom: Text(
                         "Iniciativa",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -192,7 +198,9 @@ class _FightPageState extends State<FightPage> {
                     ),
                     bottom: Text(
                       "Deslocamento",
-                      style: AppTextStyles.lightText(context, size: 12),
+                      style: AppTextStyles.lightText(context,
+                          size: 12,
+                          color: Theme.of(context).colorScheme.onSurface),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -229,7 +237,7 @@ class _FightPageState extends State<FightPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),
@@ -243,7 +251,9 @@ class _FightPageState extends State<FightPage> {
                 children: [
                   Text(
                     "Resistências & Imunidades",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -266,11 +276,13 @@ class _FightPageState extends State<FightPage> {
                 children: [
                   Text(
                     "Status",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                   ButtonComponent(
                     pressed: () => {},
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.plus,
                   )
                 ],

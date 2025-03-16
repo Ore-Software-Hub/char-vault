@@ -66,11 +66,13 @@ class _BackPackPageState extends State<BackPackPage> {
                 children: [
                   Text(
                     "Dinheiro",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                   ButtonComponent(
                     pressed: () => {},
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.plus,
                   )
                 ],
@@ -117,7 +119,9 @@ class _BackPackPageState extends State<BackPackPage> {
                       ),
                       bottom: Text(
                         curr.type,
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       ),
                     );
@@ -153,7 +157,7 @@ class _BackPackPageState extends State<BackPackPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),

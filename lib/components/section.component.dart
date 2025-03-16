@@ -110,7 +110,7 @@ class _SectionComponentState extends State<SectionComponent> {
                         widget.list.remove(item);
                       })
                     },
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.minus,
                   )
                 ],
@@ -142,7 +142,7 @@ class _SectionComponentState extends State<SectionComponent> {
                         widget.list.remove(item);
                       })
                     },
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.minus,
                   )
                 ],
@@ -182,7 +182,7 @@ class _SectionComponentState extends State<SectionComponent> {
                         widget.list.remove(item);
                       })
                     },
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.minus,
                   )
                 ],
@@ -232,7 +232,7 @@ class _SectionComponentState extends State<SectionComponent> {
                         widget.list.remove(item);
                       })
                     },
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.minus,
                   )
                 ],

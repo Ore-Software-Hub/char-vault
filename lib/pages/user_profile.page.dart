@@ -88,13 +88,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(30),
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(20),
               blurRadius: 5,
               spreadRadius: 2,
               offset: Offset(2, 4),
             )
           ],
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Row(
@@ -132,10 +132,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       color: Theme.of(context).colorScheme.secondary, size: 20),
                 ),
                 Text(_user!.email,
-                    style: AppTextStyles.lightText(context, size: 14)),
+                    style: AppTextStyles.lightText(context,
+                        size: 14,
+                        color: Theme.of(context).colorScheme.onSurface)),
                 Text(
                   'v$appVersion',
-                  style: AppTextStyles.italicText(context, size: 14),
+                  style: AppTextStyles.italicText(context,
+                      size: 14, color: Theme.of(context).colorScheme.onSurface),
                 ),
               ],
             )
@@ -167,7 +170,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   pressed: () {
                     _pullRefresh();
                   },
-                  tipo: 0,
+                  tipo: 3,
                   icon: PhosphorIconsBold.arrowsClockwise,
                 )
               ],
@@ -252,7 +255,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     Brightness.light
                 ? PhosphorIconsThin.moonStars
                 : PhosphorIconsThin.sun,
-            tipo: 0,
+            tipo: 3,
           ),
           ButtonComponent(
             pressed: () {
@@ -264,7 +267,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               );
             },
             icon: PhosphorIconsBold.signOut,
-            tipo: 0,
+            tipo: 3,
           ),
         ],
         forceMaterialTransparency: true,

@@ -98,7 +98,7 @@ class _PapersPageState extends State<PapersPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),
@@ -138,7 +138,7 @@ class _PapersPageState extends State<PapersPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),
@@ -178,7 +178,7 @@ class _PapersPageState extends State<PapersPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),

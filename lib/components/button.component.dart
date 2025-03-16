@@ -6,7 +6,7 @@ class ButtonComponent extends StatefulWidget {
   const ButtonComponent(
       {super.key,
       required this.pressed,
-      this.tipo = 3,
+      this.tipo = 0,
       this.icon,
       this.label,
       this.loading = false,
@@ -63,12 +63,16 @@ class _ButtonComponentState extends State<ButtonComponent> {
     final bool isDisabled = widget.disabled || widget.pressed == null;
 
     if (widget.tipo == 0) {
-      return IconButton(
+      return ElevatedButton(
         style: buttonStyle(),
         onPressed: isDisabled ? null : widget.pressed,
-        icon: PhosphorIcon(widget.icon!),
+        child: Text(
+          widget.label!,
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
       );
     }
+
     if (widget.tipo == 1) {
       return ElevatedButton.icon(
         style: buttonStyle(),
@@ -82,10 +86,23 @@ class _ButtonComponentState extends State<ButtonComponent> {
         label: Text(widget.label!),
       );
     }
-    return ElevatedButton(
-      style: buttonStyle(),
-      onPressed: isDisabled ? null : widget.pressed,
-      child: Text(widget.label!),
-    );
+
+    if (widget.tipo == 2) {
+      return TextButton(
+        onPressed: isDisabled ? null : widget.pressed,
+        child: Text(
+          widget.label!,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+      );
+    }
+    if (widget.tipo == 3) {
+      return IconButton(
+        style: buttonStyle(),
+        onPressed: isDisabled ? null : widget.pressed,
+        icon: PhosphorIcon(widget.icon!),
+      );
+    }
+    return Container();
   }
 }

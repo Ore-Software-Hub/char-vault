@@ -108,32 +108,32 @@ class _InitialPageState extends State<InitialPage> {
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
         animationDuration: const Duration(milliseconds: 200),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         color: Theme.of(context).colorScheme.primary,
         onTap: _onItemTapped,
-        items: const [
+        items: [
           PhosphorIcon(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             PhosphorIconsThin.house,
           ),
           PhosphorIcon(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             PhosphorIconsThin.user,
           ),
           PhosphorIcon(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             PhosphorIconsThin.sword,
           ),
           PhosphorIcon(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             PhosphorIconsThin.backpack,
           ),
           PhosphorIcon(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             PhosphorIconsThin.scroll,
           ),
           PhosphorIcon(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onPrimary,
             PhosphorIconsThin.note,
           ),
         ],

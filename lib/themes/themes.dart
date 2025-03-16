@@ -24,6 +24,6 @@ ThemeData darkTheme = ThemeData(
       primary: cores.primaryDark,
       onPrimary: Colors.black,
       secondary: cores.secondaryDark,
-      onSecondary: Colors.black,
+      onSecondary: Colors.white,
       tertiary: cores.tertiaryDark),
 );

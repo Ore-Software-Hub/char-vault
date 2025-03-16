@@ -1,3 +1,4 @@
+import 'package:CharVault/components/bottomsheet/life.bs.component.dart';
 import 'package:CharVault/components/bottomsheet/skills.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
@@ -6,6 +7,7 @@ import 'package:CharVault/components/header.component.dart';
 import 'package:CharVault/components/line.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -136,27 +138,26 @@ class _HomePageState extends State<HomePage> {
                   CardComponent(
                       top: InkWell(
                         onTap: () async {
-                          // final newLifeVal = await showModalBottomSheet<String>(
-                          //   backgroundColor:
-                          //       Theme.of(context).colorScheme.secondary,
-                          //   showDragHandle: true,
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => EditLifeBottomSheetComponent(
-                          //     curLife: _char!.curLife,
-                          //     maxLife: _char!.maxLife,
-                          //   ),
-                          // );
+                          final newLife = await showModalBottomSheet<List<int>>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => LifeBSComponent(
+                              curLife: _char!.details.curLife,
+                              maxLife: _char!.details.maxLife,
+                            ),
+                          );
 
-                          // if (newLifeVal != null) {
-                          //   setState(() {
-                          //     _char!.curLife = newLifeVal;
-                          //     Provider.of<LoginProvider>(context, listen: false)
-                          //         .updateUser(char: _char);
-                          //   });
-                          //   await DatabaseService.updateCharacter(
-                          //       _char!.id, _char!.toMap());
-                          // }
+                          if (newLife != null) {
+                            setState(() {
+                              _char!.details.curLife = newLife[0];
+                              _char!.details.maxLife = newLife[1];
+                              Provider.of<LoginProvider>(context, listen: false)
+                                  .updateUser(char: _char);
+                            });
+                            await DatabaseService.updateCharacter(
+                                _char!.id, _char!.toMap());
+                          }
                         },
                         child: Text(
                           "${_char!.details.curLife}/${_char!.details.maxLife}",

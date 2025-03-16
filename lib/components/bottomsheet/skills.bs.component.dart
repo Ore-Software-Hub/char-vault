@@ -1,11 +1,8 @@
 import 'package:CharVault/components/button.component.dart';
-import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/line.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/styles/font.styles.dart';
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SkillsBSComponent extends StatefulWidget {
   const SkillsBSComponent({

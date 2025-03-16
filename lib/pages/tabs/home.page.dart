@@ -1,3 +1,4 @@
+import 'package:CharVault/components/bottomsheet/skills.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/features.component.dart';
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Habilidades",
+                    "Perícias",
                     style: AppTextStyles.boldText(context,
                         size: 20,
                         color: Theme.of(context).colorScheme.onSurface),
@@ -85,13 +86,13 @@ class _HomePageState extends State<HomePage> {
                   ButtonComponent(
                       tipo: 2,
                       pressed: () {
-                        // showModalBottomSheet(
-                        //     context: context,
-                        //     useSafeArea: true,
-                        //     isScrollControlled: true,
-                        //     showDragHandle: true,
-                        //     builder: (context) => SkillsBottomSheetComponent(
-                        //         skills: _char!.skills!));
+                        showModalBottomSheet(
+                            context: context,
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            showDragHandle: true,
+                            builder: (context) =>
+                                SkillsBSComponent(features: _char!.features));
                       },
                       label: "Ver Todos")
                 ],

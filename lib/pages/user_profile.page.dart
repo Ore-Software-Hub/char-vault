@@ -46,7 +46,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
           setState(() {
             timer.cancel();
             loading = false;
-            Provider.of<LoginProvider>(context, listen: false).updateUser();
             _user =
                 Provider.of<LoginProvider>(context, listen: false).userModel;
             loadChars();
@@ -191,9 +190,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             width: MediaQuery.of(context).size.width,
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                              color: Colors.grey[300], // Sem preenchimento
-                              borderRadius:
-                                  BorderRadius.circular(10.0), // Raio da borda
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withAlpha(20),
+                                  blurRadius: 5,
+                                  spreadRadius: 2,
+                                  offset: Offset(2, 4),
+                                )
+                              ],
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: const Row(
                               children: [
@@ -227,7 +236,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       )
                     : Column(
                         children: chars.map<CharDetailsComponent>((char) {
-                          return CharDetailsComponent(char: char);
+                          return CharDetailsComponent(
+                              char: char,
+                              updated: () {
+                                _pullRefresh();
+                              });
                         }).toList(),
                       )
           ],

@@ -4,7 +4,6 @@ import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/pages/edit_character.page.dart';
 import 'package:CharVault/pages/initial.page.dart';
-import 'package:CharVault/pages/user_profile.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
@@ -15,9 +14,11 @@ import 'package:provider/provider.dart';
 import 'package:auto_scroll_text/auto_scroll_text.dart';
 
 class CharDetailsComponent extends StatefulWidget {
-  const CharDetailsComponent({super.key, required this.char});
+  const CharDetailsComponent(
+      {super.key, required this.char, required this.updated});
 
   final CharacterModel char;
+  final Function() updated;
 
   @override
   State<CharDetailsComponent> createState() => _CharDetailsComponentState();
@@ -160,12 +161,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                           deleting = false;
                         });
 
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UserProfilePage()),
-                          (route) => false,
-                        );
+                        widget.updated();
                       }
                     },
                     tipo: 3,

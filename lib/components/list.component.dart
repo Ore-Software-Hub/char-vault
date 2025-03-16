@@ -40,51 +40,54 @@ class _ListComponentState extends State<ListComponent> {
             ],
           ),
         if (widget.list is List<String>)
-          Wrap(
-            direction: Axis.vertical,
-            spacing: 4.0, // Espaçamento horizontal entre os widgets
-            runSpacing: 8.0, // Espaçamento vertical entre as linhas
-            children: widget.list.map<Row>((text) {
-              return Row(
-                spacing: 10,
-                children: [
-                  Text(
-                    '•',
-                    style: AppTextStyles.boldText(context,
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                  Text(
-                    text,
-                    style: AppTextStyles.lightText(context,
-                        size: 14,
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                ],
-              );
-            }).toList(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              spacing: 4.0, // Espaçamento horizontal entre os widgets
+              children: widget.list.map<Row>((text) {
+                return Row(
+                  spacing: 10,
+                  children: [
+                    Text(
+                      '•',
+                      style: AppTextStyles.boldText(context,
+                          color: Theme.of(context).colorScheme.onSurface),
+                    ),
+                    Text(
+                      text,
+                      style: AppTextStyles.lightText(context,
+                          size: 14,
+                          color: Theme.of(context).colorScheme.onSurface),
+                    ),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         if (widget.list is List<PapersModel>)
-          Wrap(
-            direction: Axis.vertical,
-            spacing: 4.0, // Espaçamento horizontal entre os widgets
-            runSpacing: 8.0, // Espaçamento vertical entre as linhas
-            children: widget.list.map<Row>((paper) {
-              return Row(
-                spacing: 10,
-                children: [
-                  Text("${paper.title}:",
-                      style: AppTextStyles.boldText(context,
-                          size: 14,
-                          color: Theme.of(context).colorScheme.onSurface)),
-                  Text(
-                    paper.description,
-                    style: AppTextStyles.italicText(context,
-                        size: 14,
-                        color: Theme.of(context).colorScheme.onSurface),
-                  )
-                ],
-              );
-            }).toList(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: widget.list.map<Row>((paper) {
+                return Row(
+                    spacing: 5,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("${paper.title}:",
+                          style: AppTextStyles.boldText(context,
+                              size: 14,
+                              color: Theme.of(context).colorScheme.onSurface)),
+                      Expanded(
+                        child: Text(
+                          paper.description,
+                          style: AppTextStyles.italicText(context,
+                              size: 14,
+                              color: Theme.of(context).colorScheme.onSurface),
+                        ),
+                      )
+                    ]);
+              }).toList(),
+            ),
           ),
       ],
     );

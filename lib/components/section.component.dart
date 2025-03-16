@@ -131,7 +131,8 @@ class _SectionComponentState extends State<SectionComponent> {
                         padding: EdgeInsets.all(8),
                         child: Text(
                           item,
-                          style: AppTextStyles.lightText(context),
+                          style: AppTextStyles.lightText(context,
+                              color: Theme.of(context).colorScheme.onTertiary),
                         ),
                       ),
                     ),

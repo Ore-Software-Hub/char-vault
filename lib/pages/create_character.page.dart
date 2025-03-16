@@ -261,7 +261,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: Colors.black.withAlpha(100),
                           borderRadius:
                               BorderRadius.circular(10), //<-- SEE HERE
                         ),
@@ -269,7 +269,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                             onPressed: () {
                               selectImage();
                             },
-                            icon: const Icon(Icons.image_search))),
+                            icon: const Icon(
+                              Icons.image_search,
+                              color: Colors.white,
+                            ))),
                   ],
                 ),
                 const SizedBox(
@@ -685,6 +688,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
                         title: "Talento",
+                        body: true,
                       ),
                     ),
                   );
@@ -760,6 +764,30 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             const SizedBox(
               height: 10,
             ),
+            SectionComponent(
+              title: "Imunidades",
+              list: immunities,
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Imunidade",
+                      ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      immunities.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 3,
+                icon: PhosphorIconsBold.plus,
+              ),
+            ),
           ],
         );
       case 3: // Inventário
@@ -773,8 +801,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   List<String>? resultado = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          AddPaperPage(title: "Moeda", keyboardType: 'number'),
+                      builder: (context) => AddPaperPage(
+                          title: "Moeda", body: true, keyboardType: 'number'),
                     ),
                   );
 
@@ -802,6 +830,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
                         title: "Relacionamento",
+                        body: true,
                       ),
                     ),
                   );

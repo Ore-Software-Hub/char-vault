@@ -22,7 +22,7 @@ ThemeData darkTheme = ThemeData(
       surface: cores.surfaceDark,
       onSurface: Colors.white,
       primary: cores.primaryDark,
-      onPrimary: Colors.black,
+      onPrimary: Colors.white,
       secondary: cores.secondaryDark,
       onSecondary: Colors.white,
       tertiary: cores.tertiaryDark),

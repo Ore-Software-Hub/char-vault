@@ -145,6 +145,8 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                       bool confirmed = await showDialog(
                           context: context,
                           builder: (BuildContext context) => DialogComponent(
+                              title: "Remover Personagem",
+                              type: "question",
                               message:
                                   'Deseja realmente excluir o personagem ${widget.char.name}'));
 

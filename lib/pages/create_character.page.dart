@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/dialog.component.dart';
 import 'package:CharVault/components/dropdown.component.dart';
 import 'package:CharVault/components/section.component.dart';
 import 'package:CharVault/components/textfield.component.dart';
@@ -534,17 +535,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          // showModalBottomSheet(
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) =>
-                          //       const TextBottomSheetComponent(
-                          //     textList: [
-                          //       "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
-                          //       "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
-                          //     ],
-                          //   ),
-                          // );
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => DialogComponent(
+                                  message:
+                                      'Utilize os valores padrões (15, 14, 13, 12, 10 e 8) ou se preferir, jogue 4d6 então ignore o menor valor e some o restante'));
                         },
                         icon: const PhosphorIcon(PhosphorIconsRegular.info),
                       )

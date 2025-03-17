@@ -11,7 +11,8 @@ class ButtonComponent extends StatefulWidget {
       this.icon,
       this.label,
       this.loading = false,
-      this.disabled = false});
+      this.disabled = false,
+      this.selected = false});
 
   final Function()? pressed;
   final int tipo;
@@ -19,6 +20,7 @@ class ButtonComponent extends StatefulWidget {
   final String? label;
   final bool loading;
   final bool disabled;
+  final bool selected;
 
   @override
   State<ButtonComponent> createState() => _ButtonComponentState();
@@ -91,6 +93,17 @@ class _ButtonComponentState extends State<ButtonComponent> {
     if (widget.tipo == 2) {
       return TextButton(
         onPressed: isDisabled ? null : widget.pressed,
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              side: BorderSide(
+                  color: widget.selected
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surface),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+          ),
+        ),
         child: Text(
           widget.label!,
           style: TextStyle(color: Theme.of(context).colorScheme.primary),

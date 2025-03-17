@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/pages/dice.page.dart';
 import 'package:CharVault/pages/tabs/backpack.page.dart';
 import 'package:CharVault/pages/tabs/fight.page.dart';
 import 'package:CharVault/pages/tabs/home.page.dart';
@@ -94,13 +95,8 @@ class _InitialPageState extends State<InitialPage> {
             ),
             label: 'Rolar dados',
             onTap: () {
-              // showModalBottomSheet(
-              //   backgroundColor: Theme.of(context).colorScheme.secondary,
-              //   showDragHandle: true,
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) => const DiceBottomSheetComponent(),
-              // );
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => DicePage()));
             },
           ),
         ],

@@ -654,6 +654,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Idiomas",
               list: languages,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -681,6 +682,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Talentos",
               list: talents,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -713,6 +715,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Vulnerabilidades",
               list: vulnerabilities,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -740,6 +743,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Resistências",
               list: resistance,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -767,6 +771,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Imunidades",
               list: immunities,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -796,6 +801,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Dinheiro",
               list: currency,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -823,6 +829,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Relacionamentos",
               list: relationships,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -855,6 +862,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Armas, Itens & Magias",
               list: inventory,
+              removeItem: (index) async {},
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(

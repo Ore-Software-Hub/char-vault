@@ -129,7 +129,16 @@ class _BackPackPageState extends State<BackPackPage> {
           child: SectionComponent(
               title: 'Itens',
               list: _inventory,
-              pressed: (index) {},
+              selectedItem: (index) {},
+              removeItem: (index) async {
+                await DatabaseService.deleteItem(
+                    _char!.id, _inventory[index].id);
+                setState(() {
+                  _inventory.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(

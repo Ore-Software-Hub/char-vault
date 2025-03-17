@@ -214,6 +214,14 @@ class _FightPageState extends State<FightPage> {
           child: SectionComponent(
               title: 'Armas',
               list: _weapons,
+              removeItem: (index) async {
+                await DatabaseService.deleteItem(_char!.id, _weapons[index].id);
+                setState(() {
+                  _weapons.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(

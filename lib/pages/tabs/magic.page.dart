@@ -38,7 +38,7 @@ class _MagicPageState extends State<MagicPage> {
     var charItems = await DatabaseService.getCharItems(_char!.id);
 
     for (var item in charItems) {
-      if (item.tipo != 'Arma') {
+      if (item.tipo == 'Magia') {
         items.add(item);
       }
     }
@@ -122,13 +122,22 @@ class _MagicPageState extends State<MagicPage> {
           child: SectionComponent(
               title: 'Magias',
               list: _inventory,
-              pressed: (index) {
+              selectedItem: (index) {
                 setState(() {
                   var magic = _inventory[index];
                   if (!_selectedMagic.contains(magic)) {
                     _selectedMagic.add(magic);
                   }
                 });
+              },
+              removeItem: (index) async {
+                await DatabaseService.deleteItem(
+                    _char!.id, _inventory[index].id);
+                setState(() {
+                  _inventory.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
               },
               buttonAdd: ButtonComponent(
                 pressed: () async {

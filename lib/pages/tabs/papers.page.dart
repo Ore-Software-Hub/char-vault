@@ -68,7 +68,7 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: 'Missões',
               list: _missions,
-              pressed: (index) {
+              selectedItem: (index) {
                 showModalBottomSheet(
                   context: context,
                   useSafeArea: true,
@@ -78,6 +78,15 @@ class _PapersPageState extends State<PapersPage> {
                   builder: (context) =>
                       PapersBSComponent(paper: _missions[index]),
                 );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deletePaper(
+                    _char!.id, _missions[index].id);
+                setState(() {
+                  _missions.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
               },
               buttonAdd: ButtonComponent(
                 pressed: () async {
@@ -118,7 +127,7 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: "NPC's & Relacionamentos",
               list: _relationships,
-              pressed: (index) {
+              selectedItem: (index) {
                 showModalBottomSheet(
                   context: context,
                   useSafeArea: true,
@@ -128,6 +137,15 @@ class _PapersPageState extends State<PapersPage> {
                   builder: (context) =>
                       PapersBSComponent(paper: _relationships[index]),
                 );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deletePaper(
+                    _char!.id, _relationships[index].id);
+                setState(() {
+                  _relationships.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
               },
               buttonAdd: ButtonComponent(
                 pressed: () async {
@@ -168,7 +186,7 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: 'Anotações',
               list: _notes,
-              pressed: (index) {
+              selectedItem: (index) {
                 showModalBottomSheet(
                   context: context,
                   useSafeArea: true,
@@ -177,6 +195,14 @@ class _PapersPageState extends State<PapersPage> {
                   barrierColor: Color.fromARGB(255, 229, 201, 144),
                   builder: (context) => PapersBSComponent(paper: _notes[index]),
                 );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deletePaper(_char!.id, _notes[index].id);
+                setState(() {
+                  _notes.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
               },
               buttonAdd: ButtonComponent(
                 pressed: () async {

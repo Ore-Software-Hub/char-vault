@@ -12,13 +12,15 @@ class SectionComponent extends StatefulWidget {
     required this.title,
     required this.list,
     required this.buttonAdd,
-    this.pressed,
+    required this.removeItem,
+    this.selectedItem,
   });
 
   final String title;
   final List<dynamic> list;
   final Widget buttonAdd;
-  final Function(int index)? pressed;
+  final Function(int index)? selectedItem;
+  final Function(int index) removeItem;
 
   @override
   State<SectionComponent> createState() => _SectionComponentState();
@@ -81,7 +83,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        widget.pressed!(index);
+                        widget.selectedItem!(index);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -107,7 +109,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   ButtonComponent(
                     pressed: () => {
                       setState(() {
-                        widget.list.remove(item);
+                        widget.removeItem(index);
                       })
                     },
                     tipo: 3,
@@ -122,7 +124,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        widget.pressed!(index);
+                        widget.selectedItem!(index);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -140,7 +142,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   ButtonComponent(
                     pressed: () => {
                       setState(() {
-                        widget.list.remove(item);
+                        widget.removeItem(index);
                       })
                     },
                     tipo: 3,
@@ -155,7 +157,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        widget.pressed!(index);
+                        widget.selectedItem!(index);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -180,7 +182,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   ButtonComponent(
                     pressed: () => {
                       setState(() {
-                        widget.list.remove(item);
+                        widget.removeItem(index);
                       })
                     },
                     tipo: 3,
@@ -205,8 +207,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   ),
                   Expanded(
                       child: InkWell(
-                    onTap: () =>
-                        widget.pressed != null ? widget.pressed!(index) : null,
+                    onTap: () => {widget.selectedItem!(index)},
                     child: Container(
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.tertiary,
@@ -229,7 +230,7 @@ class _SectionComponentState extends State<SectionComponent> {
                   ButtonComponent(
                     pressed: () => {
                       setState(() {
-                        widget.list.remove(item);
+                        widget.removeItem(index);
                       })
                     },
                     tipo: 3,

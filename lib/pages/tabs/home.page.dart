@@ -1,3 +1,4 @@
+import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
 import 'package:CharVault/components/bottomsheet/life.bs.component.dart';
 import 'package:CharVault/components/bottomsheet/skills.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
@@ -5,6 +6,8 @@ import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/features.component.dart';
 import 'package:CharVault/components/header.component.dart';
 import 'package:CharVault/components/line.component.dart';
+import 'package:CharVault/constants/strings.constants.dart';
+import 'package:CharVault/helpers/shared_preferences.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
@@ -21,11 +24,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CharacterModel? _char;
+  int inspiration = 0;
 
   @override
   void initState() {
     super.initState();
     _char = Provider.of<LoginProvider>(context, listen: false).userModel!.char;
+    loadData();
+  }
+
+  loadData() async {
+    var data =
+        await SharedPreferencesHelper.getData('int', Constants.inspiration);
+    setState(() {
+      inspiration = data;
+    });
   }
 
   @override
@@ -208,12 +221,33 @@ class _HomePageState extends State<HomePage> {
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
-                      top: Text(
-                        "+1",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22,
+                      top: InkWell(
+                        onTap: () async {
+                          final newAmount = await showModalBottomSheet<int>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => CardBSComponent(
+                              amount: inspiration,
+                              title: "Inspiração",
+                            ),
+                          );
+
+                          if (newAmount != null) {
+                            setState(() {
+                              inspiration = newAmount;
+                              SharedPreferencesHelper.setData(
+                                  'int', Constants.inspiration, inspiration);
+                            });
+                          }
+                        },
+                        child: Text(
+                          inspiration <= 0 ? '0' : '+$inspiration',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22,
+                          ),
                         ),
                       ),
                       bottom: Text(

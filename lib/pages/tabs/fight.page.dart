@@ -4,7 +4,9 @@ import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
 import 'package:CharVault/components/list.component.dart';
 import 'package:CharVault/components/section.component.dart';
+import 'package:CharVault/constants/strings.constants.dart';
 import 'package:CharVault/helpers/notification.helper.dart';
+import 'package:CharVault/helpers/shared_preferences.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/add_item.page.dart';
@@ -26,12 +28,14 @@ class _FightPageState extends State<FightPage> {
   List<ItemModel> _weapons = [];
   CharacterModel? _char;
   bool loading = true;
+  int iniciative = 0;
 
   @override
   void initState() {
     super.initState();
     _char = Provider.of<LoginProvider>(context, listen: false).userModel!.char;
     loadItems();
+    loadData();
   }
 
   loadItems() async {
@@ -50,6 +54,14 @@ class _FightPageState extends State<FightPage> {
         loading = false;
       });
     }
+  }
+
+  loadData() async {
+    var data =
+        await SharedPreferencesHelper.getData('int', Constants.iniciative);
+    setState(() {
+      iniciative = data;
+    });
   }
 
   @override
@@ -121,30 +133,26 @@ class _FightPageState extends State<FightPage> {
                   CardComponent(
                       top: InkWell(
                         onTap: () async {
-                          // final newLifeVal = await showModalBottomSheet<String>(
-                          //   backgroundColor:
-                          //       Theme.of(context).colorScheme.secondary,
-                          //   showDragHandle: true,
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => EditLifeBottomSheetComponent(
-                          //     curLife: _char!.curLife,
-                          //     maxLife: _char!.maxLife,
-                          //   ),
-                          // );
+                          final newAmount = await showModalBottomSheet<int>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => CardBSComponent(
+                              amount: iniciative,
+                              title: "Iniciativa",
+                            ),
+                          );
 
-                          // if (newLifeVal != null) {
-                          //   setState(() {
-                          //     _char!.curLife = newLifeVal;
-                          //     Provider.of<LoginProvider>(context, listen: false)
-                          //         .updateUser(char: _char);
-                          //   });
-                          //   await DatabaseService.updateCharacter(
-                          //       _char!.id, _char!.toMap());
-                          // }
+                          if (newAmount != null) {
+                            setState(() {
+                              iniciative = newAmount;
+                              SharedPreferencesHelper.setData(
+                                  'int', Constants.iniciative, iniciative);
+                            });
+                          }
                         },
                         child: Text(
-                          "1",
+                          iniciative <= 0 ? '0' : '+$iniciative',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,

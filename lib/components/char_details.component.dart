@@ -1,6 +1,8 @@
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/dialog.component.dart';
+import 'package:CharVault/constants/strings.constants.dart';
 import 'package:CharVault/helpers/notification.helper.dart';
+import 'package:CharVault/helpers/shared_preferences.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/pages/edit_character.page.dart';
 import 'package:CharVault/pages/initial.page.dart';
@@ -62,6 +64,8 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                   onTap: () {
                     Provider.of<LoginProvider>(context, listen: false)
                         .updateUser(char: widget.char);
+                    SharedPreferencesHelper.removeMany(
+                        [Constants.iniciative, Constants.inspiration]);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

@@ -34,7 +34,7 @@ class _CardBSComponentState extends State<CardBSComponent> {
   }
 
   void onAmountChanged(int newAmount) {
-    var newVal = max(0, amount + newAmount);
+    var newVal = max(0, newAmount);
     setState(() {
       amount = newVal;
     });

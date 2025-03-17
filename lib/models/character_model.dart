@@ -71,13 +71,14 @@ class CharacterDetails {
   int armorClass;
   int movement;
   int age;
-  ClassModel classModel;
+  int proficiency;
   String race;
   String height;
   String weight;
   String alignment;
   String background;
   String backstory;
+  ClassModel classModel;
   List<String> languages;
   List<String> immunities;
   List<String> vulnerabilities;
@@ -90,13 +91,14 @@ class CharacterDetails {
     required this.armorClass,
     required this.movement,
     required this.age,
-    required this.classModel,
+    required this.proficiency,
     required this.race,
     required this.height,
     required this.weight,
     required this.alignment,
     required this.background,
     required this.backstory,
+    required this.classModel,
     required this.languages,
     required this.immunities,
     required this.vulnerabilities,
@@ -111,13 +113,14 @@ class CharacterDetails {
       'armorClass': armorClass,
       'movement': movement,
       'age': age,
-      'classModel': classModel.toMap(),
+      'proficiency': proficiency,
       'race': race,
       'height': height,
       'weight': weight,
       'alignment': alignment,
       'background': background,
       'backstory': backstory,
+      'classModel': classModel.toMap(),
       'languages': languages,
       'immunity': immunities,
       'vulnerabilities': vulnerabilities,
@@ -150,13 +153,14 @@ class CharacterDetails {
       armorClass: map['armorClass'] ?? 0,
       movement: map['movement'] ?? 0,
       age: map['age'] ?? 0,
-      classModel: ClassModel.fromMap(map['classModel']),
+      proficiency: map['proficiency'] ?? 0,
       race: map['race'] ?? '',
       height: map['height'] ?? '',
       weight: map['weight'] ?? '',
       alignment: map['alignment'] ?? '',
       background: map['background'] ?? '',
       backstory: map['backstory'] ?? '',
+      classModel: ClassModel.fromMap(map['classModel']),
       languages: languages,
       immunities: immunities,
       vulnerabilities: vulnerabilities,

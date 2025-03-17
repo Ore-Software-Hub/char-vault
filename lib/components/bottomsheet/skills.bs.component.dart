@@ -61,72 +61,73 @@ class _SkillsBSComponentState extends State<SkillsBSComponent> {
         skills.add(skill);
       }
     }
-    return Container(
-      height: 400,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Text(
-            "Perícias",
-            style: AppTextStyles.boldText(context, size: 24),
-          ),
-          const Divider(
-            indent: 150,
-            endIndent: 150,
-          ),
-          if (skills.isEmpty) Text("Nenhuma perícia encontrada"),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            spacing: 4.0, // Espaçamento horizontal entre os widgets
-            runSpacing: 8.0, // Espaçamento vertical entre as linhas
-            children: skills.map<LineComponent>((skill) {
-              return LineComponent(
-                title: skill.title,
-                value: skill.value.toString(),
-              );
-            }).toList(),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            spacing: 4.0, // Espaçamento horizontal entre os widgets
-            runSpacing: 8.0,
-            children: [
-              ButtonComponent(
-                pressed: () => filterSkills('Força'),
-                label: 'For',
-              ),
-              ButtonComponent(
-                pressed: () => filterSkills('Destreza'),
-                label: 'Des',
-              ),
-              ButtonComponent(
-                pressed: () => filterSkills('Constituição'),
-                label: 'Con',
-              ),
-              ButtonComponent(
-                pressed: () => filterSkills('Inteligência'),
-                label: 'Int',
-              ),
-              ButtonComponent(
-                pressed: () => filterSkills('Sabedoria'),
-                label: 'Sab',
-              ),
-              ButtonComponent(
-                pressed: () => filterSkills('Carisma'),
-                label: 'Car',
-              ),
-              ButtonComponent(
-                pressed: () => filterSkills(''),
-                label: 'Todos',
-              ),
-            ],
-          )
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text(
+              "Perícias",
+              style: AppTextStyles.boldText(context, size: 24),
+            ),
+            const Divider(
+              indent: 150,
+              endIndent: 150,
+            ),
+            if (skills.isEmpty) Text("Nenhuma perícia encontrada"),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              spacing: 4.0, // Espaçamento horizontal entre os widgets
+              runSpacing: 8.0, // Espaçamento vertical entre as linhas
+              children: skills.map<LineComponent>((skill) {
+                return LineComponent(
+                  title: skill.title,
+                  value: skill.value.toString(),
+                );
+              }).toList(),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              spacing: 4.0, // Espaçamento horizontal entre os widgets
+              runSpacing: 8.0,
+              children: [
+                ButtonComponent(
+                  pressed: () => filterSkills('Força'),
+                  label: 'For',
+                ),
+                ButtonComponent(
+                  pressed: () => filterSkills('Destreza'),
+                  label: 'Des',
+                ),
+                ButtonComponent(
+                  pressed: () => filterSkills('Constituição'),
+                  label: 'Con',
+                ),
+                ButtonComponent(
+                  pressed: () => filterSkills('Inteligência'),
+                  label: 'Int',
+                ),
+                ButtonComponent(
+                  pressed: () => filterSkills('Sabedoria'),
+                  label: 'Sab',
+                ),
+                ButtonComponent(
+                  pressed: () => filterSkills('Carisma'),
+                  label: 'Car',
+                ),
+                ButtonComponent(
+                  pressed: () => filterSkills(''),
+                  label: 'Todos',
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

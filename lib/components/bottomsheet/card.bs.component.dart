@@ -42,25 +42,26 @@ class _CardBSComponentState extends State<CardBSComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          CardComponent(
-              top: Text(
-                "$amount",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 22,
-                ),
-              ),
-              bottom: Text(widget.title)),
-          const SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             children: [
+              CardComponent(
+                  top: Text(
+                    "$amount",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 22,
+                    ),
+                  ),
+                  bottom: Text(widget.title)),
+              const SizedBox(height: 16.0),
               TextFieldComponent(
                   label: title,
                   keyboardType: TextInputType.number,
@@ -71,28 +72,28 @@ class _CardBSComponentState extends State<CardBSComponent> {
                     });
                   },
                   value: strAmount),
+              const SizedBox(height: 20),
+              Row(
+                spacing: 10,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonComponent(
+                    pressed: () => Navigator.pop(context),
+                    label: "Cancelar",
+                    tipo: 1,
+                    icon: PhosphorIconsBold.x,
+                  ),
+                  ButtonComponent(
+                    pressed: () => Navigator.pop(context, amount),
+                    label: "Salvar",
+                    tipo: 1,
+                    icon: PhosphorIconsBold.floppyDisk,
+                  ),
+                ],
+              )
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
-            spacing: 10,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonComponent(
-                pressed: () => Navigator.pop(context),
-                label: "Cancelar",
-                tipo: 1,
-                icon: PhosphorIconsBold.x,
-              ),
-              ButtonComponent(
-                pressed: () => Navigator.pop(context, amount),
-                label: "Salvar",
-                tipo: 1,
-                icon: PhosphorIconsBold.floppyDisk,
-              ),
-            ],
-          )
-        ],
+        ),
       ),
     );
   }

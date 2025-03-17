@@ -649,7 +649,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Idiomas",
               list: languages,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  languages.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -677,7 +681,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Talentos",
               list: talents,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  talents.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -710,7 +718,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Vulnerabilidades",
               list: vulnerabilities,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  vulnerabilities.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -738,7 +750,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Resistências",
               list: resistance,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  resistance.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -766,7 +782,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Imunidades",
               list: immunities,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  immunities.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -796,7 +816,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Dinheiro",
               list: currency,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  currency.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -824,7 +848,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Relacionamentos",
               list: relationships,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  relationships.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -857,7 +885,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Armas, Itens & Magias",
               list: inventory,
-              removeItem: (index) async {},
+              removeItem: (index) async {
+                setState(() {
+                  inventory.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(
@@ -1154,56 +1186,57 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       appBar: AppBar(
         title: const Text('Novo personagem'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: EdgeInsets.all(8),
             child: Column(
-          children: [
-            Row(
               children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  alignment: AlignmentDirectional.center,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: step == 4
-                      ? const PhosphorIcon(
-                          PhosphorIconsBold.floppyDisk,
-                          color: Colors.white,
-                          size: 15,
-                        )
-                      : Text(step.toString(),
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
+                Row(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      alignment: AlignmentDirectional.center,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: step == 4
+                          ? const PhosphorIcon(
+                              PhosphorIconsBold.floppyDisk,
+                              color: Colors.white,
+                              size: 15,
+                            )
+                          : Text(step.toString(),
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
-                  width: 10,
+                  height: 10,
                 ),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                returnStep(step),
               ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            returnStep(step),
-          ],
-        )),
+            )),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           left: 16,
           right: 16,
-          bottom: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              16, // Empurra o botão para cima quando o teclado aparece
         ),
         child: Row(
           children: [

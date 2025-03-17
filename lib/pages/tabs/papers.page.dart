@@ -110,7 +110,9 @@ class _PapersPageState extends State<PapersPage> {
                         tipo: 'mission');
                     try {
                       itemId = await DatabaseService.addPaper(_char!.id, paper);
-                      _missions.add(paper);
+                      setState(() {
+                        _missions.add(paper);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Missão ${itemId != null ? "Adicionada" : "Não adicionada"}",
@@ -169,7 +171,9 @@ class _PapersPageState extends State<PapersPage> {
                         tipo: 'relationship');
                     try {
                       itemId = await DatabaseService.addPaper(_char!.id, paper);
-                      _relationships.add(paper);
+                      setState(() {
+                        _relationships.add(paper);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Relacionamento ${itemId != null ? "Adicionado" : "Não adicionado"}",
@@ -226,7 +230,9 @@ class _PapersPageState extends State<PapersPage> {
                         tipo: 'note');
                     try {
                       itemId = await DatabaseService.addPaper(_char!.id, paper);
-                      _relationships.add(paper);
+                      setState(() {
+                        _relationships.add(paper);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Nota ${itemId != null ? "Adicionada" : "Não adicionada"}",

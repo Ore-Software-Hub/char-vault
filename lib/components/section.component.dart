@@ -134,7 +134,7 @@ class _SectionComponentState extends State<SectionComponent> {
                         child: Text(
                           item,
                           style: AppTextStyles.lightText(context,
-                              color: Theme.of(context).colorScheme.onTertiary),
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                       ),
                     ),

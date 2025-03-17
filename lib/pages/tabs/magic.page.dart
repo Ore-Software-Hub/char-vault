@@ -71,12 +71,10 @@ class _MagicPageState extends State<MagicPage> {
                         size: 20,
                         color: Theme.of(context).colorScheme.onSurface),
                   ),
-                  ButtonComponent(
-                    pressed: () => {},
-                    tipo: 3,
-                    icon: PhosphorIconsBold.plus,
-                  )
                 ],
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,

@@ -68,13 +68,17 @@ class _SkillsBSComponentState extends State<SkillsBSComponent> {
           children: [
             Text(
               "Perícias",
-              style: AppTextStyles.boldText(context, size: 24),
+              style: AppTextStyles.boldText(context,
+                  size: 24, color: Theme.of(context).colorScheme.onSurface),
             ),
             const Divider(
               indent: 150,
               endIndent: 150,
             ),
             if (skills.isEmpty) Text("Nenhuma perícia encontrada"),
+            const SizedBox(
+              height: 20,
+            ),
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               alignment: WrapAlignment.center,
@@ -88,7 +92,7 @@ class _SkillsBSComponentState extends State<SkillsBSComponent> {
               }).toList(),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,

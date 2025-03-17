@@ -49,7 +49,8 @@ class _LifeBSComponentState extends State<LifeBSComponent> {
             children: [
               Text(
                 "Alterar Vida",
-                style: AppTextStyles.boldText(context, size: 20),
+                style: AppTextStyles.boldText(context,
+                    size: 20, color: Theme.of(context).colorScheme.onSurface),
               ),
               const SizedBox(height: 10),
               Row(

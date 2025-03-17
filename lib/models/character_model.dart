@@ -38,7 +38,8 @@ class CharacterModel {
 
     var features = FeatureDetails.fromList(map['features']);
 
-    var currency = Currency.fromList(map['currency']);
+    List<Currency> currency =
+        map['currency'] != null ? Currency.fromList(map['currency']) : [];
 
     var character = CharacterModel(
         id: map['id'] ?? '',

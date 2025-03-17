@@ -1,7 +1,9 @@
+import 'package:CharVault/components/bottomsheet/level.bs.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/user_model.dart';
 import 'package:CharVault/pages/user_profile.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:auto_scroll_text/auto_scroll_text.dart';
@@ -112,35 +114,54 @@ class _HeaderComponentState extends State<HeaderComponent> {
       width = level.length * 20;
     }
 
-    return Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: width,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.transparent, // Sem preenchimento
-                borderRadius: BorderRadius.circular(8.0), // Raio da borda
-                border: Border.all(
-                  color: Colors.amber, // Cor da borda
-                  width: 2.0, // Largura da borda
+    return InkWell(
+      onTap: () async {
+        final newAmount = await showModalBottomSheet<int>(
+          showDragHandle: true,
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => LevelBSComponent(
+            amount: "${_char!.details.level}",
+          ),
+        );
+
+        if (newAmount != null) {
+          setState(() {
+            _char!.details.movement = newAmount;
+          });
+          await DatabaseService.updateCharacter(_char!.id, _char!.toMap());
+        }
+      },
+      child: Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: width,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.transparent, // Sem preenchimento
+                  borderRadius: BorderRadius.circular(8.0), // Raio da borda
+                  border: Border.all(
+                    color: Colors.amber, // Cor da borda
+                    width: 2.0, // Largura da borda
+                  ),
+                ),
+                child: returnText(level, FontWeight.bold, !collapse ? 32 : 24,
+                    color: Colors.amber),
+              ),
+              const Text(
+                "Nível",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w100,
                 ),
               ),
-              child: returnText(level, FontWeight.bold, !collapse ? 32 : 24,
-                  color: Colors.amber),
-            ),
-            const Text(
-              "Nível",
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w100,
-              ),
-            ),
-          ],
-        ));
+            ],
+          )),
+    );
   }
 
   @override

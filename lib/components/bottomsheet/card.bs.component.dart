@@ -68,7 +68,10 @@ class _CardBSComponentState extends State<CardBSComponent> {
                   onChanged: (val) {
                     setState(() {
                       strAmount = val;
-                      onAmountChanged(int.parse(val));
+                      try {
+                        var valNum = int.parse(val);
+                        onAmountChanged(valNum);
+                      } catch (e) {}
                     });
                   },
                   value: strAmount),

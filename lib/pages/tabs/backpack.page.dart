@@ -1,4 +1,4 @@
-import 'package:CharVault/components/bottomsheet/currency.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
@@ -91,8 +91,10 @@ class _BackPackPageState extends State<BackPackPage> {
                             showDragHandle: true,
                             context: context,
                             isScrollControlled: true,
-                            builder: (context) =>
-                                CurrencyBSComponent(currency: curr),
+                            builder: (context) => CardBSComponent(
+                              title: curr.type,
+                              amount: curr.amount,
+                            ),
                           );
 
                           if (newAmount != null) {

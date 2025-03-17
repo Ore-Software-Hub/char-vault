@@ -1,3 +1,4 @@
+import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
@@ -83,27 +84,23 @@ class _FightPageState extends State<FightPage> {
                   CardComponent(
                       top: InkWell(
                         onTap: () async {
-                          // final newLifeVal = await showModalBottomSheet<String>(
-                          //   backgroundColor:
-                          //       Theme.of(context).colorScheme.secondary,
-                          //   showDragHandle: true,
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => EditLifeBottomSheetComponent(
-                          //     curLife: _char!.curLife,
-                          //     maxLife: _char!.maxLife,
-                          //   ),
-                          // );
+                          final newAmount = await showModalBottomSheet<int>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => CardBSComponent(
+                              title: 'Armadura',
+                              amount: _char!.details.armorClass,
+                            ),
+                          );
 
-                          // if (newLifeVal != null) {
-                          //   setState(() {
-                          //     _char!.curLife = newLifeVal;
-                          //     Provider.of<LoginProvider>(context, listen: false)
-                          //         .updateUser(char: _char);
-                          //   });
-                          //   await DatabaseService.updateCharacter(
-                          //       _char!.id, _char!.toMap());
-                          // }
+                          if (newAmount != null) {
+                            setState(() {
+                              _char!.details.armorClass = newAmount;
+                            });
+                            await DatabaseService.updateCharacter(
+                                _char!.id, _char!.toMap());
+                          }
                         },
                         child: Text(
                           "${_char!.details.armorClass}",
@@ -165,27 +162,23 @@ class _FightPageState extends State<FightPage> {
                   CardComponent(
                     top: InkWell(
                       onTap: () async {
-                        // final newLifeVal = await showModalBottomSheet<String>(
-                        //   backgroundColor:
-                        //       Theme.of(context).colorScheme.secondary,
-                        //   showDragHandle: true,
-                        //   context: context,
-                        //   isScrollControlled: true,
-                        //   builder: (context) => EditLifeBottomSheetComponent(
-                        //     curLife: _char!.curLife,
-                        //     maxLife: _char!.maxLife,
-                        //   ),
-                        // );
+                        final newAmount = await showModalBottomSheet<int>(
+                          showDragHandle: true,
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => CardBSComponent(
+                            title: 'Deslocamento',
+                            amount: _char!.details.movement,
+                          ),
+                        );
 
-                        // if (newLifeVal != null) {
-                        //   setState(() {
-                        //     _char!.curLife = newLifeVal;
-                        //     Provider.of<LoginProvider>(context, listen: false)
-                        //         .updateUser(char: _char);
-                        //   });
-                        //   await DatabaseService.updateCharacter(
-                        //       _char!.id, _char!.toMap());
-                        // }
+                        if (newAmount != null) {
+                          setState(() {
+                            _char!.details.movement = newAmount;
+                          });
+                          await DatabaseService.updateCharacter(
+                              _char!.id, _char!.toMap());
+                        }
                       },
                       child: Text(
                         "${_char!.details.movement}mt",

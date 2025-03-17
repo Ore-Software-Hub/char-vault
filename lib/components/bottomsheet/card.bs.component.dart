@@ -1,31 +1,35 @@
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
-import 'package:CharVault/models/character_model.dart';
+import 'package:CharVault/components/textfield.component.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class CurrencyBSComponent extends StatefulWidget {
-  const CurrencyBSComponent({
+class CardBSComponent extends StatefulWidget {
+  const CardBSComponent({
     super.key,
-    required this.currency,
+    required this.amount,
+    required this.title,
   });
 
-  final Currency currency;
+  final int amount;
+  final String title;
 
   @override
-  State<CurrencyBSComponent> createState() => _CurrencyBSComponentState();
+  State<CardBSComponent> createState() => _CardBSComponentState();
 }
 
-class _CurrencyBSComponentState extends State<CurrencyBSComponent> {
+class _CardBSComponentState extends State<CardBSComponent> {
   int amount = 0;
+  String title = '', strAmount = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      amount = widget.currency.amount;
+      amount = widget.amount;
+      title = widget.title;
     });
   }
 
@@ -45,37 +49,28 @@ class _CurrencyBSComponentState extends State<CurrencyBSComponent> {
         children: [
           CardComponent(
               top: Text(
-                "${amount}pç",
+                "$amount",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w900,
                   fontSize: 22,
                 ),
               ),
-              bottom: Text(widget.currency.type)),
+              bottom: Text(widget.title)),
           const SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ButtonComponent(
-                pressed: () => onAmountChanged(-5),
-                label: "-5",
-              ),
-              const SizedBox(width: 3),
-              ButtonComponent(
-                pressed: () => onAmountChanged(-1),
-                label: "-1",
-              ),
-              const SizedBox(width: 10),
-              ButtonComponent(
-                pressed: () => onAmountChanged(1),
-                label: "+1",
-              ),
-              const SizedBox(width: 3),
-              ButtonComponent(
-                pressed: () => onAmountChanged(5),
-                label: "+5",
-              )
+              TextFieldComponent(
+                  label: title,
+                  keyboardType: TextInputType.number,
+                  onChanged: (val) {
+                    setState(() {
+                      strAmount = val;
+                      onAmountChanged(int.parse(val));
+                    });
+                  },
+                  value: strAmount),
             ],
           ),
           const SizedBox(height: 20),

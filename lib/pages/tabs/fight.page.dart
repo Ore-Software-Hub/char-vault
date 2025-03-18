@@ -120,7 +120,9 @@ class _FightPageState extends State<FightPage> {
                           }
                         },
                         child: Text(
-                          "${_char!.details.armorClass}",
+                          _char!.details.armorClass > 0
+                              ? '+${_char!.details.armorClass}'
+                              : '${_char!.details.armorClass}',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w900,
@@ -272,8 +274,8 @@ class _FightPageState extends State<FightPage> {
           child: SectionComponent(
               title: 'Armaduras',
               list: _armor,
-              selectedItem: (index) {
-                showModalBottomSheet(
+              selectedItem: (index) async {
+                bool? selected = await showModalBottomSheet(
                   context: context,
                   useSafeArea: true,
                   isScrollControlled: true,
@@ -281,6 +283,15 @@ class _FightPageState extends State<FightPage> {
                   barrierColor: Color.fromARGB(255, 229, 201, 144),
                   builder: (context) => ItemsBSComponent(item: _armor[index]),
                 );
+                if (selected != null) {
+                  int shared = await SharedPreferencesHelper.getData(
+                      'int', Constants.selectedArmor);
+                  setState(() {
+                    _char!.details.armorClass += shared;
+                  });
+                  await DatabaseService.updateCharacter(
+                      _char!.id, _char!.toMap());
+                }
               },
               removeItem: (index) async {
                 await DatabaseService.deleteItem(_char!.id, _armor[index].id);

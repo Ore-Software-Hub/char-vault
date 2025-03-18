@@ -1,6 +1,6 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/textfield.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/textfield.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:flutter/material.dart';
 
 class AddPaperPage extends StatefulWidget {
@@ -30,13 +30,14 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Adicionar ${widget.title}'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+          child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-            child: Column(
+        child: Column(
           children: [
             const SizedBox(
               height: 10,
@@ -66,13 +67,14 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
                       },
                   value: _body),
           ],
-        )),
-      ),
+        ),
+      )),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           left: 16,
           right: 16,
-          bottom: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              16, // Empurra o botão para cima quando o teclado aparece
         ),
         child: Row(
           children: [
@@ -87,14 +89,16 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
               label: "Adicionar",
               pressed: () {
                 if (_title.isEmpty || (widget.body && _body.isEmpty)) {
-                  NotificationHelper.showSnackBar(context,
-                      "Informe ${widget.title}${widget.body ? ' e ${widget.body}' : ''}",
-                      level: 2);
+                  NotificationHelper.showSnackBar(
+                    context,
+                    "Informe ${widget.title}${widget.body ? ' e ${widget.body}' : ''}",
+                    level: 2,
+                  );
                 } else {
                   Navigator.pop(context, [_title, _body]);
                 }
               },
-            )
+            ),
           ],
         ),
       ),

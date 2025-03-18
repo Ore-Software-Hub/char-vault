@@ -1,10 +1,11 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/dialog.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/dialog.component.dart';
+import 'package:CharVault/constants/strings.constants.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
+import 'package:CharVault/helpers/shared_preferences.helper.dart';
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/pages/edit_character_page.dart';
-import 'package:CharVault/pages/initial_page.dart';
-import 'package:CharVault/pages/user_profile_page.dart';
+import 'package:CharVault/pages/edit_character.page.dart';
+import 'package:CharVault/pages/initial.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
@@ -15,9 +16,11 @@ import 'package:provider/provider.dart';
 import 'package:auto_scroll_text/auto_scroll_text.dart';
 
 class CharDetailsComponent extends StatefulWidget {
-  const CharDetailsComponent({super.key, required this.char});
+  const CharDetailsComponent(
+      {super.key, required this.char, required this.updated});
 
   final CharacterModel char;
+  final Function() updated;
 
   @override
   State<CharDetailsComponent> createState() => _CharDetailsComponentState();
@@ -61,6 +64,8 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                   onTap: () {
                     Provider.of<LoginProvider>(context, listen: false)
                         .updateUser(char: widget.char);
+                    SharedPreferencesHelper.removeMany(
+                        [Constants.iniciative, Constants.inspiration, Constants.selectedMagic]);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -131,7 +136,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                             builder: (context) =>
                                 EditCharacterPage(char: widget.char)));
                   },
-                  tipo: 0,
+                  tipo: 3,
                   icon: PhosphorIconsBold.pencilSimple,
                 ),
                 if (!deleting)
@@ -140,6 +145,8 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                       bool confirmed = await showDialog(
                           context: context,
                           builder: (BuildContext context) => DialogComponent(
+                              title: "Remover Personagem",
+                              type: "question",
                               message:
                                   'Deseja realmente excluir o personagem ${widget.char.name}'));
 
@@ -160,15 +167,10 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                           deleting = false;
                         });
 
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UserProfilePage()),
-                          (route) => false,
-                        );
+                        widget.updated();
                       }
                     },
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.trash,
                   ),
                 if (deleting)

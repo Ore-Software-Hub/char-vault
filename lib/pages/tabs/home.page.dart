@@ -1,9 +1,16 @@
-import 'package:CharVault/components2/card.component.dart';
-import 'package:CharVault/components2/features.component.dart';
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components2/line.component.dart';
+import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/life.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/skills.bs.component.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/card.component.dart';
+import 'package:CharVault/components/features.component.dart';
+import 'package:CharVault/components/header.component.dart';
+import 'package:CharVault/components/line.component.dart';
+import 'package:CharVault/constants/strings.constants.dart';
+import 'package:CharVault/helpers/shared_preferences.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/providers/login_provider.dart';
+import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/styles/font.styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,11 +24,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CharacterModel? _char;
+  int inspiration = 0;
 
   @override
   void initState() {
     super.initState();
     _char = Provider.of<LoginProvider>(context, listen: false).userModel!.char;
+    loadData();
+  }
+
+  loadData() async {
+    var data =
+        await SharedPreferencesHelper.getData('int', Constants.inspiration);
+    setState(() {
+      inspiration = data;
+    });
   }
 
   @override
@@ -49,7 +66,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Características",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -74,21 +93,23 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Habilidades",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    "Perícias",
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        // showModalBottomSheet(
-                        //     context: context,
-                        //     useSafeArea: true,
-                        //     isScrollControlled: true,
-                        //     showDragHandle: true,
-                        //     builder: (context) => SkillsBottomSheetComponent(
-                        //         skills: _char!.skills!));
+                  ButtonComponent(
+                      tipo: 2,
+                      pressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            showDragHandle: true,
+                            builder: (context) =>
+                                SkillsBSComponent(features: _char!.features));
                       },
-                      child: Text("Ver Todos",
-                          style: AppTextStyles.lightText(context, size: 14)))
+                      label: "Ver Todos")
                 ],
               ),
               Wrap(
@@ -115,7 +136,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Outras Informações",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
@@ -128,27 +151,26 @@ class _HomePageState extends State<HomePage> {
                   CardComponent(
                       top: InkWell(
                         onTap: () async {
-                          // final newLifeVal = await showModalBottomSheet<String>(
-                          //   backgroundColor:
-                          //       Theme.of(context).colorScheme.secondary,
-                          //   showDragHandle: true,
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => EditLifeBottomSheetComponent(
-                          //     curLife: _char!.curLife,
-                          //     maxLife: _char!.maxLife,
-                          //   ),
-                          // );
+                          final newLife = await showModalBottomSheet<List<int>>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => LifeBSComponent(
+                              curLife: _char!.details.curLife,
+                              maxLife: _char!.details.maxLife,
+                            ),
+                          );
 
-                          // if (newLifeVal != null) {
-                          //   setState(() {
-                          //     _char!.curLife = newLifeVal;
-                          //     Provider.of<LoginProvider>(context, listen: false)
-                          //         .updateUser(char: _char);
-                          //   });
-                          //   await DatabaseService.updateCharacter(
-                          //       _char!.id, _char!.toMap());
-                          // }
+                          if (newLife != null) {
+                            setState(() {
+                              _char!.details.curLife = newLife[0];
+                              _char!.details.maxLife = newLife[1];
+                              Provider.of<LoginProvider>(context, listen: false)
+                                  .updateUser(char: _char);
+                            });
+                            await DatabaseService.updateCharacter(
+                                _char!.id, _char!.toMap());
+                          }
                         },
                         child: Text(
                           "${_char!.details.curLife}/${_char!.details.maxLife}",
@@ -161,7 +183,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "PV Atual",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -175,7 +199,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "Dado PV",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
@@ -189,21 +215,46 @@ class _HomePageState extends State<HomePage> {
                       ),
                       bottom: Text(
                         "Proficiência",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                   CardComponent(
-                      top: Text(
-                        "+1",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22,
+                      top: InkWell(
+                        onTap: () async {
+                          final newAmount = await showModalBottomSheet<int>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => CardBSComponent(
+                              amount: inspiration,
+                              title: "Inspiração",
+                            ),
+                          );
+
+                          if (newAmount != null) {
+                            setState(() {
+                              inspiration = newAmount;
+                              SharedPreferencesHelper.setData(
+                                  'int', Constants.inspiration, inspiration);
+                            });
+                          }
+                        },
+                        child: Text(
+                          inspiration <= 0 ? '0' : '+$inspiration',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 22,
+                          ),
                         ),
                       ),
                       bottom: Text(
                         "Inspiração",
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )),
                 ],

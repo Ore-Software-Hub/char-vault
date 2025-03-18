@@ -1,10 +1,10 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components2/section.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/bottomsheet/papers.bs.component.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/header.component.dart';
+import 'package:CharVault/components/section.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/paper.model.dart';
-import 'package:CharVault/pages/add_item.page.dart';
 import 'package:CharVault/pages/add_paper.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
 import 'package:CharVault/services/database_service.dart';
@@ -68,7 +68,26 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: 'Missões',
               list: _missions,
-              pressed: (index) {},
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      PapersBSComponent(paper: _missions[index]),
+                );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deletePaper(
+                    _char!.id, _missions[index].id);
+                setState(() {
+                  _missions.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -91,7 +110,9 @@ class _PapersPageState extends State<PapersPage> {
                         tipo: 'mission');
                     try {
                       itemId = await DatabaseService.addPaper(_char!.id, paper);
-                      _missions.add(paper);
+                      setState(() {
+                        _missions.add(paper);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Missão ${itemId != null ? "Adicionada" : "Não adicionada"}",
@@ -99,7 +120,7 @@ class _PapersPageState extends State<PapersPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),
@@ -108,7 +129,26 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: "NPC's & Relacionamentos",
               list: _relationships,
-              pressed: (index) {},
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      PapersBSComponent(paper: _relationships[index]),
+                );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deletePaper(
+                    _char!.id, _relationships[index].id);
+                setState(() {
+                  _relationships.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -131,7 +171,9 @@ class _PapersPageState extends State<PapersPage> {
                         tipo: 'relationship');
                     try {
                       itemId = await DatabaseService.addPaper(_char!.id, paper);
-                      _relationships.add(paper);
+                      setState(() {
+                        _relationships.add(paper);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Relacionamento ${itemId != null ? "Adicionado" : "Não adicionado"}",
@@ -139,7 +181,7 @@ class _PapersPageState extends State<PapersPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),
@@ -148,7 +190,24 @@ class _PapersPageState extends State<PapersPage> {
           child: SectionComponent(
               title: 'Anotações',
               list: _notes,
-              pressed: (index) {},
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) => PapersBSComponent(paper: _notes[index]),
+                );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deletePaper(_char!.id, _notes[index].id);
+                setState(() {
+                  _notes.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -171,7 +230,9 @@ class _PapersPageState extends State<PapersPage> {
                         tipo: 'note');
                     try {
                       itemId = await DatabaseService.addPaper(_char!.id, paper);
-                      _relationships.add(paper);
+                      setState(() {
+                        _relationships.add(paper);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Nota ${itemId != null ? "Adicionada" : "Não adicionada"}",
@@ -179,7 +240,7 @@ class _PapersPageState extends State<PapersPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),

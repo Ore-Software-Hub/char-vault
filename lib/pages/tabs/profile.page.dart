@@ -1,7 +1,6 @@
-import 'package:CharVault/components2/card.component.dart';
-import 'package:CharVault/components2/line.component.dart';
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components2/list.component.dart';
+import 'package:CharVault/components/line.component.dart';
+import 'package:CharVault/components/header.component.dart';
+import 'package:CharVault/components/list.component.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/paper.model.dart';
 import 'package:CharVault/providers/login_provider.dart';
@@ -59,12 +58,10 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Sobre",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyles.boldText(context,
+                    size: 20, color: Theme.of(context).colorScheme.onSurface),
               ),
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -89,12 +86,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       value: _char!.details.weight),
                   LineComponent(
                       line: true,
-                      title: "Alinhamento",
-                      value: _char!.details.alignment),
-                  LineComponent(
-                      line: true,
                       title: "Antecedentes",
                       value: _char!.details.background),
+                  LineComponent(
+                      line: true,
+                      title: "Alinhamento",
+                      value: _char!.details.alignment),
                 ],
               )
             ],
@@ -140,7 +137,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Text(
                     "Outras Informações",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),

@@ -1,8 +1,10 @@
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/card.component.dart';
-import 'package:CharVault/components2/header.component.dart';
-import 'package:CharVault/components2/section.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/items.bs.component.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/card.component.dart';
+import 'package:CharVault/components/header.component.dart';
+import 'package:CharVault/components/section.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/add_item.page.dart';
@@ -37,7 +39,9 @@ class _BackPackPageState extends State<BackPackPage> {
     var charItems = await DatabaseService.getCharItems(_char!.id);
 
     for (var item in charItems) {
-      if (item.tipo != 'Arma' && item.tipo != 'Magia') {
+      if (item.tipo != 'Arma' &&
+          item.tipo != 'Magia' &&
+          item.tipo != 'Armadura') {
         items.add(item);
       }
     }
@@ -66,11 +70,13 @@ class _BackPackPageState extends State<BackPackPage> {
                 children: [
                   Text(
                     "Dinheiro",
-                    style: AppTextStyles.boldText(context, size: 20),
+                    style: AppTextStyles.boldText(context,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurface),
                   ),
                   ButtonComponent(
                     pressed: () => {},
-                    tipo: 0,
+                    tipo: 3,
                     icon: PhosphorIconsBold.plus,
                   )
                 ],
@@ -84,27 +90,23 @@ class _BackPackPageState extends State<BackPackPage> {
                     return CardComponent(
                       top: InkWell(
                         onTap: () async {
-                          // final newLifeVal = await showModalBottomSheet<String>(
-                          //   backgroundColor:
-                          //       Theme.of(context).colorScheme.secondary,
-                          //   showDragHandle: true,
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) => EditLifeBottomSheetComponent(
-                          //     curLife: _char!.curLife,
-                          //     maxLife: _char!.maxLife,
-                          //   ),
-                          // );
+                          final newAmount = await showModalBottomSheet<int>(
+                            showDragHandle: true,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => CardBSComponent(
+                              title: curr.type,
+                              amount: curr.amount,
+                            ),
+                          );
 
-                          // if (newLifeVal != null) {
-                          //   setState(() {
-                          //     _char!.curLife = newLifeVal;
-                          //     Provider.of<LoginProvider>(context, listen: false)
-                          //         .updateUser(char: _char);
-                          //   });
-                          //   await DatabaseService.updateCharacter(
-                          //       _char!.id, _char!.toMap());
-                          // }
+                          if (newAmount != null) {
+                            setState(() {
+                              curr.amount = newAmount;
+                            });
+                            await DatabaseService.updateCharacter(
+                                _char!.id, _char!.toMap());
+                          }
                         },
                         child: Text(
                           "${curr.amount}pç",
@@ -117,7 +119,9 @@ class _BackPackPageState extends State<BackPackPage> {
                       ),
                       bottom: Text(
                         curr.type,
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       ),
                     );
@@ -130,6 +134,26 @@ class _BackPackPageState extends State<BackPackPage> {
           child: SectionComponent(
               title: 'Itens',
               list: _inventory,
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      ItemsBSComponent(item: _inventory[index]),
+                );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deleteItem(
+                    _char!.id, _inventory[index].id);
+                setState(() {
+                  _inventory.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(
@@ -145,7 +169,9 @@ class _BackPackPageState extends State<BackPackPage> {
                     try {
                       itemId =
                           await DatabaseService.addItem(_char!.id, resultado);
-                      _inventory.add(resultado);
+                      setState(() {
+                        _inventory.add(resultado);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
@@ -153,7 +179,7 @@ class _BackPackPageState extends State<BackPackPage> {
                     }
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               )),
         ),

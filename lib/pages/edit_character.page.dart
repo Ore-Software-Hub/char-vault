@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/textfield.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/textfield.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/services/database_service.dart';
 import 'package:CharVault/services/storage_service.dart';
@@ -171,8 +171,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
                           Icons.image,
                           color: Theme.of(context)
                               .colorScheme
-                              .surface
-                              .withOpacity(.6),
+                              .surface,
                         ),
                       )),
                   title: const Text("Galeria"),
@@ -186,8 +185,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
                           Icons.delete_forever_outlined,
                           color: Theme.of(context)
                               .colorScheme
-                              .surface
-                              .withOpacity(.6),
+                              .surface,
                         ),
                       )),
                   title: const Text("Remover"),

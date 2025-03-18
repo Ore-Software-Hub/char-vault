@@ -1,16 +1,17 @@
 import 'dart:async';
 
 import 'package:CharVault/models/character_model.dart';
-import 'package:CharVault/pages/tabs/backpack_page.dart';
-import 'package:CharVault/pages/tabs/fight_page.dart';
-import 'package:CharVault/pages/tabs/home_page.dart';
+import 'package:CharVault/pages/dice.page.dart';
+import 'package:CharVault/pages/tabs/backpack.page.dart';
+import 'package:CharVault/pages/tabs/fight.page.dart';
+import 'package:CharVault/pages/tabs/home.page.dart';
 import 'package:CharVault/pages/tabs/magic.page.dart';
 import 'package:CharVault/pages/tabs/papers.page.dart';
-import 'package:CharVault/pages/tabs/profile_page.dart';
+import 'package:CharVault/pages/tabs/profile.page.dart';
 import 'package:CharVault/providers/login_provider.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,7 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 0;
   bool loading = true;
-  CharacterModel? _char;
+  CharacterModel? char;
 
   List<Widget> tabs = [
     const HomePage(),
@@ -48,7 +49,7 @@ class _InitialPageState extends State<InitialPage> {
           setState(() {
             timer.cancel();
             loading = false;
-            _char = Provider.of<LoginProvider>(context, listen: false)
+            char = Provider.of<LoginProvider>(context, listen: false)
                 .userModel!
                 .char;
           });
@@ -94,49 +95,51 @@ class _InitialPageState extends State<InitialPage> {
             ),
             label: 'Rolar dados',
             onTap: () {
-              // showModalBottomSheet(
-              //   backgroundColor: Theme.of(context).colorScheme.secondary,
-              //   showDragHandle: true,
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) => const DiceBottomSheetComponent(),
-              // );
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => DicePage()));
             },
           ),
         ],
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 50,
-        animationDuration: const Duration(milliseconds: 200),
-        backgroundColor: Colors.white,
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         color: Theme.of(context).colorScheme.primary,
-        onTap: _onItemTapped,
-        items: const [
-          PhosphorIcon(
-            color: Colors.white,
-            PhosphorIconsThin.house,
-          ),
-          PhosphorIcon(
-            color: Colors.white,
-            PhosphorIconsThin.user,
-          ),
-          PhosphorIcon(
-            color: Colors.white,
-            PhosphorIconsThin.sword,
-          ),
-          PhosphorIcon(
-            color: Colors.white,
-            PhosphorIconsThin.backpack,
-          ),
-          PhosphorIcon(
-            color: Colors.white,
-            PhosphorIconsThin.scroll,
-          ),
-          PhosphorIcon(
-            color: Colors.white,
-            PhosphorIconsThin.note,
-          ),
-        ],
+        child: GNav(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.onPrimary,
+          activeColor: Theme.of(context).colorScheme.primary,
+          selectedIndex: _selectedIndex,
+          onTabChange: _onItemTapped,
+          gap: 8,
+          tabBackgroundColor: Theme.of(context).colorScheme.onPrimary,
+          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          tabs: [
+            GButton(
+              icon: PhosphorIconsThin.house,
+              text: 'Início',
+            ),
+            GButton(
+              icon: PhosphorIconsThin.user,
+              text: 'Personagem',
+            ),
+            GButton(
+              icon: PhosphorIconsThin.sword,
+              text: 'Combate',
+            ),
+            GButton(
+              icon: PhosphorIconsThin.backpack,
+              text: 'Inventário',
+            ),
+            GButton(
+              icon: PhosphorIconsThin.scroll,
+              text: 'Magias',
+            ),
+            GButton(
+              icon: PhosphorIconsThin.note,
+              text: 'Documentos',
+            ),
+          ],
+        ),
       ),
     );
   }

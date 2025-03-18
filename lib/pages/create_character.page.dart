@@ -1,9 +1,10 @@
 import 'dart:io';
-import 'package:CharVault/components/button_component.dart';
-import 'package:CharVault/components2/dropdown.component.dart';
-import 'package:CharVault/components2/section.component.dart';
-import 'package:CharVault/components2/textfield.component.dart';
-import 'package:CharVault/helpers/notification_helper.dart';
+import 'package:CharVault/components/button.component.dart';
+import 'package:CharVault/components/dialog.component.dart';
+import 'package:CharVault/components/dropdown.component.dart';
+import 'package:CharVault/components/section.component.dart';
+import 'package:CharVault/components/textfield.component.dart';
+import 'package:CharVault/helpers/notification.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/class.model.dart';
 import 'package:CharVault/models/item_model.dart';
@@ -205,13 +206,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   leading: CircleAvatar(
                       backgroundColor: Theme.of(context).colorScheme.onSurface,
                       child: Center(
-                        child: Icon(
-                          Icons.image,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(.6),
-                        ),
+                        child: Icon(Icons.image,
+                            color: Theme.of(context).colorScheme.surface),
                       )),
                   title: const Text("Galeria"),
                   onTap: () => {Navigator.pop(context), pickImage()},
@@ -220,13 +216,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                   leading: CircleAvatar(
                       backgroundColor: Theme.of(context).colorScheme.onSurface,
                       child: Center(
-                        child: Icon(
-                          Icons.delete_forever_outlined,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(.6),
-                        ),
+                        child: Icon(Icons.delete_forever_outlined,
+                            color: Theme.of(context).colorScheme.surface),
                       )),
                   title: const Text("Remover"),
                   onTap: () => {
@@ -271,7 +262,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.black.withAlpha(100),
                           borderRadius:
                               BorderRadius.circular(10), //<-- SEE HERE
                         ),
@@ -279,7 +270,10 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                             onPressed: () {
                               selectImage();
                             },
-                            icon: const Icon(Icons.image_search))),
+                            icon: const Icon(
+                              Icons.image_search,
+                              color: Colors.white,
+                            ))),
                   ],
                 ),
                 const SizedBox(
@@ -541,17 +535,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                       ),
                       IconButton(
                         onPressed: () {
-                          // showModalBottomSheet(
-                          //   context: context,
-                          //   isScrollControlled: true,
-                          //   builder: (context) =>
-                          //       const TextBottomSheetComponent(
-                          //     textList: [
-                          //       "Utilize valores padrão(15, 14, 13, 12, 10, 8)",
-                          //       "Ou role 4d6, depois descarte o menor valor e some o restante para cada atributo"
-                          //     ],
-                          //   ),
-                          // );
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => DialogComponent(
+                                  message:
+                                      'Utilize os valores padrões (15, 14, 13, 12, 10 e 8) ou se preferir, jogue 4d6 então ignore o menor valor e some o restante'));
                         },
                         icon: const PhosphorIcon(PhosphorIconsRegular.info),
                       )
@@ -661,6 +649,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Idiomas",
               list: languages,
+              removeItem: (index) async {
+                setState(() {
+                  languages.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -678,7 +671,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -688,6 +681,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Talentos",
               list: talents,
+              removeItem: (index) async {
+                setState(() {
+                  talents.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -695,6 +693,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
                         title: "Talento",
+                        body: true,
                       ),
                     ),
                   );
@@ -709,7 +708,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -719,6 +718,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Vulnerabilidades",
               list: vulnerabilities,
+              removeItem: (index) async {
+                setState(() {
+                  vulnerabilities.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -736,7 +740,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -746,6 +750,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Resistências",
               list: resistance,
+              removeItem: (index) async {
+                setState(() {
+                  resistance.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -763,12 +772,41 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
             const SizedBox(
               height: 10,
+            ),
+            SectionComponent(
+              title: "Imunidades",
+              list: immunities,
+              removeItem: (index) async {
+                setState(() {
+                  immunities.removeAt(index);
+                });
+              },
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  List<String>? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPaperPage(
+                        title: "Imunidade",
+                      ),
+                    ),
+                  );
+
+                  if (resultado != null) {
+                    setState(() {
+                      immunities.add(resultado[0]);
+                    });
+                  }
+                },
+                tipo: 3,
+                icon: PhosphorIconsBold.plus,
+              ),
             ),
           ],
         );
@@ -778,13 +816,18 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Dinheiro",
               list: currency,
+              removeItem: (index) async {
+                setState(() {
+                  currency.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          AddPaperPage(title: "Moeda", keyboardType: 'number'),
+                      builder: (context) => AddPaperPage(
+                          title: "Moeda", body: true, keyboardType: 'number'),
                     ),
                   );
 
@@ -795,7 +838,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -805,6 +848,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Relacionamentos",
               list: relationships,
+              removeItem: (index) async {
+                setState(() {
+                  relationships.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   List<String>? resultado = await Navigator.push(
@@ -812,6 +860,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     MaterialPageRoute(
                       builder: (context) => AddPaperPage(
                         title: "Relacionamento",
+                        body: true,
                       ),
                     ),
                   );
@@ -826,7 +875,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -836,6 +885,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             SectionComponent(
               title: "Armas, Itens & Magias",
               list: inventory,
+              removeItem: (index) async {
+                setState(() {
+                  inventory.removeAt(index);
+                });
+              },
               buttonAdd: ButtonComponent(
                 pressed: () async {
                   ItemModel? resultado = await Navigator.push(
@@ -851,7 +905,7 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
                     });
                   }
                 },
-                tipo: 0,
+                tipo: 3,
                 icon: PhosphorIconsBold.plus,
               ),
             ),
@@ -999,14 +1053,15 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       curLife: life[0],
       maxLife: life[1],
       level: int.parse(_level),
-      classModel: classChar!,
       age: int.parse(_age),
+      proficiency: getProficiencyBonus(int.parse(_level)),
       race: _race,
       height: _height,
       weight: _weight,
       alignment: _alignment,
       background: _background,
       backstory: _backstory,
+      classModel: classChar!,
       languages: languages,
       armorClass: 0,
       movement: 9,
@@ -1131,56 +1186,57 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
       appBar: AppBar(
         title: const Text('Novo personagem'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: EdgeInsets.all(8),
             child: Column(
-          children: [
-            Row(
               children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  alignment: AlignmentDirectional.center,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: step == 4
-                      ? const PhosphorIcon(
-                          PhosphorIconsBold.floppyDisk,
-                          color: Colors.white,
-                          size: 15,
-                        )
-                      : Text(step.toString(),
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
+                Row(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      alignment: AlignmentDirectional.center,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: step == 4
+                          ? const PhosphorIcon(
+                              PhosphorIconsBold.floppyDisk,
+                              color: Colors.white,
+                              size: 15,
+                            )
+                          : Text(step.toString(),
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
-                  width: 10,
+                  height: 10,
                 ),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                returnStep(step),
               ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            returnStep(step),
-          ],
-        )),
+            )),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           left: 16,
           right: 16,
-          bottom: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              16, // Empurra o botão para cima quando o teclado aparece
         ),
         child: Row(
           children: [

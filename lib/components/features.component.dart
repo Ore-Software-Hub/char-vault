@@ -80,7 +80,8 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                     children: [
                       Text(
                         getSign(feature.savingThrow ?? feature.modifier!),
-                        style: AppTextStyles.boldText(context),
+                        style: AppTextStyles.boldText(context,
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
                       Divider(
                         indent: 20,
@@ -88,7 +89,9 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                       ),
                       Text(
                         feature.title,
-                        style: AppTextStyles.lightText(context, size: 14),
+                        style: AppTextStyles.lightText(context,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )
                     ],
@@ -123,7 +126,9 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                     children: [
                       Text(
                         'Resistência',
-                        style: AppTextStyles.lightText(context, size: 12),
+                        style: AppTextStyles.lightText(context,
+                            size: 12,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
@@ -157,7 +162,8 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                     children: [
                       Text(
                         '${feature.value}',
-                        style: AppTextStyles.boldText(context),
+                        style: AppTextStyles.boldText(context,
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
                       Divider(
                         indent: 20,
@@ -165,7 +171,9 @@ class _FeaturesComponentState extends State<FeaturesComponent> {
                       ),
                       Text(
                         feature.title,
-                        style: AppTextStyles.lightText(context, size: 14),
+                        style: AppTextStyles.lightText(context,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                       )
                     ],

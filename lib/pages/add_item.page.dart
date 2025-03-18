@@ -6,18 +6,58 @@ import 'package:CharVault/models/item_model.dart';
 import 'package:flutter/material.dart';
 
 class AddItemPage extends StatefulWidget {
-  const AddItemPage({super.key});
+  const AddItemPage({super.key, this.type = 'all'});
+
+  final String type;
 
   @override
   State<AddItemPage> createState() => _CreateCharacterPageState();
 }
 
 class _CreateCharacterPageState extends State<AddItemPage> {
-  String name = "", value = "", tipo = "", quantity = "", description = "";
+  String name = "",
+      value = "",
+      tipo = "",
+      quantity = "",
+      description = "",
+      title = "";
+
+  List<ItemDropdown> types = [];
 
   @override
   void initState() {
     super.initState();
+    switch (widget.type) {
+      case 'weapon':
+        types = [
+          ItemDropdown(display: "Arma", value: 0),
+        ];
+        title = tipo = 'Arma';
+
+        break;
+      case 'armor':
+        types = [
+          ItemDropdown(display: "Armadura", value: 0),
+        ];
+        title = tipo = 'Armadura';
+        break;
+      case 'magic':
+        types = [
+          ItemDropdown(display: "Magia", value: 0),
+        ];
+        title = tipo = 'Magia';
+        break;
+      default:
+        types = [
+          ItemDropdown(display: "Consumíveis", value: 0),
+          ItemDropdown(display: "Equipamento", value: 0),
+          ItemDropdown(display: "Item", value: 0),
+          ItemDropdown(display: "Item mágico", value: 0),
+          ItemDropdown(display: "Objeto", value: 0),
+          ItemDropdown(display: "Outros", value: 0),
+        ];
+        title = "Item";
+    }
   }
 
   bool validateForm() {
@@ -50,16 +90,14 @@ class _CreateCharacterPageState extends State<AddItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adicionar Item'),
+        title: Text('Adicionar $title'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
             child: Column(
+          spacing: 10,
           children: [
-            const SizedBox(
-              height: 10,
-            ),
             TextFieldComponent(
                 label: 'Nome',
                 onChanged: (value) => {
@@ -68,38 +106,38 @@ class _CreateCharacterPageState extends State<AddItemPage> {
                       })
                     },
                 value: name),
-            const SizedBox(
-              height: 10,
-            ),
-            TextFieldComponent(
-                label: "Dano / Bônus",
-                hintText: "Dano da arma / Bônus de defesa",
-                onChanged: (val) => {
-                      setState(() {
-                        value = val;
-                      })
-                    },
-                value: value),
-            const SizedBox(
-              height: 10,
-            ),
+            if (widget.type != 'all')
+              TextFieldComponent(
+                  label: widget.type == 'armor' ? 'Defesa' : "Dados",
+                  hintText: widget.type == 'armor'
+                      ? "Bônus de defesa"
+                      : widget.type == 'magic'
+                          ? "Dados de dano / cura"
+                          : 'Dados de dano',
+                  onChanged: (val) => {
+                        setState(() {
+                          value = val;
+                        })
+                      },
+                  value: value),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              spacing: 8,
               children: [
-                Expanded(
-                  child: TextFieldComponent(
-                      label: "Quantidade",
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) => {
-                            setState(() {
-                              quantity = value;
-                            })
-                          },
-                      value: quantity),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
+                if (widget.type != 'magic' &&
+                    widget.type != 'armor' &&
+                    widget.type != 'weapon')
+                  Expanded(
+                    child: TextFieldComponent(
+                        label: "Quantidade",
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => {
+                              setState(() {
+                                quantity = value;
+                              })
+                            },
+                        value: quantity),
+                  ),
                 Expanded(
                   child: DropdownComponent(
                     value: tipo,
@@ -109,23 +147,10 @@ class _CreateCharacterPageState extends State<AddItemPage> {
                       });
                     },
                     hintText: "Tipo",
-                    items: [
-                      ItemDropdown(display: "Arma", value: 0),
-                      ItemDropdown(display: "Armadura", value: 0),
-                      ItemDropdown(display: "Consumíveis", value: 0),
-                      ItemDropdown(display: "Equipamento", value: 0),
-                      ItemDropdown(display: "Item", value: 0),
-                      ItemDropdown(display: "Item mágico", value: 0),
-                      ItemDropdown(display: "Magia", value: 0),
-                      ItemDropdown(display: "Objeto", value: 0),
-                      ItemDropdown(display: "Outros", value: 0),
-                    ],
+                    items: types,
                   ),
                 )
               ],
-            ),
-            const SizedBox(
-              height: 10,
             ),
             TextFieldComponent(
                 value: description,
@@ -140,10 +165,10 @@ class _CreateCharacterPageState extends State<AddItemPage> {
         )),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           left: 16,
           right: 16,
-          bottom: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
         ),
         child: Row(
           children: [
@@ -163,7 +188,7 @@ class _CreateCharacterPageState extends State<AddItemPage> {
                     title: name,
                     value: value,
                     tipo: tipo,
-                    quantity: quantity.isEmpty ? "1" : quantity,
+                    quantity: quantity.isEmpty ? null : quantity,
                     description: description,
                   );
                   Navigator.pop(context, item);

@@ -1,4 +1,5 @@
 import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/items.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
@@ -38,7 +39,9 @@ class _BackPackPageState extends State<BackPackPage> {
     var charItems = await DatabaseService.getCharItems(_char!.id);
 
     for (var item in charItems) {
-      if (item.tipo != 'Arma' && item.tipo != 'Magia') {
+      if (item.tipo != 'Arma' &&
+          item.tipo != 'Magia' &&
+          item.tipo != 'Armadura') {
         items.add(item);
       }
     }
@@ -131,7 +134,17 @@ class _BackPackPageState extends State<BackPackPage> {
           child: SectionComponent(
               title: 'Itens',
               list: _inventory,
-              selectedItem: (index) {},
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      ItemsBSComponent(item: _inventory[index]),
+                );
+              },
               removeItem: (index) async {
                 await DatabaseService.deleteItem(
                     _char!.id, _inventory[index].id);
@@ -156,7 +169,9 @@ class _BackPackPageState extends State<BackPackPage> {
                     try {
                       itemId =
                           await DatabaseService.addItem(_char!.id, resultado);
-                      _inventory.add(resultado);
+                      setState(() {
+                        _inventory.add(resultado);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",

@@ -1,8 +1,8 @@
 class ItemModel {
   String id;
   String title;
-  String quantity;
-  String value;
+  String? quantity;
+  String? value;
   String description;
   String tipo;
 

@@ -65,7 +65,7 @@ class _CharDetailsComponentState extends State<CharDetailsComponent> {
                     Provider.of<LoginProvider>(context, listen: false)
                         .updateUser(char: widget.char);
                     SharedPreferencesHelper.removeMany(
-                        [Constants.iniciative, Constants.inspiration]);
+                        [Constants.iniciative, Constants.inspiration, Constants.selectedMagic]);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

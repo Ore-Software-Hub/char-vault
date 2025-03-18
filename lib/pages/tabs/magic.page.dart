@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+import 'package:CharVault/components/bottomsheet/items.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/select_magic.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
 import 'package:CharVault/components/section.component.dart';
+import 'package:CharVault/constants/strings.constants.dart';
 import 'package:CharVault/helpers/notification.helper.dart';
+import 'package:CharVault/helpers/shared_preferences.helper.dart';
 import 'package:CharVault/models/character_model.dart';
 import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/pages/add_item.page.dart';
@@ -22,7 +28,7 @@ class MagicPage extends StatefulWidget {
 
 class _MagicPageState extends State<MagicPage> {
   List<ItemModel> _inventory = [];
-  final List<ItemModel> _selectedMagic = [];
+  List<ItemModel> _selectedMagic = [];
   CharacterModel? _char;
   bool loading = true;
 
@@ -49,6 +55,17 @@ class _MagicPageState extends State<MagicPage> {
         loading = false;
       });
     }
+
+    var shared = await SharedPreferencesHelper.getData(
+        'string', Constants.selectedMagic);
+
+    try {
+      List<dynamic> jsonList = jsonDecode(shared);
+      var itemList = jsonList.map((item) => ItemModel.fromMap(item)).toList();
+      setState(() {
+        _selectedMagic = itemList;
+      });
+    } catch (e) {}
   }
 
   @override
@@ -89,18 +106,22 @@ class _MagicPageState extends State<MagicPage> {
                             setState(() {
                               _selectedMagic.removeAt(index);
                             });
+                            String selected = jsonEncode(
+                                _selectedMagic.map((m) => m.toMap()).toList());
+                            SharedPreferencesHelper.setData(
+                                'string', Constants.selectedMagic, selected);
                           },
                           child: Text(
-                            _selectedMagic[index].quantity,
-                            style: TextStyle(
+                            _selectedMagic[index].title,
+                            style: AppTextStyles.boldText(
+                              context,
                               color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 22,
+                              size: 18,
                             ),
                           ),
                         ),
                         bottom: Text(
-                          _selectedMagic[index].title,
+                          'Ativa',
                           style: AppTextStyles.lightText(context,
                               size: 12,
                               color: Theme.of(context).colorScheme.onSurface),
@@ -109,7 +130,31 @@ class _MagicPageState extends State<MagicPage> {
                       );
                     } else {
                       return CardComponent(
-                          top: Container(), bottom: Container());
+                          top: InkWell(
+                              onTap: () async {
+                                ItemModel? selected =
+                                    await showModalBottomSheet(
+                                  context: context,
+                                  useSafeArea: true,
+                                  isScrollControlled: true,
+                                  showDragHandle: false,
+                                  builder: (context) =>
+                                      SelectMagicBSComponent(list: _inventory),
+                                );
+
+                                if (selected != null) {
+                                  setState(() {
+                                    _selectedMagic.add(selected);
+                                  });
+                                  String selectedT = jsonEncode(_selectedMagic
+                                      .map((m) => m.toMap())
+                                      .toList());
+                                  SharedPreferencesHelper.setData('string',
+                                      Constants.selectedMagic, selectedT);
+                                }
+                              },
+                              child: Container()),
+                          bottom: Container());
                     }
                   }))
             ],
@@ -121,12 +166,15 @@ class _MagicPageState extends State<MagicPage> {
               title: 'Magias',
               list: _inventory,
               selectedItem: (index) {
-                setState(() {
-                  var magic = _inventory[index];
-                  if (!_selectedMagic.contains(magic)) {
-                    _selectedMagic.add(magic);
-                  }
-                });
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) =>
+                      ItemsBSComponent(item: _inventory[index]),
+                );
               },
               removeItem: (index) async {
                 await DatabaseService.deleteItem(
@@ -142,7 +190,9 @@ class _MagicPageState extends State<MagicPage> {
                   ItemModel? resultado = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddItemPage(),
+                      builder: (context) => AddItemPage(
+                        type: 'magic',
+                      ),
                     ),
                   );
 
@@ -152,7 +202,9 @@ class _MagicPageState extends State<MagicPage> {
                     try {
                       itemId =
                           await DatabaseService.addItem(_char!.id, resultado);
-                      _inventory.add(resultado);
+                      setState(() {
+                        _inventory.add(resultado);
+                      });
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",

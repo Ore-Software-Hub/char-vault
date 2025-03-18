@@ -194,7 +194,7 @@ class _SectionComponentState extends State<SectionComponent> {
             if (item is ItemModel) {
               return Row(
                 children: [
-                  if (item.quantity.isNotEmpty)
+                  if (item.quantity != null)
                     Container(
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.tertiary,
@@ -219,13 +219,13 @@ class _SectionComponentState extends State<SectionComponent> {
                   const SizedBox(
                     width: 5,
                   ),
-                  if (item.value.isNotEmpty)
+                  if (item.value != null)
                     Container(
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.tertiary,
                           borderRadius: BorderRadius.circular(5)),
                       padding: EdgeInsets.all(8),
-                      child: Text(item.value),
+                      child: Text(item.value!),
                     ),
                   ButtonComponent(
                     pressed: () => {

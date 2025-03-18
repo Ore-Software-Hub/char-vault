@@ -1,4 +1,5 @@
 import 'package:CharVault/components/bottomsheet/card.bs.component.dart';
+import 'package:CharVault/components/bottomsheet/items.bs.component.dart';
 import 'package:CharVault/components/button.component.dart';
 import 'package:CharVault/components/card.component.dart';
 import 'package:CharVault/components/header.component.dart';
@@ -25,7 +26,7 @@ class FightPage extends StatefulWidget {
 }
 
 class _FightPageState extends State<FightPage> {
-  List<ItemModel> _weapons = [];
+  List<ItemModel> _weapons = [], _armor = [];
   CharacterModel? _char;
   bool loading = true;
   int iniciative = 0;
@@ -39,18 +40,22 @@ class _FightPageState extends State<FightPage> {
   }
 
   loadItems() async {
-    List<ItemModel> weapons = [];
+    List<ItemModel> weapons = [], armor = [];
     var items = await DatabaseService.getCharItems(_char!.id);
     for (var item in items) {
       switch (item.tipo) {
         case 'Arma':
           weapons.add(item);
           break;
+        case 'Armadura':
+          armor.add(item);
+          break;
       }
     }
     if (mounted) {
       setState(() {
         _weapons = weapons;
+        _armor = armor;
         loading = false;
       });
     }
@@ -215,6 +220,16 @@ class _FightPageState extends State<FightPage> {
           child: SectionComponent(
               title: 'Armas',
               list: _weapons,
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) => ItemsBSComponent(item: _weapons[index]),
+                );
+              },
               removeItem: (index) async {
                 await DatabaseService.deleteItem(_char!.id, _weapons[index].id);
                 setState(() {
@@ -228,7 +243,7 @@ class _FightPageState extends State<FightPage> {
                   ItemModel? resultado = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddItemPage(),
+                      builder: (context) => AddItemPage(type: 'weapon'),
                     ),
                   );
 
@@ -238,7 +253,59 @@ class _FightPageState extends State<FightPage> {
                     try {
                       itemId =
                           await DatabaseService.addItem(_char!.id, resultado);
-                      _weapons.add(resultado);
+                      setState(() {
+                        _weapons.add(resultado);
+                      });
+                    } catch (e) {
+                      NotificationHelper.showSnackBar(context,
+                          "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
+                          level: itemId != null ? 1 : 0);
+                    }
+                  }
+                },
+                tipo: 3,
+                icon: PhosphorIconsBold.plus,
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: SectionComponent(
+              title: 'Armaduras',
+              list: _armor,
+              selectedItem: (index) {
+                showModalBottomSheet(
+                  context: context,
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: false,
+                  barrierColor: Color.fromARGB(255, 229, 201, 144),
+                  builder: (context) => ItemsBSComponent(item: _armor[index]),
+                );
+              },
+              removeItem: (index) async {
+                await DatabaseService.deleteItem(_char!.id, _armor[index].id);
+                setState(() {
+                  _armor.removeAt(index);
+                });
+                Provider.of<LoginProvider>(context, listen: false)
+                    .updateUser(char: _char);
+              },
+              buttonAdd: ButtonComponent(
+                pressed: () async {
+                  ItemModel? resultado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddItemPage(type: 'armor'),
+                    ),
+                  );
+
+                  String? itemId;
+
+                  if (resultado != null) {
+                    try {
+                      itemId =
+                          await DatabaseService.addItem(_char!.id, resultado);
+                      _armor.add(resultado);
                     } catch (e) {
                       NotificationHelper.showSnackBar(context,
                           "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",

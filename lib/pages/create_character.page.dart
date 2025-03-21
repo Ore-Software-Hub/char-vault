@@ -997,11 +997,12 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
 
     try {
       imgname = await StorageService.uploadUserImage(_name, imageFile!);
-      NotificationHelper.showSnackBar(context, "Imagem salva!", level: 1);
+      NotificationHelper.showSnackBar(context, "Imagem salva!",
+          level: 'success');
     } catch (e) {
       NotificationHelper.showSnackBar(
           context, "Erro ao salvar imagem: ${e.toString()}",
-          level: 2);
+          level: 'error');
       changeStep(-1);
       return;
     }
@@ -1089,11 +1090,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
     try {
       charId = await DatabaseService.addCharacter(_char!);
       NotificationHelper.showSnackBar(context, "Personagem adicionado!",
-          level: 1);
+          level: 'success');
     } catch (e) {
       NotificationHelper.showSnackBar(
           context, "Erro ao salvar o personagem: ${e.toString()}",
-          level: 2);
+          level: 'error');
       await StorageService.deleteImageById(imgname);
       changeStep(-1);
       return;
@@ -1109,11 +1110,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             await DatabaseService.addItem(charId, item);
           }
           NotificationHelper.showSnackBar(context, "Itens adicionados!",
-              level: 1);
+              level: 'success');
         } catch (e) {
           NotificationHelper.showSnackBar(
               context, "Erro ao adicionar itens: ${e.toString()}",
-              level: 2);
+              level: 'error');
           return;
         }
       }
@@ -1127,11 +1128,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             await DatabaseService.addPaper(charId, talent);
           }
           NotificationHelper.showSnackBar(context, "Talentos adicionados!",
-              level: 1);
+              level: 'success');
         } catch (e) {
           NotificationHelper.showSnackBar(
               context, "Erro ao adicionar: ${e.toString()}",
-              level: 2);
+              level: 'error');
           return;
         }
       }
@@ -1146,11 +1147,11 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
           }
           NotificationHelper.showSnackBar(
               context, "Relacionamentos adicionados!",
-              level: 1);
+              level: 'success');
         } catch (e) {
           NotificationHelper.showSnackBar(
               context, "Erro ao adicionar: ${e.toString()}",
-              level: 2);
+              level: 'error');
           return;
         }
       }
@@ -1169,9 +1170,8 @@ class _CreateCharacterPageState extends State<CreateCharacterPage> {
             imageFile == null)) {
       return () {
         NotificationHelper.showSnackBar(
-          context,
-          "Preencha todos os campos para prosseguir",
-        );
+            context, "Preencha todos os campos para prosseguir",
+            level: 'warning');
       };
     }
 

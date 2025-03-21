@@ -163,19 +163,19 @@ class _BackPackPageState extends State<BackPackPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     try {
-                      itemId =
-                          await DatabaseService.addItem(_char!.id, resultado);
+                      await DatabaseService.addItem(_char!.id, resultado);
                       setState(() {
                         _inventory.add(resultado);
                       });
+                      NotificationHelper.showSnackBar(
+                          context, "Item Adicionado",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },

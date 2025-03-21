@@ -249,19 +249,19 @@ class _FightPageState extends State<FightPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     try {
-                      itemId =
-                          await DatabaseService.addItem(_char!.id, resultado);
+                      await DatabaseService.addItem(_char!.id, resultado);
                       setState(() {
                         _weapons.add(resultado);
                       });
+                      NotificationHelper.showSnackBar(
+                          context, "Arma Adicionada",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },
@@ -310,17 +310,17 @@ class _FightPageState extends State<FightPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     try {
-                      itemId =
-                          await DatabaseService.addItem(_char!.id, resultado);
+                      await DatabaseService.addItem(_char!.id, resultado);
                       _armor.add(resultado);
+                      NotificationHelper.showSnackBar(
+                          context, "Armadura Adicionada",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },

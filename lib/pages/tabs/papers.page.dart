@@ -100,8 +100,6 @@ class _PapersPageState extends State<PapersPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     var paper = PapersModel(
                         id: '',
@@ -109,14 +107,17 @@ class _PapersPageState extends State<PapersPage> {
                         description: resultado[1],
                         tipo: 'mission');
                     try {
-                      itemId = await DatabaseService.addPaper(_char!.id, paper);
+                      await DatabaseService.addPaper(_char!.id, paper);
                       setState(() {
                         _missions.add(paper);
                       });
+                      NotificationHelper.showSnackBar(
+                          context, "Missão Adicionada",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Missão ${itemId != null ? "Adicionada" : "Não adicionada"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },
@@ -161,8 +162,6 @@ class _PapersPageState extends State<PapersPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     var paper = PapersModel(
                         id: '',
@@ -170,14 +169,17 @@ class _PapersPageState extends State<PapersPage> {
                         description: resultado[1],
                         tipo: 'relationship');
                     try {
-                      itemId = await DatabaseService.addPaper(_char!.id, paper);
+                      await DatabaseService.addPaper(_char!.id, paper);
                       setState(() {
                         _relationships.add(paper);
                       });
+                      NotificationHelper.showSnackBar(
+                          context, "Relacionamento Adicionado",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Relacionamento ${itemId != null ? "Adicionado" : "Não adicionado"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },
@@ -220,8 +222,6 @@ class _PapersPageState extends State<PapersPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     var paper = PapersModel(
                         id: '',
@@ -229,14 +229,17 @@ class _PapersPageState extends State<PapersPage> {
                         description: resultado[1],
                         tipo: 'note');
                     try {
-                      itemId = await DatabaseService.addPaper(_char!.id, paper);
+                      await DatabaseService.addPaper(_char!.id, paper);
                       setState(() {
                         _relationships.add(paper);
                       });
+                      NotificationHelper.showSnackBar(
+                          context, "Nota Adicionada",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Nota ${itemId != null ? "Adicionada" : "Não adicionada"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },

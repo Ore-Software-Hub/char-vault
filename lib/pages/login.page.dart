@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } catch (err) {
       if (!context.mounted) return;
-      NotificationHelper.showSnackBar(context, "Error $err", level: 2);
+      NotificationHelper.showSnackBar(context, "Erro: $err", level: 'error');
       setState(() {
         _isLoading = false;
       });
@@ -65,13 +65,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SizedBox(
                     child: ButtonComponent(
-                        pressed: () {
-                          loginWithGoogle();
-                        },
-                        icon: PhosphorIconsBold.googleLogo,
-                        label: "Entrar com Google",
-                        tipo: 1,
-                        loading: _isLoading,),
+                      pressed: () {
+                        loginWithGoogle();
+                      },
+                      icon: PhosphorIconsBold.googleLogo,
+                      label: "Entrar com Google",
+                      tipo: 1,
+                      loading: _isLoading,
+                    ),
                   ),
                 ],
               ),

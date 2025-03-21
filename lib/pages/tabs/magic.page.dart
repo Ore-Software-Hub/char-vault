@@ -27,7 +27,7 @@ class MagicPage extends StatefulWidget {
 }
 
 class _MagicPageState extends State<MagicPage> {
-  List<ItemModel> _inventory = [];
+  List<ItemModel> _magic = [];
   List<ItemModel> _selectedMagic = [];
   CharacterModel? _char;
   bool loading = true;
@@ -51,7 +51,7 @@ class _MagicPageState extends State<MagicPage> {
 
     if (mounted) {
       setState(() {
-        _inventory = items;
+        _magic = items;
         loading = false;
       });
     }
@@ -139,7 +139,7 @@ class _MagicPageState extends State<MagicPage> {
                                   isScrollControlled: true,
                                   showDragHandle: false,
                                   builder: (context) =>
-                                      SelectMagicBSComponent(list: _inventory),
+                                      SelectMagicBSComponent(list: _magic),
                                 );
 
                                 if (selected != null) {
@@ -164,7 +164,7 @@ class _MagicPageState extends State<MagicPage> {
           padding: const EdgeInsets.all(16),
           child: SectionComponent(
               title: 'Magias',
-              list: _inventory,
+              list: _magic,
               selectedItem: (index) {
                 showModalBottomSheet(
                   context: context,
@@ -173,14 +173,14 @@ class _MagicPageState extends State<MagicPage> {
                   showDragHandle: false,
                   barrierColor: Color.fromARGB(255, 229, 201, 144),
                   builder: (context) =>
-                      ItemsBSComponent(item: _inventory[index]),
+                      ItemsBSComponent(item: _magic[index]),
                 );
               },
               removeItem: (index) async {
                 await DatabaseService.deleteItem(
-                    _char!.id, _inventory[index].id);
+                    _char!.id, _magic[index].id);
                 setState(() {
-                  _inventory.removeAt(index);
+                  _magic.removeAt(index);
                 });
                 Provider.of<LoginProvider>(context, listen: false)
                     .updateUser(char: _char);
@@ -196,19 +196,19 @@ class _MagicPageState extends State<MagicPage> {
                     ),
                   );
 
-                  String? itemId;
-
                   if (resultado != null) {
                     try {
-                      itemId =
-                          await DatabaseService.addItem(_char!.id, resultado);
+                      await DatabaseService.addItem(_char!.id, resultado);
                       setState(() {
-                        _inventory.add(resultado);
+                        _magic.add(resultado);
                       });
+                      NotificationHelper.showSnackBar(
+                          context, "Magia Adicionada",
+                          level: 'success');
                     } catch (e) {
-                      NotificationHelper.showSnackBar(context,
-                          "Item ${itemId != null ? "Adicionado" : "Não adicionado"}",
-                          level: itemId != null ? 1 : 0);
+                      NotificationHelper.showSnackBar(
+                          context, "Erro: ${e.toString()}",
+                          level: 'error');
                     }
                   }
                 },

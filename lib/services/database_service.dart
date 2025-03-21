@@ -5,6 +5,7 @@ import 'package:CharVault/models/item_model.dart';
 import 'package:CharVault/models/paper.model.dart';
 import 'package:CharVault/services/auth_service.dart';
 import 'package:CharVault/services/storage_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class DatabaseService {
@@ -45,9 +46,12 @@ class DatabaseService {
       }
 
       return classes;
+    } on TimeoutException catch (_) {
+      throw "O tempo limite de leitura no Firebase foi excedido.";
+    } on FirebaseException catch (e) {
+      throw "Erro no Firebase: ${e.code}";
     } catch (e) {
-      // Captura e lança a exceção com uma mensagem de erro personalizada
-      throw "Erro ao buscar classes: ${e.toString()}";
+      throw "Erro inesperado ao buscar as classes";
     }
   }
 
@@ -88,8 +92,12 @@ class DatabaseService {
           .set(newCharacter.toMap()); // Salvando os dados do personagem
 
       return newCharacter.id; // Confirmação de que foi salvo com sucesso
+    } on TimeoutException catch (_) {
+      throw "O tempo limite de leitura no Firebase foi excedido.";
+    } on FirebaseException catch (e) {
+      throw "Erro no Firebase: ${e.code}";
     } catch (e) {
-      throw 'Erro ao salvar o personagem: $e';
+      throw "Erro inesperado ao salvar personagem";
     }
   }
 
@@ -125,8 +133,12 @@ class DatabaseService {
 
       // Removendo a imagem do personagem
       await StorageService.deleteImageById(charImageId);
+    } on TimeoutException catch (_) {
+      throw "O tempo limite de leitura no Firebase foi excedido.";
+    } on FirebaseException catch (e) {
+      throw "Erro no Firebase: ${e.code}";
     } catch (e) {
-      throw 'Erro ao deletar o personagem: $e';
+      throw "Erro inesperado ao deletar personagem";
     }
   }
 
@@ -189,9 +201,12 @@ class DatabaseService {
       }
 
       return characters;
+    } on TimeoutException catch (_) {
+      throw "O tempo limite de leitura no Firebase foi excedido.";
+    } on FirebaseException catch (e) {
+      throw "Erro no Firebase: ${e.code}";
     } catch (e) {
-      // Captura e lança a exceção com uma mensagem de erro personalizada
-      throw "Erro ao buscar personagens: ${e.toString()}";
+      throw "Erro inesperado ao buscar personagens";
     }
   }
 
@@ -215,8 +230,12 @@ class DatabaseService {
       await newItemRef.set(newItem.toMap()); // Salvando os dados do item
 
       return newItem.id;
+    } on TimeoutException catch (_) {
+      throw "O tempo limite de leitura no Firebase foi excedido.";
+    } on FirebaseException catch (e) {
+      throw "Erro no Firebase: ${e.code}";
     } catch (e) {
-      throw 'Erro ao salvar o item: $e';
+      throw "Erro inesperado ao salvar item";
     }
   }
 
@@ -299,8 +318,12 @@ class DatabaseService {
       await newPaperRef.set(newPaper.toMap()); // Salvando os dados do item
 
       return newPaper.id;
+    } on TimeoutException catch (_) {
+      throw "O tempo limite de leitura no Firebase foi excedido.";
+    } on FirebaseException catch (e) {
+      throw "Erro no Firebase: ${e.code}";
     } catch (e) {
-      throw 'Erro ao salvar o Paper: $e';
+      throw "Erro inesperado ao salvar paper";
     }
   }
 

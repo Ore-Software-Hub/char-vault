@@ -71,7 +71,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         loadingChars = false;
       });
     } catch (e) {
-      NotificationHelper.showSnackBar(context, e.toString(), level: 2);
+      NotificationHelper.showSnackBar(context, e.toString(), level: 'error');
       setState(() {
         loadingChars = false;
       });

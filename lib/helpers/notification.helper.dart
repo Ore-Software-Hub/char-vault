@@ -14,6 +14,11 @@ class NotificationHelper {
         bgColor = Colors.blue.shade100;
         fgColor = Colors.blue;
         break;
+      case 'success':
+        icon = PhosphorIconsFill.checkCircle;
+        bgColor = Colors.green.shade100;
+        fgColor = Colors.green.shade700;
+        break;
       case 'warning':
         icon = PhosphorIconsFill.warning;
         bgColor = Colors.yellow.shade100;

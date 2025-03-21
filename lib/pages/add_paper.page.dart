@@ -92,7 +92,7 @@ class _CreateCharacterPageState extends State<AddPaperPage> {
                   NotificationHelper.showSnackBar(
                     context,
                     "Informe ${widget.title}${widget.body ? ' e ${widget.body}' : ''}",
-                    level: 2,
+                    level: 'warning',
                   );
                 } else {
                   Navigator.pop(context, [_title, _body]);

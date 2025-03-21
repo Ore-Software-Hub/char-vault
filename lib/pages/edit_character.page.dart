@@ -169,9 +169,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
                       child: Center(
                         child: Icon(
                           Icons.image,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface,
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                       )),
                   title: const Text("Galeria"),
@@ -183,9 +181,7 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
                       child: Center(
                         child: Icon(
                           Icons.delete_forever_outlined,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface,
+                          color: Theme.of(context).colorScheme.surface,
                         ),
                       )),
                   title: const Text("Remover"),
@@ -344,11 +340,12 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
       try {
         await StorageService.deleteImageById(widget.char.image);
         imgname = await StorageService.uploadUserImage(_name, imageFile!);
-        NotificationHelper.showSnackBar(context, "Imagem salva!", level: 1);
+        NotificationHelper.showSnackBar(context, "Imagem salva!",
+            level: 'success');
       } catch (e) {
         NotificationHelper.showSnackBar(
             context, "Erro ao salvar imagem: ${e.toString()}",
-            level: 2);
+            level: 'error');
         changeStep(-1);
         return;
       }
@@ -371,11 +368,11 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
     try {
       await DatabaseService.updateCharacter(widget.char.id, _char!.toMap());
       NotificationHelper.showSnackBar(context, "Personagem atualizado!",
-          level: 1);
+          level: 'success');
     } catch (e) {
       NotificationHelper.showSnackBar(
           context, "Erro ao atualizar o personagem: ${e.toString()}",
-          level: 2);
+          level: 'error');
       changeStep(-1);
       return;
     }
@@ -387,9 +384,8 @@ class _CreateCharacterPageState extends State<EditCharacterPage> {
     if (step == 1 && (_name.isEmpty || imageFile == null)) {
       return () {
         NotificationHelper.showSnackBar(
-          context,
-          "Preencha todos os campos para prosseguir",
-        );
+            context, "Preencha todos os campos para prosseguir",
+            level: 'warning');
       };
     }
 

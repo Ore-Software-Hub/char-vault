@@ -14,8 +14,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
     // androidProvider: AndroidProvider.playIntegrity,
+    androidProvider: AndroidProvider.debug,
   );
 
   await _requestPermissions();
@@ -40,12 +40,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-      supportedLocales: const [Locale('en'), Locale('pt-BR')],
-      debugShowCheckedModeBanner: false,
-      title: 'Character Vault',
-      theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const SplashScreen()
-    );
+        // localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+        supportedLocales: const [Locale('en'), Locale('pt-BR')],
+        debugShowCheckedModeBanner: false,
+        title: 'Character Vault',
+        theme: Provider.of<ThemeProvider>(context).themeData,
+        home: const SplashScreen());
   }
 }

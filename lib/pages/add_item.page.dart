@@ -47,8 +47,22 @@ class _CreateCharacterPageState extends State<AddItemPage> {
         ];
         title = tipo = 'Magia';
         break;
+      case 'items':
+        types = [
+          ItemDropdown(display: "Consumíveis", value: 0),
+          ItemDropdown(display: "Equipamento", value: 0),
+          ItemDropdown(display: "Item", value: 0),
+          ItemDropdown(display: "Item mágico", value: 0),
+          ItemDropdown(display: "Objeto", value: 0),
+          ItemDropdown(display: "Outros", value: 0),
+        ];
+        title = tipo = 'Itens';
+        break;
       default:
         types = [
+          ItemDropdown(display: "Arma", value: 0),
+          ItemDropdown(display: "Armadura", value: 0),
+          ItemDropdown(display: "Magia", value: 0),
           ItemDropdown(display: "Consumíveis", value: 0),
           ItemDropdown(display: "Equipamento", value: 0),
           ItemDropdown(display: "Item", value: 0),
@@ -106,12 +120,12 @@ class _CreateCharacterPageState extends State<AddItemPage> {
                       })
                     },
                 value: name),
-            if (widget.type != 'all')
+            if (tipo == 'Magia' || tipo == 'Armadura' || tipo == 'Arma')
               TextFieldComponent(
-                  label: widget.type == 'armor' ? 'Defesa' : "Dados",
-                  hintText: widget.type == 'armor'
+                  label: tipo == 'Armadura' ? 'Defesa' : "Dados",
+                  hintText: tipo == 'Armadura'
                       ? "Bônus de defesa"
-                      : widget.type == 'magic'
+                      : tipo == 'Magia'
                           ? "Dados de dano / cura"
                           : 'Dados de dano',
                   onChanged: (val) => {
@@ -126,7 +140,10 @@ class _CreateCharacterPageState extends State<AddItemPage> {
               children: [
                 if (widget.type != 'magic' &&
                     widget.type != 'armor' &&
-                    widget.type != 'weapon')
+                    widget.type != 'weapon' &&
+                    tipo != 'Arma' &&
+                    tipo != 'Armadura' &&
+                    tipo != 'Magia')
                   Expanded(
                     child: TextFieldComponent(
                         label: "Quantidade",
